@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <title>Efka Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "JetBrains Mono", monospace;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <header class="bg-[#3F3F3F] text-white h-16 px-6 flex justify-between items-center">
+      <img src="/assets/logo-efka.png" alt="Logo EFKA" class="h-full object-contain rounded-lg" />
+      <nav class="space-x-4">
+        <a href="#" class="hover:underline">Home</a>
+        <a href="#riwayat" class="hover:underline">Riwayat</a>
+        <a href="#antrian" class="hover:underline">Antrian</a>
+        <a href="#profil" class="hover:underline">Profil</a>
+        <a href="#contact" class="hover:underline">Contact</a>
+        <!-- Tombol Login dan Daftar -->
+        <a href="#login" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"> Login </a>
+        <a href="#daftar" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300"> Daftar </a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative bg-cover bg-center text-white min-h-[300px] flex items-center px-10" style="background-image: url('/assets/bg-hero.png')">
+      <!-- Overlay hitam transparan -->
+      <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+
+      <!-- Konten teks dan tombol -->
+      <div class="relative text-left max-w-2xl z-10">
+        <h2 class="text-7xl font-bold">Servis & Sparepart Motor</h2>
+        <p class="mt-4 text-lg">Perawatan dan Suku Cadang Motor Terpercaya</p>
+
+        <!-- Tombol -->
+        <div class="mt-6 flex gap-4">
+          <a href="#cek-antrian" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Cek Antrian </a>
+          <a href="#beli-sparepart" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Beli Sparepart </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Layanan Servis -->
+    <section class="p-8">
+      <h2 class="text-5xl font-semibold mb-4">Layanan Servis</h2>
+      <p class="text-2xl mb-8 text-black">Kami menyediakan berbagai jenis layanan servis motor, mulai dari servis ringan hingga servis berat</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 justify-items-center max-w-6xl mx-auto">
+        <!-- Box Item -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-5 flex flex-col items-center justify-center text-center shadow">
+          <img src="/assets/icon-Servis.png" alt="Servis Ringan" class="h-14 mb-3" />
+          <h4 class="font-bold text-xl">Servis Ringan</h4>
+          <p class="text-lg">Pemeriksaan komponen motor</p>
+        </div>
+
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-5 flex flex-col items-center justify-center text-center shadow">
+          <img src="/assets/icon-Ganti-Oli.png" alt="Ganti Oli" class="h-14 mb-3" />
+          <h4 class="font-bold text-xl">Ganti Oli</h4>
+          <p class="text-lg text-center">Ganti<br />oli mesin Berkualitas</p>
+        </div>
+
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-5 flex flex-col items-center justify-center text-center shadow">
+          <img src="/assets/icon-Tune-Up.png" alt="Tune Up" class="h-14 mb-3" />
+          <h4 class="font-bold text-xl">Tune Up</h4>
+          <p class="text-lg">Penyetelan Mesin</p>
+        </div>
+
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-5 flex flex-col items-center justify-center text-center shadow">
+          <img src="/assets/icon-Servis-Rem.png" alt="Servis Rem" class="h-14 mb-3" />
+          <h4 class="font-bold text-xl">Servis Rem</h4>
+          <p class="text-lg text-center">Peralatan dan Perbaikan<br />Sistem Rem</p>
+        </div>
+      </div>
+
+      <!-- Tombol -->
+      <div class="mt-8 text-center p-8">
+        <a href="#pesan-servis" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-3 px-8 rounded-full transition duration-300"> Pesan Servis </a>
+      </div>
+    </section>
+
+    <!-- Servis Motor -->
+    <section class="relative p-8">
+      <!-- Konten teks -->
+      <div class="text-left">
+        <h2 class="text-5xl font-semibold mb-4">Servis Motor</h2>
+        <p class="text-2xl mb-8 text-black">
+          Kami menyediakan berbagai jenis layanan servis motor yang mencakup segala kebutuhan kendaraan Anda, mulai dari servis ringan seperti ganti oli, pengecekan rem, dan penyetelan rantai, hingga servis berat seperti perbaikan mesin,
+          sistem kelistrikan, dan overhaul. Dengan didukung oleh tenaga mekanik berpengalaman serta peralatan yang lengkap, kami berkomitmen untuk memberikan pelayanan terbaik guna menjaga performa dan keamanan motor Anda.
+        </p>
+      </div>
+
+      <!-- Gambar dengan overlay hitam -->
+      <div class="relative mt-20 w-full">
+        <img src="/assets/bg-Servis-Motor.png" alt="Ilustrasi Servis Motor" class="w-full h-auto object-cover" />
+        <!-- Overlay abu-abu transparan -->
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      </div>
+    </section>
+
+    <!-- Sparepart -->
+    <section class="p-8 pt-32">
+      <h3 class="text-5xl font-semibold mb-8">Sparepart</h3>
+      <p class="text-2xl mb-20 text-gray-700">
+        Kami menyediakan berbagai macam suku cadang motor untuk berbagai keperluan dan merek, untuk menjaga performa motor Anda tetap optimal dan berkualitas dan juga, harga terjangkau sehingga sesuai kebutuhan dan budget Anda.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-items-center place-items-center max-w-6xl mx-auto">
+        <!-- Aki -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/aki.png" alt="Aki" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Aki</h4>
+            <p class="text-red-600 font-bold text-base">Rp 250.000</p>
+          </div>
+        </div>
+
+        <!-- Busi -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/busi.png" alt="Busi" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Busi</h4>
+            <p class="text-red-600 font-bold text-base">Rp 70.000</p>
+          </div>
+        </div>
+
+        <!-- Oli Mesin -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/oli.png" alt="Oli Mesin" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Oli Mesin</h4>
+            <p class="text-red-600 font-bold text-base">Rp 45.000</p>
+          </div>
+        </div>
+
+        <!-- Filter Udara -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/filter-udara.png" alt="Filter Udara" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Filter Udara</h4>
+            <p class="text-red-600 font-bold text-base">Rp 30.000</p>
+          </div>
+        </div>
+
+        <!-- Fan Belt -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/fan-belt.png" alt="Fan Belt" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Fan Belt</h4>
+            <p class="text-red-600 font-bold text-base">Rp 60.000</p>
+          </div>
+        </div>
+
+        <!-- Lampu Motor -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/lampu-motor.png" alt="Lampu Motor" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Lampu Motor</h4>
+            <p class="text-red-600 font-bold text-base">Rp 525.000</p>
+          </div>
+        </div>
+
+        <!-- Shockbreaker -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/shockbreaker.png" alt="Shockbreaker" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Shockbreaker</h4>
+            <p class="text-red-600 font-bold text-base">200.000</p>
+          </div>
+        </div>
+
+        <!-- Ban -->
+        <div class="bg-[#d9d9d9] rounded-2xl w-52 h-52 p-4 flex flex-col justify-between text-center shadow">
+          <div class="flex-1 flex items-center justify-center pt-2">
+            <img src="/assets/ban.png" alt="Ban" class="h-32 w-32 object-contain" />
+          </div>
+          <div class="pb-2">
+            <h4 class="font-bold text-lg mb-1">Ban</h4>
+            <p class="text-red-600 font-bold text-base">200.000</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol -->
+      <div class="mt-8 text-center p-8 pt-16">
+        <a href="#bayar" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-4 px-12 text-xl rounded-full transition duration-300">Bayar</a>
+      </div>
+    </section>
+
+    <!-- Pembayaran -->
+    <section class="p-6 pt-32 max-w-6xl mx-auto">
+      <h3 class="text-5xl font-semibold mb-20 text-center">Pembayaran</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        <!-- Detail Pesanan -->
+        <div class="px-4">
+          <h4 class="text-2xl font-semibold mb-6 text-center">Detail Pesanan</h4>
+          <div class="border-2 border-gray-800 rounded-lg overflow-hidden">
+            <table class="w-full" id="productTable">
+              <thead>
+                <tr class="bg-gray-100 border-b border-gray-800">
+                  <th class="text-left py-3 px-4 font-semibold text-sm">Nama Produk/Layanan</th>
+                  <th class="text-center py-3 px-4 font-semibold text-sm">Jumlah</th>
+                  <th class="text-right py-3 px-4 font-semibold text-sm">Harga Satuan</th>
+                  <th class="text-right py-3 px-4 font-semibold text-sm">Total Harga</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm">
+                <tr class="border-b border-gray-200" data-price="400000">
+                  <td class="py-3 px-4">Servis Mesin</td>
+                  <td class="text-center py-3 px-4">
+                    <div class="flex items-center justify-center gap-2">
+                      <button onclick="decreaseQuantity(this)" class="w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold hover:bg-red-600">-</button>
+                      <span class="inline-flex items-center justify-center w-8 h-6 bg-gray-800 text-white rounded text-xs font-bold quantity">1</span>
+                      <button onclick="increaseQuantity(this)" class="w-6 h-6 bg-green-500 text-white rounded-full text-xs font-bold hover:bg-green-600">+</button>
+                    </div>
+                  </td>
+                  <td class="text-right py-3 px-4">Rp400.000</td>
+                  <td class="text-right py-3 px-4 total-price">Rp400.000</td>
+                </tr>
+                <tr class="border-b border-gray-200" data-price="250000">
+                  <td class="py-3 px-4">Aki</td>
+                  <td class="text-center py-3 px-4">
+                    <div class="flex items-center justify-center gap-2">
+                      <button onclick="decreaseQuantity(this)" class="w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold hover:bg-red-600">-</button>
+                      <span class="inline-flex items-center justify-center w-8 h-6 bg-gray-800 text-white rounded text-xs font-bold quantity">1</span>
+                      <button onclick="increaseQuantity(this)" class="w-6 h-6 bg-green-500 text-white rounded-full text-xs font-bold hover:bg-green-600">+</button>
+                    </div>
+                  </td>
+                  <td class="text-right py-3 px-4">Rp250.000</td>
+                  <td class="text-right py-3 px-4 total-price">Rp250.000</td>
+                </tr>
+                <tr class="border-b border-gray-200" data-price="22500">
+                  <td class="py-3 px-4">Oli</td>
+                  <td class="text-center py-3 px-4">
+                    <div class="flex items-center justify-center gap-2">
+                      <button onclick="decreaseQuantity(this)" class="w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold hover:bg-red-600">-</button>
+                      <span class="inline-flex items-center justify-center w-8 h-6 bg-gray-800 text-white rounded text-xs font-bold quantity">2</span>
+                      <button onclick="increaseQuantity(this)" class="w-6 h-6 bg-green-500 text-white rounded-full text-xs font-bold hover:bg-green-600">+</button>
+                    </div>
+                  </td>
+                  <td class="text-right py-3 px-4">Rp22.500</td>
+                  <td class="text-right py-3 px-4 total-price">Rp45.000</td>
+                </tr>
+                <tr class="bg-gray-100 font-semibold">
+                  <td class="py-3 px-4">Total</td>
+                  <td class="py-3 px-4"></td>
+                  <td class="py-3 px-4"></td>
+                  <td class="text-right py-3 px-4" id="grandTotal">Rp695.000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- QR Code -->
+        <div class="flex justify-center items-start">
+          <div class="bg-gray-200 rounded-2xl p-6 text-center">
+            <div class="bg-white p-3 rounded-xl mb-4 inline-block">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://efka-workshop.com/bayar" alt="QR Code" class="w-64 h-64" />
+            </div>
+            <p class="text-gray-600 font-medium mb-3">Scan untuk Bayar</p>
+            <div class="text-sm text-gray-500">
+              <p class="font-medium">Order ID:</p>
+              <p class="font-mono text-gray-700" id="orderId">EFK-20250601-001</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Home Button - Fixed di sudut kiri bawah -->
+    <button onclick="goHome()" class="fixed bottom-6 left-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
+      <img src="/assets/home.png" alt="Home" class="w-10 h-10" />
+    </button>
+
+    <script>
+      function increaseQuantity(button) {
+        const row = button.closest("tr");
+        const quantitySpan = row.querySelector(".quantity");
+        const pricePerUnit = parseInt(row.getAttribute("data-price"));
+        const totalPriceCell = row.querySelector(".total-price");
+
+        let currentQuantity = parseInt(quantitySpan.textContent);
+        currentQuantity++;
+
+        quantitySpan.textContent = currentQuantity;
+        const newTotalPrice = pricePerUnit * currentQuantity;
+        totalPriceCell.textContent = formatRupiah(newTotalPrice);
+
+        updateGrandTotal();
+      }
+
+      function decreaseQuantity(button) {
+        const row = button.closest("tr");
+        const quantitySpan = row.querySelector(".quantity");
+        const pricePerUnit = parseInt(row.getAttribute("data-price"));
+        const totalPriceCell = row.querySelector(".total-price");
+
+        let currentQuantity = parseInt(quantitySpan.textContent);
+        if (currentQuantity > 1) {
+          currentQuantity--;
+
+          quantitySpan.textContent = currentQuantity;
+          const newTotalPrice = pricePerUnit * currentQuantity;
+          totalPriceCell.textContent = formatRupiah(newTotalPrice);
+
+          updateGrandTotal();
+        }
+      }
+
+      function updateGrandTotal() {
+        const rows = document.querySelectorAll("#productTable tbody tr:not(:last-child)");
+        let grandTotal = 0;
+
+        rows.forEach((row) => {
+          const pricePerUnit = parseInt(row.getAttribute("data-price"));
+          const quantity = parseInt(row.querySelector(".quantity").textContent);
+          grandTotal += pricePerUnit * quantity;
+        });
+
+        document.getElementById("grandTotal").textContent = formatRupiah(grandTotal);
+      }
+
+      function formatRupiah(number) {
+        return "Rp" + number.toLocaleString("id-ID");
+      }
+
+      function goHome() {
+        // Fungsi untuk kembali ke beranda
+        // Anda bisa mengganti dengan URL yang sesuai
+        window.location.href = "/";
+        // atau: window.history.back();
+      }
+    </script>
+  </body>
+
+  <!-- Footer -->
+  <footer class="bg-[#3c3c3c] text-white py-8 mt-12 border-t-4 border-red-500">
+    <div class="max-w-6xl mx-auto px-5 flex justify-between items-start flex-wrap gap-8">
+      <!-- Logo Section -->
+      <div class="flex flex-col items-center">
+        <div class="p-4 rounded flex items-center justify-center w-60 h-40">
+          <img src="/assets/logo-efka.png" alt="EFKA Logo" class="max-w-full max-h-full object-contain rounded-xl" />
+        </div>
+        <div class="text-center">
+          <div class="text-xs text-gray-300 italic">Motorcycle Service &<br />Repair</div>
+        </div>
+      </div>
+
+      <!-- Vertical Divider -->
+      <div class="w-px h-56 bg-gray-500"></div>
+
+      <!-- Right Section (Contact Info + Social Media) -->
+      <div class="flex-1">
+        <!-- Contact Info -->
+        <div class="mb-6 pt-10 italic">
+          <div class="flex items-start gap-2 mb-2 text-xs">
+            <img src="/assets/logo-loc.png" alt="Location" class="w-4 h-4 mt-0.5" />
+            <span class="text-gray-300">Jl. Mekar Jaya No. 27, RT 03/RW 05 Kelurahan Tanjung Sari, Kecamatan Medan Selayang<br />Kota Medan, Sumatera Utara 20131</span>
+          </div>
+          <div class="flex items-center gap-2 mb-2 text-xs">
+            <img src="/assets/logo-telp.png" alt="Phone" class="w-4 h-4" />
+            <span class="text-gray-300">(061) 7881 2345</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <img src="/assets/logo-mail.png" alt="Email" class="w-4 h-4" />
+            <span class="text-gray-300">info@efkaworkshop.com</span>
+          </div>
+        </div>
+
+        <!-- Social Media Icons -->
+        <div class="flex gap-2.5">
+          <div class="w-9 h-9 border border-gray-500 rounded flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-gray-600">
+            <img src="/assets/logo-ig.png" alt="Instagram" class="w-5 h-5" />
+          </div>
+          <div class="w-9 h-9 border border-gray-500 rounded flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-gray-600">
+            <img src="/assets/logo-wa.png" alt="WhatsApp" class="w-5 h-5" />
+          </div>
+          <div class="w-9 h-9 border border-gray-500 rounded flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-gray-600">
+            <img src="/assets/logo-x.png" alt="Twitter/X" class="w-5 h-5" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="w-full text-center mt-4 text-xs text-gray-400 border-t border-gray-500 pt-4 italic">© 2025 Efka Workshop. All Rights Reserved</div>
+    </div>
+  </footer>
+</html>
