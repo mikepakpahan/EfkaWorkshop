@@ -2,12 +2,12 @@
 session_start();
 require '../config/db.php';
 
-$username = $_POST['username'];
+$email = $_POST['email'];
 $password = $_POST['password'];
 
-// Cek user berdasarkan username
-$query = $conn->prepare("SELECT * FROM users WHERE username = ?");
-$query->bind_param("s", $username);
+// Cek user berdasarkan email
+$query = $conn->prepare("SELECT * FROM users WHERE email = ?");
+$query->bind_param("s", $email);
 $query->execute();
 $result = $query->get_result();
 $user = $result->fetch_assoc();
@@ -23,6 +23,6 @@ if ($user && password_verify($password, $user['password'])) {
   ]);
 } else {
   http_response_code(401);
-  echo json_encode(['error' => 'Username atau password salah']);
+  echo json_encode(['error' => 'email atau password salah']);
 }
 ?>
