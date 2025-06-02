@@ -31,13 +31,13 @@
       <img src="assets/logo-efka.png" alt="Logo EFKA" class="h-full object-contain rounded-lg" />
       <nav class="space-x-4">
         <a href="#" class="hover:underline">Home</a>
-        <a href="#riwayat" class="hover:underline">Riwayat</a>
-        <a href="#antrian" class="hover:underline">Antrian</a>
-        <a href="#profil" class="hover:underline">Profil</a>
+        <a href="riwayat-pesanan.html" class="hover:underline">Riwayat</a>
+        <a href="antrian.html" class="hover:underline">Antrian</a>
+        <a href="profil.html" class="hover:underline">Profil</a>
         <a href="#footer" class="hover:underline">Contact</a>
         <!-- Tombol Login dan Daftar -->
         <a id="loginBtn" href="login.html" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Login</a>
-        <a id="daftarBtn" href="#daftar" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Daftar</a>
+        <a id="daftarBtn" href="daftar-akun.html" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Daftar</a>
         <button id="logoutBtn" style="display: none; background: none; border: none; cursor: pointer" title="Logout">
           <img src="assets/shutdown.png" alt="Logout" style="width: 32px; height: 32px" />
         </button>
@@ -56,7 +56,7 @@
 
         <!-- Tombol -->
         <div class="mt-6 flex gap-4">
-          <a href="#cek-antrian" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Cek Antrian </a>
+          <a href="antrian.html" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Cek Antrian </a>
           <a href="#beli-sparepart" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Beli Sparepart </a>
         </div>
       </div>
@@ -167,9 +167,14 @@
     </section>
 
     <!-- Floating Home Button - Fixed di sudut kiri bawah -->
-    <button onclick="goHome()" class="fixed bottom-6 left-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
+    <button onclick="goHomeTop()" class="fixed bottom-6 left-6 bg-[#FC4444] hover:bg-[#d93636] p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
       <img src="assets/home.png" alt="Home" class="w-10 h-10" />
     </button>
+    <script>
+      function goHomeTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    </script>
   </body>
 
   <!-- Footer -->
