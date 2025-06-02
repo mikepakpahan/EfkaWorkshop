@@ -4,3 +4,128 @@
   box-shadow: 0 0 0 4px #fc444455;
   transition: all 0.2s;
 }
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "JetBrains Mono", monospace;
+  height: 100%;
+}
+
+.login-background {
+  background-image: url("assets/bg-hero.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.3); /* tambahkan overlay gelap */
+  z-index: 0;
+}
+
+.login-box {
+  position: relative;
+  background-image: url("assets/bg-hero.png");
+  background-size: cover;
+  background-position: center;
+  padding: 40px;
+  border-radius: 18px;
+  width: 580px;
+  height: 340px;
+  text-align: center;
+  color: white;
+  z-index: 1;
+  overflow: hidden;
+  /*supayaoverlaytidakkeluar*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-border-radius: 18px;
+  -moz-border-radius: 18px;
+  -ms-border-radius: 18px;
+  -o-border-radius: 18px;
+}
+
+.login-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* hanya gelapkan gambar */
+  border-radius: 10px;
+  z-index: 1; /* pastikan di atas gambar, tapi di bawah konten */
+  pointer-events: none; /* agar tidak menghalangi interaksi */
+}
+
+.login-box > * {
+  position: relative;
+  z-index: 2; /* pastikan konten di atas overlay gelap */
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  margin-left: 18px;
+  font-size: 30px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  justify-content: center;
+}
+
+.login-box input::placeholder {
+  color: #eee;
+  justify-content: center;
+}
+
+.register-link {
+  display: block;
+  margin: 10px 0;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  align-items: center;
+  margin-left: 24px;
+}
+
+.login-box button {
+  width: 100%;
+  max-width: 300px; /* opsional, agar tombol tidak terlalu lebar */
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+  margin: 24px 30px 0 auto;
+  justify-content: center;
+}
+
+.login-box button:hover {
+  background-color: #333;
+}
