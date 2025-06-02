@@ -1,0 +1,6 @@
+.sparepart-item.selected {
+  border: 3px solid #fc4444;
+  background-color: #ffeaea;
+  box-shadow: 0 0 0 4px #fc444455;
+  transition: all 0.2s;
+}
