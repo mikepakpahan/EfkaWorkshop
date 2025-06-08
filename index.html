@@ -3,230 +3,274 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
     <title>Efka Workshop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="scripts.js"></script>
-    <style>
-      body {
-        font-family: "JetBrains Mono", monospace;
-      }
-
-      .item-servis.selected {
-        border: 3px solid #fc4444;
-        background-color: #ffeaea;
-        box-shadow: 0 0 0 4px #fc444455;
-        transition: all 0.2s;
-      }
-
-      .item-servis {
-        cursor: pointer;
-      }
-    </style>
   </head>
-  <body class="bg-gray-100">
+  <body style="font-family: 'Open Sans Condensed', Arial, sans-serif">
     <!-- Navbar -->
-    <header class="bg-[#3F3F3F] text-white h-16 px-6 flex justify-between items-center">
-      <img src="assets/logo-efka.png" alt="Logo EFKA" class="h-full object-contain rounded-lg" />
-      <nav class="space-x-4">
-        <a href="#" class="hover:underline">Home</a>
-        <a href="riwayat-pesanan.html" class="hover:underline">Riwayat</a>
-        <a href="antrian.html" class="hover:underline">Antrian</a>
-        <a href="profil.html" class="hover:underline">Profil</a>
-        <a href="#footer" class="hover:underline">Contact</a>
-        <!-- Tombol Login dan Daftar -->
-        <a id="loginBtn" href="login.html" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Login</a>
-        <a id="daftarBtn" href="daftar-akun.html" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Daftar</a>
-        <button id="logoutBtn" style="display: none; background: none; border: none; cursor: pointer" title="Logout">
-          <img src="assets/shutdown.png" alt="Logout" style="width: 32px; height: 32px" />
-        </button>
+    <header class="bg-[#0C142A] text-white h-16 px-4 flex items-center justify-between fixed w-full top-0 left-0 z-50 shadow-md">
+      <div class="flex items-center gap-3 ml-[1cm]">
+        <img src="assets/logo-efka.png" alt="Logo EFKA" class="h-10 w-auto rounded-xl bg-[#FFB300] px-2 py-1" />
+        <!-- Efka Workshop text removed -->
+      </div>
+      <nav id="mainNav" class="hidden md:flex items-center gap-6 font-bold text-base uppercase tracking-wide">
+        <a href="#" class="hover:underline">About Us</a>
+        <a href="#sparepart" class="hover:underline">Spareparts</a>
+        <a href="#services" class="hover:underline">Services</a>
+        <a href="#footer" class="hover:underline">Contact Us</a>
       </nav>
+      <div class="hidden md:flex gap-2">
+        <a id="loginBtn" href="login.html" class="bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 px-4 rounded-lg transition duration-300">Login</a>
+        <a id="daftarBtn" href="daftar-akun.html" class="bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 px-4 rounded-lg transition duration-300">Daftar</a>
+      </div>
+      <!-- Hamburger -->
+      <button id="navToggle" class="md:hidden flex items-center justify-center p-2 rounded hover:bg-[#222] focus:outline-none" aria-label="Menu">
+        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+      </button>
     </header>
+    <!-- Mobile Nav -->
+    <nav id="mobileNav" class="fixed top-16 left-0 w-full bg-[#0C142A] text-white flex-col items-start px-2 sm:px-6 py-4 gap-2 hidden transition-all duration-300 z-40">
+      <a href="#" class="block py-2 hover:underline ml-2">About Us</a>
+      <a href="#sparepart" class="block py-2 hover:underline ml-2">Spareparts</a>
+      <a href="#services" class="block py-2 hover:underline ml-2">Services</a>
+      <a href="#footer" class="block py-2 hover:underline ml-2">Contact Us</a>
+      <div class="flex gap-2 mt-2 w-full pl-2">
+        <a href="login.html" class="flex-1 text-center bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition duration-300">Login</a>
+        <a href="daftar-akun.html" class="flex-1 text-center bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition duration-300">Daftar</a>
+      </div>
+    </nav>
+    <div class="h-16"></div>
 
     <!-- Hero -->
-    <section class="relative bg-cover bg-center text-white min-h-[300px] flex items-center px-10" style="background-image: url('assets/bg-hero.png')">
-      <!-- Overlay hitam transparan -->
+    <section class="relative bg-cover bg-center text-white min-h-screen flex items-center px-4 sm:px-10" style="background-image: url('assets/bg-hero.png'); background-size: cover">
       <div class="absolute inset-0 bg-black bg-opacity-70"></div>
-
-      <!-- Konten teks dan tombol -->
-      <div class="relative text-left max-w-2xl z-10">
-        <h2 class="text-7xl font-bold">Servis & Sparepart Motor</h2>
-        <p class="mt-4 text-lg">Perawatan dan Suku Cadang Motor Terpercaya</p>
-
-        <!-- Tombol -->
-        <div class="mt-6 flex gap-4">
-          <a href="antrian.html" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Cek Antrian </a>
-          <a href="#beli-sparepart" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-2 px-5 rounded-full transition duration-300"> Beli Sparepart </a>
+      <div class="relative z-10 w-full max-w-5xl mx-auto flex flex-col gap-10">
+        <div class="mb-8 ml-[-2rem] sm:ml-[-3rem] md:ml-[-14rem]">
+          <div class="text-[#FFC72C] text-lg sm:text-xl font-bold mb-2 tracking-widest">BERKENDARA DENGAN NYAMAN</div>
+          <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">
+            Premium Motor <span class="text-[#FFC72C]">Detailing</span><br />
+            & Repair <span class="text-[#FFC72C]">Solutions</span>
+          </h1>
+          <div class="text-white text-base sm:text-lg mb-6 opacity-80" style="max-width: 480px">
+            lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak
+          </div>
+          <div class="flex gap-4 items-center flex-wrap">
+            <a href="#" class="bg-[#FFC72C] hover:bg-[#D79700] text-[#222] font-bold py-3 px-8 rounded-md text-lg shadow transition">BUAT JANJI</a>
+            <a href="#" class="text-white text-base font-semibold underline hover:text-[#FFC72C] transition">READ MORE &rarr;</a>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-4 w-full">
+          <div class="feature-card flex-1 bg-[#23294A] rounded-md p-11 min-w-[220px] cursor-pointer transition-all duration-300">
+            <div class="text-white font-bold text-base mb-2 uppercase tracking-wide">Expertise & Profesional</div>
+            <div class="text-gray-200 text-sm">Kami memiliki mekanis yang handal dan profesional dalam menangani berbagai jenis motor</div>
+          </div>
+          <div class="feature-card flex-1 bg-[#23294A] rounded-md p-6 min-w-[220px] cursor-pointer transition-all duration-300">
+            <div class="text-white font-bold text-base mb-2 uppercase tracking-wide">24/7 Ready Support</div>
+            <div class="text-gray-200 text-sm">Layanan kami tersedia 24 jam setiap hari untuk menangani permintaan customer</div>
+          </div>
+          <div class="feature-card flex-1 bg-[#23294A] rounded-md p-6 min-w-[220px] cursor-pointer transition-all duration-300">
+            <div class="text-white font-bold text-base mb-2 uppercase tracking-wide">Free Consulting</div>
+            <div class="text-gray-200 text-sm">Kami menyediakan layanan konsultasi gratis kepada customer untuk membantu customer merawat motor.</div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Layanan Servis -->
-    <section class="p-8">
-      <h2 class="text-5xl font-semibold mb-4">Layanan Servis</h2>
-      <p class="text-2xl mb-8 text-black">Kami menyediakan berbagai jenis layanan servis motor, mulai dari servis ringan hingga servis berat</p>
-
-      <!-- Container untuk list servis dari database -->
-      <div id="servisList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 justify-items-center max-w-6xl mx-auto">
-        <!-- Item servis akan diisi otomatis oleh JS -->
-      </div>
-
-      <!-- Tombol -->
-      <div class="mt-8 text-center p-8">
-        <a href="#pesan-servis" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-3 px-8 rounded-full transition duration-300"> Pesan Servis </a>
-      </div>
-    </section>
-
-    <!-- Servis Motor -->
-    <section class="relative p-8">
-      <!-- Konten teks -->
-      <div class="text-left">
-        <h2 class="text-5xl font-semibold mb-4">Servis Motor</h2>
-        <p class="text-2xl mb-8 text-black">
-          Kami menyediakan berbagai jenis layanan servis motor yang mencakup segala kebutuhan kendaraan Anda, mulai dari servis ringan seperti ganti oli, pengecekan rem, dan penyetelan rantai, hingga servis berat seperti perbaikan mesin,
-          sistem kelistrikan, dan overhaul. Dengan didukung oleh tenaga mekanik berpengalaman serta peralatan yang lengkap, kami berkomitmen untuk memberikan pelayanan terbaik guna menjaga performa dan keamanan motor Anda.
-        </p>
-      </div>
-
-      <!-- Gambar dengan overlay hitam -->
-      <div class="relative mt-20 w-full">
-        <img src="assets/bg-Servis-Motor.png" alt="Ilustrasi Servis Motor" class="w-full h-auto object-cover" />
-        <!-- Overlay abu-abu transparan -->
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-      </div>
-    </section>
-
-    <!-- Sparepart -->
-    <section class="p-8 pt-32">
-      <h3 class="text-5xl font-semibold mb-8">Sparepart</h3>
-      <p class="text-2xl mb-20 text-gray-700">
-        Kami menyediakan berbagai macam suku cadang motor untuk berbagai keperluan dan merek, untuk menjaga performa motor Anda tetap optimal dan berkualitas dan juga, harga terjangkau sehingga sesuai kebutuhan dan budget Anda.
-      </p>
-
-      <!-- Container untuk list sparepart dari database -->
-      <div id="sparepartList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 justify-items-center place-items-center max-w-6xl mx-auto">
-        <!-- Item sparepart akan diisi otomatis oleh JS -->
-      </div>
-
-      <!-- Tombol -->
-      <div class="mt-8 text-center p-8 pt-16">
-        <a href="#bayar" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-4 px-12 text-xl rounded-full transition duration-300">Bayar</a>
-      </div>
-    </section>
-
-    <!-- Pembayaran -->
-    <section class="p-6 pt-32 max-w-6xl mx-auto">
-      <h3 class="text-5xl font-semibold mb-20 text-center">Pembayaran</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-        <!-- Detail Pesanan -->
-        <div class="px-4">
-          <h4 class="text-2xl font-semibold mb-6 text-center">Detail Pesanan</h4>
-          <div class="border-2 border-gray-800 rounded-lg overflow-hidden">
-            <table class="w-full" id="productTable">
-              <thead>
-                <tr class="bg-gray-100 border-b border-gray-800">
-                  <th class="text-left py-3 px-4 font-semibold text-sm">Nama Produk/Layanan</th>
-                  <th class="text-center py-3 px-4 font-semibold text-sm">Jumlah</th>
-                  <th class="text-right py-3 px-4 font-semibold text-sm">Harga Satuan</th>
-                  <th class="text-right py-3 px-4 font-semibold text-sm">Total Harga</th>
-                </tr>
-              </thead>
-              <tbody class="text-sm" id="orderBody">
-                <!-- Baris pesanan akan diisi oleh JS -->
-                <tr class="bg-gray-100 font-semibold">
-                  <td class="py-3 px-4">Total</td>
-                  <td class="py-3 px-4"></td>
-                  <td class="py-3 px-4"></td>
-                  <td class="text-right py-3 px-4" id="grandTotal">Rp0</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <section class="min-h-screen w-full py-16 px-0" id="services" style="background: #1b2649">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-12">
+          <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">Our Services</div>
+          <h2 class="text-white text-4xl sm:text-5xl font-bold mb-2">Delivering <span class="text-[#FFC72C]">Superior</span> Motor Detailing<br />& Repair</h2>
         </div>
-
-        <!-- QR Code -->
-        <div id="qrSection" class="flex justify-center items-start hidden">
-          <div class="bg-gray-200 rounded-2xl p-6 text-center">
-            <div class="bg-white p-3 rounded-xl mb-4 inline-block">
-              <img id="qrImg" src="" alt="QR Code" class="w-64 h-64" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div class="bg-transparent">
+            <div class="relative">
+              <img src="assets/paint-correction.jpg" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
+                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              </div>
             </div>
-            <p class="text-gray-600 font-medium mb-3">Scan untuk Bayar</p>
-            <div class="text-sm text-gray-500">
-              <p class="font-medium">Order ID:</p>
-              <p class="font-mono text-gray-700" id="orderId"></p>
+          </div>
+          <!-- Card 2 -->
+          <div class="bg-transparent">
+            <div class="relative">
+              <img src="assets/paint-correction.jpg" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
+                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="bg-transparent">
+            <div class="relative">
+              <img src="assets/paint-correction.jpg" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
+                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="bg-transparent">
+            <div class="relative">
+              <img src="assets/paint-correction.jpg" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
+                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 5 -->
+          <div class="bg-transparent">
+            <div class="relative">
+              <img src="assets/paint-correction.jpg" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
+                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 6 -->
+          <div class="bg-transparent">
+            <div class="relative">
+              <img src="assets/paint-correction.jpg" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
+              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
+                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Tombol -->
-      <div class="mt-8 text-center p-8 pt-16">
-        <a href="javascript:void(0)" id="checkoutBtn" class="bg-[#FC4444] hover:bg-[#d93636] text-white font-semibold py-4 px-12 text-xl rounded-full transition duration-300">Checkout</a>
+    <!-- About Us -->
+    <section class="min-h-screen w-full py-16 px-0" id="aboutus" style="background: #0c0a27">
+      <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
+        <!-- Left Content -->
+        <div class="flex-1 text-white">
+          <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">WHO WE ARE ?</div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">Motor Detailing And Repair<br />Services You Can Rely On</h2>
+          <div class="text-gray-200 text-base sm:text-lg mb-6 max-w-xl">lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak</div>
+          <div class="flex flex-wrap gap-8 mb-6">
+            <div class="flex items-center gap-3">
+              <img src="assets/icon-staff.png" alt="Staff" class="w-8 h-8" />
+              <div>
+                <div class="font-semibold text-white">Professional & Creative Staff</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <img src="assets/icon-warranty.png" alt="Warranty" class="w-8 h-8" />
+              <div>
+                <div class="font-semibold text-white">Warranties & Guarantees</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 mt-2">
+            <svg class="w-6 h-6 text-[#FFC72C]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.75A2.75 2.75 0 015.75 3h12.5A2.75 2.75 0 0121 5.75v12.5A2.75 2.75 0 0118.25 21H5.75A2.75 2.75 0 013 18.25V5.75z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h8M8 11h8M8 15h4" />
+            </svg>
+            <span class="text-white text-base font-semibold">+62 812 3456 7890</span>
+          </div>
+        </div>
+        <!-- Center Image -->
+        <div class="flex-1 flex justify-center items-center relative">
+          <img src="assets/motor-merah.png" alt="Motor Merah" class="h-[520px] max-h-[520px] w-auto drop-shadow-2xl absolute left-2/3 -translate-x-1/2 z-10" style="max-width: 420px" />
+        </div>
+        <!-- Right Form -->
+        <div class="flex-1 flex justify-center relative z-20">
+          <form class="bg-[#23294A] rounded-md p-12 w-full max-w-xl flex flex-col gap-6 shadow-2xl">
+            <input type="text" placeholder="Name" class="rounded-sm px-4 py-3 bg-white text-black focus:outline-none text-lg" />
+            <input type="email" placeholder="Email" class="rounded-sm px-4 py-3 bg-white text-black focus:outline-none text-lg" />
+            <textarea placeholder="Message" rows="6" class="rounded-sm px-4 py-3 bg-white text-black focus:outline-none text-lg"></textarea>
+            <button type="submit" class="bg-[#FFC72C] hover:bg-yellow-500 text-[#23294A] font-bold py-4 rounded-sm mt-2 transition text-lg">REQUEST A SERVICE</button>
+          </form>
+        </div>
       </div>
     </section>
 
     <!-- Floating Home Button - Fixed di sudut kiri bawah -->
-    <button onclick="goHomeTop()" class="fixed bottom-6 left-6 bg-[#FC4444] hover:bg-[#d93636] p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
+    <button onclick="goHome()" class="fixed bottom-6 left-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
       <img src="assets/home.png" alt="Home" class="w-10 h-10" />
     </button>
     <script>
-      function goHomeTop() {
+      // Responsive Navbar Toggle
+      const navToggle = document.getElementById("navToggle");
+      const mobileNav = document.getElementById("mobileNav");
+      navToggle.addEventListener("click", function () {
+        mobileNav.classList.toggle("hidden");
+      });
+      // Hide mobile nav on link click
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.add("hidden");
+        });
+      });
+      function goHome() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
+      // Feature card hover/click effect
+      document.querySelectorAll(".feature-card").forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.classList.add("feature-card-hover");
+        });
+        card.addEventListener("mouseleave", function () {
+          this.classList.remove("feature-card-hover");
+        });
+        card.addEventListener("click", function () {
+          document.querySelectorAll(".feature-card").forEach((c) => c.classList.remove("feature-card-active"));
+          this.classList.add("feature-card-active");
+        });
+      });
     </script>
   </body>
 
   <!-- Footer -->
-  <footer id="footer" class="bg-[#3c3c3c] text-white py-8 mt-12 border-t-4 border-red-500">
-    <div class="max-w-6xl mx-auto px-5 flex justify-between items-start flex-wrap gap-8">
-      <!-- Logo Section -->
-      <div class="flex flex-col items-center">
-        <div class="p-4 rounded flex items-center justify-center w-60 h-40">
-          <img src="assets/logo-efka.png" alt="EFKA Logo" class="max-w-full max-h-full object-contain rounded-xl" />
+  <footer id="footer" class="bg-[#13162B] text-white py-0">
+    <div class="w-full px-0 pt-0 pb-0" style="background: #13162b">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between max-w-[1200px] mx-auto py-6 px-4 gap-4">
+        <!-- Logo & Tagline -->
+        <div class="flex flex-col md:items-start w-full md:w-auto">
+          <div class="flex items-center w-full">
+            <div class="flex items-center justify-center rounded-2xl w-full ml-[-0.5cm]" style="background: #ffb300; height: 75px">
+              <img src="assets/logo-efka.png" alt="EFKA Logo" class="object-contain h-[80px] w-auto mx-auto" />
+            </div>
+          </div>
+          <div class="mt-2 text-xs text-white font-mono text-center md:text-center" style="letter-spacing: 1px">Motorcycle Service &amp;<br />Repair</div>
         </div>
-        <div class="text-center">
-          <div class="text-xs text-gray-300 italic">Motorcycle Service &<br />Repair</div>
+        <!-- Address & Contact -->
+        <div class="flex-1 flex flex-col justify-center md:ml-9">
+          <div class="text-white font-mono text-sm mb-2" style="letter-spacing: 1px">
+            <span> Jl. Mekar Jaya No. 27, RT 03/RW 05 Kelurahan Tanjung Sari, Kecamatan Medan Selayang </span>
+            <span> Kota Medan, Sumatera Utara 20131 </span>
+          </div>
+          <div class="text-white font-mono text-sm mb-2" style="letter-spacing: 1px">(061) 7881 2345</div>
+          <a href="mailto:info@efkaworkshop.com" class="text-white font-mono text-sm underline mb-2" style="letter-spacing: 1px">info@efkaworkshop.com</a>
         </div>
-      </div>
-
-      <!-- Vertical Divider -->
-      <div class="w-px h-56 bg-gray-500"></div>
-
-      <!-- Right Section (Contact Info + Social Media) -->
-      <div class="flex-1">
-        <!-- Contact Info -->
-        <div class="mb-6 pt-10 italic">
-          <div class="flex items-start gap-2 mb-2 text-xs">
-            <img src="assets/logo-loc.png" alt="Location" class="w-4 h-4 mt-0.5" />
-            <span class="text-gray-300">Jl. Mekar Jaya No. 27, RT 03/RW 05 Kelurahan Tanjung Sari, Kecamatan Medan Selayang<br />Kota Medan, Sumatera Utara 20131</span>
+        <!-- Social & Copyright -->
+        <div class="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
+          <div class="flex gap-4 mb-2">
+            <a href="#" class="inline-flex items-center justify-center w-8 h-8 rounded bg-transparent hover:bg-[#23294A] transition">
+              <img src="assets/logo-ig.png" alt="Instagram" class="w-5 h-5" />
+            </a>
+            <a href="#" class="inline-flex items-center justify-center w-8 h-8 rounded bg-transparent hover:bg-[#23294A] transition">
+              <img src="assets/logo-wa.png" alt="WhatsApp" class="w-5 h-5" />
+            </a>
+            <a href="#" class="inline-flex items-center justify-center w-8 h-8 rounded bg-transparent hover:bg-[#23294A] transition">
+              <img src="assets/logo-x.png" alt="Twitter/X" class="w-5 h-5" />
+            </a>
           </div>
-          <div class="flex items-center gap-2 mb-2 text-xs">
-            <img src="assets/logo-telp.png" alt="Phone" class="w-4 h-4" />
-            <span class="text-gray-300">(061) 7881 2345</span>
-          </div>
-          <div class="flex items-center gap-2 text-xs">
-            <img src="assets/logo-mail.png" alt="Email" class="w-4 h-4" />
-            <span class="text-gray-300">info@efkaworkshop.com</span>
-          </div>
-        </div>
-
-        <!-- Social Media Icons -->
-        <div class="flex gap-2.5">
-          <div class="w-9 h-9 border border-gray-500 rounded flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-gray-600">
-            <img src="assets/logo-ig.png" alt="Instagram" class="w-5 h-5" />
-          </div>
-          <div class="w-9 h-9 border border-gray-500 rounded flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-gray-600">
-            <img src="assets/logo-wa.png" alt="WhatsApp" class="w-5 h-5" />
-          </div>
-          <div class="w-9 h-9 border border-gray-500 rounded flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-gray-600">
-            <img src="assets/logo-x.png" alt="Twitter/X" class="w-5 h-5" />
-          </div>
+          <div class="text-xs text-white font-mono text-center md:text-right mb-2" style="letter-spacing: 1px">© 2025 Efka Workshop. All Rights reserved</div>
         </div>
       </div>
-
-      <!-- Copyright -->
-      <div class="w-full text-center mt-4 text-xs text-gray-400 border-t border-gray-500 pt-4 italic">© 2025 Efka Workshop. All Rights Reserved</div>
     </div>
   </footer>
 </html>
