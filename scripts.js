@@ -5,6 +5,44 @@ function formatRupiah(number) {
 const orderQuantities = {}; // {id: qty}
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Tampilkan overlay login/register
+  const loginOverlay = document.getElementById("loginOverlay");
+  const container = document.getElementById("container");
+  const loginBtnNav = document.getElementById("loginBtn");
+  const daftarBtnNav = document.getElementById("daftarBtn");
+  const registerBtn = document.getElementById("register");
+  const loginBtn = document.getElementById("login");
+
+  // Tampilkan modal login
+  loginBtnNav.addEventListener("click", function (e) {
+    e.preventDefault();
+    loginOverlay.style.display = "flex";
+    container.classList.remove("active");
+  });
+
+  // Tampilkan modal daftar
+  daftarBtnNav.addEventListener("click", function (e) {
+    e.preventDefault();
+    loginOverlay.style.display = "flex";
+    container.classList.add("active");
+  });
+
+  // Toggle panel dari dalam modal
+  registerBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    container.classList.add("active");
+  });
+  loginBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    container.classList.remove("active");
+  });
+
+  // Klik di luar modal untuk menutup overlay
+  loginOverlay.addEventListener("click", function (e) {
+    if (e.target === this) {
+      loginOverlay.style.display = "none";
+    }
+  });
   document.getElementById("checkoutBtn").onclick = async function () {
     // Kumpulkan data pesanan
     const services = [];

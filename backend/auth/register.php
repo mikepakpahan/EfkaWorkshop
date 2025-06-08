@@ -1,19 +1,30 @@
 <?php
 require '../config/db.php';
 
-$username = $_POST['username'];
+$name = $_POST['name'];
+$email = $_POST['email'];
 $password = $_POST['password'];
+
+// Cek email sudah terdaftar
+$query = $conn->prepare("SELECT id FROM users WHERE email = ?");
+$query->bind_param("s", $email);
+$query->execute();
+$query->store_result();
+if ($query->num_rows > 0) {
+  echo json_encode(['error' => 'Email sudah terdaftar']);
+  exit;
+}
+
+// Hash password
+$hashed = password_hash($password, PASSWORD_DEFAULT);
+
+// Simpan user baru
 $role = 'customer';
-
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-$query = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
-$query->bind_param("sss", $username, $hashed_password, $role);
-
+$query = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+$query->bind_param("ssss", $name, $email, $hashed, $role);
 if ($query->execute()) {
-  echo json_encode(['success' => true, 'message' => 'Registrasi berhasil']);
+  echo json_encode(['success' => true]);
 } else {
-  http_response_code(500);
-  echo json_encode(['error' => 'Username sudah terdaftar']);
+  echo json_encode(['error' => 'Gagal daftar']);
 }
 ?>
