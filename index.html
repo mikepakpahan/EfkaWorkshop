@@ -18,7 +18,7 @@
       </div>
       <nav id="mainNav" class="hidden md:flex items-center gap-6 font-bold text-base uppercase tracking-wide">
         <a href="#" class="hover:underline">About Us</a>
-        <a href="#sparepart" class="hover:underline">Spareparts</a>
+        <a href="sparepart.html" class="hover:underline">Spareparts</a>
         <a href="#services" class="hover:underline">Services</a>
         <a href="#footer" class="hover:underline">Contact Us</a>
       </nav>
@@ -34,7 +34,7 @@
     <!-- Mobile Nav -->
     <nav id="mobileNav" class="fixed top-16 left-0 w-full bg-[#0C142A] text-white flex-col items-start px-2 sm:px-6 py-4 gap-2 hidden transition-all duration-300 z-40">
       <a href="#" class="block py-2 hover:underline ml-2">About Us</a>
-      <a href="#sparepart" class="block py-2 hover:underline ml-2">Spareparts</a>
+      <a href="sparepart.html" class="block py-2 hover:underline ml-2">Spareparts</a>
       <a href="#services" class="block py-2 hover:underline ml-2">Services</a>
       <a href="#footer" class="block py-2 hover:underline ml-2">Contact Us</a>
       <div class="flex gap-2 mt-2 w-full pl-2">
@@ -48,7 +48,7 @@
     <section class="relative bg-cover bg-center text-white min-h-screen flex items-center px-4 sm:px-10" style="background-image: url('assets/bg-hero.png'); background-size: cover">
       <div class="absolute inset-0 bg-black bg-opacity-70"></div>
       <div class="relative z-10 w-full max-w-5xl mx-auto flex flex-col gap-10">
-        <div class="mb-8 ml-[-2rem] sm:ml-[-3rem] md:ml-[-14rem]">
+        <div class="mb-8 ml-[-rem] sm:ml-[-3rem] md:ml-[-14rem]">
           <div class="text-[#FFC72C] text-lg sm:text-xl font-bold mb-2 tracking-widest">BERKENDARA DENGAN NYAMAN</div>
           <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">
             Premium Motor <span class="text-[#FFC72C]">Detailing</span><br />
@@ -152,12 +152,12 @@
     </section>
 
     <!-- About Us -->
-    <section class="min-h-screen w-full py-16 px-0" id="aboutus" style="background: #0c0a27">
+    <section class="min-h-screen w-full pt-20 pb-16 px-0" id="aboutus" style="background: #0c0a27">
       <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
         <!-- Left Content -->
-        <div class="flex-1 text-white">
+        <div class="flex-1 text-white about-left-top">
           <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">WHO WE ARE ?</div>
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">Motor Detailing And Repair<br />Services You Can Rely On</h2>
+          <h2 class="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">Motor Detailing And Repair<br />Services You Can Rely On</h2>
           <div class="text-gray-200 text-base sm:text-lg mb-6 max-w-xl">lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak</div>
           <div class="flex flex-wrap gap-8 mb-6">
             <div class="flex items-center gap-3">
@@ -174,32 +174,31 @@
             </div>
           </div>
           <div class="flex items-center gap-3 mt-2">
-            <svg class="w-6 h-6 text-[#FFC72C]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5.75A2.75 2.75 0 015.75 3h12.5A2.75 2.75 0 0121 5.75v12.5A2.75 2.75 0 0118.25 21H5.75A2.75 2.75 0 013 18.25V5.75z" />
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h8M8 11h8M8 15h4" />
-            </svg>
+            <img src="assets/telephone.png" alt="Telepon" class="w-6 h-6" />
             <span class="text-white text-base font-semibold">+62 812 3456 7890</span>
           </div>
         </div>
+
         <!-- Center Image -->
-        <div class="flex-1 flex justify-center items-center relative">
-          <img src="assets/motor-merah.png" alt="Motor Merah" class="h-[520px] max-h-[520px] w-auto drop-shadow-2xl absolute left-2/3 -translate-x-1/2 z-10" style="max-width: 420px" />
+        <div class="about-center">
+          <img src="assets/motor-merah.png" alt="Motor Merah" class="about-img" />
         </div>
+
         <!-- Right Form -->
-        <div class="flex-1 flex justify-center relative z-20">
-          <form class="bg-[#23294A] rounded-md p-12 w-full max-w-xl flex flex-col gap-6 shadow-2xl">
-            <input type="text" placeholder="Name" class="rounded-sm px-4 py-3 bg-white text-black focus:outline-none text-lg" />
-            <input type="email" placeholder="Email" class="rounded-sm px-4 py-3 bg-white text-black focus:outline-none text-lg" />
-            <textarea placeholder="Message" rows="6" class="rounded-sm px-4 py-3 bg-white text-black focus:outline-none text-lg"></textarea>
-            <button type="submit" class="bg-[#FFC72C] hover:bg-yellow-500 text-[#23294A] font-bold py-4 rounded-sm mt-2 transition text-lg">REQUEST A SERVICE</button>
+        <div class="about-right">
+          <form class="request-form">
+            <input type="text" placeholder="Name" class="form-input" />
+            <input type="email" placeholder="Email" class="form-input" />
+            <textarea id="message" placeholder="Message" rows="6" class="form-textarea"></textarea>
+            <button type="submit" class="form-btn">REQUEST A SERVICE</button>
           </form>
         </div>
       </div>
     </section>
 
-    <!-- Floating Home Button - Fixed di sudut kiri bawah -->
-    <button onclick="goHome()" class="fixed bottom-6 left-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
-      <img src="assets/home.png" alt="Home" class="w-10 h-10" />
+    <!-- Floating Home Button - Fixed di sudut kanan bawah -->
+    <button onclick="goHome()" class="fixed bottom-6 right-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
+      <img src="assets/arrow.png" alt="Home" class="w-10 h-10" />
     </button>
     <script>
       // Responsive Navbar Toggle
