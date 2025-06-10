@@ -11,69 +11,68 @@
   </head>
   <body style="font-family: 'Open Sans Condensed', Arial, sans-serif">
     <!-- Navbar -->
-    <header class="bg-[#0C142A] text-white h-16 px-4 flex items-center justify-between fixed w-full top-0 left-0 z-50 shadow-md">
-      <div class="flex items-center gap-3 ml-[1cm]">
-        <img src="assets/logo-efka.png" alt="Logo EFKA" class="h-10 w-auto rounded-xl bg-[#FFB300] px-2 py-1" />
-        <!-- Efka Workshop text removed -->
+    <header class="navbar">
+      <div class="navbar-logo">
+        <img src="assets/logo-efka.png" alt="Logo EFKA" class="logo-img" />
       </div>
-      <nav id="mainNav" class="hidden md:flex items-center gap-6 font-bold text-base uppercase tracking-wide">
-        <a href="#" class="hover:underline">About Us</a>
-        <a href="sparepart.html" class="hover:underline">Spareparts</a>
-        <a href="#services" class="hover:underline">Services</a>
-        <a href="#footer" class="hover:underline">Contact Us</a>
+      <nav id="mainNav" class="navbar-menu">
+        <a href="#" class="nav-link">About Us</a>
+        <a href="sparepart.html" class="nav-link">Spareparts</a>
+        <a href="dashboard-admin.html" class="nav-link">Services</a>
+        <a href="sparepart-admin.html" class="nav-link">Contact Us</a>
       </nav>
-      <div class="hidden md:flex gap-2">
-        <a id="loginBtn" href="login.html" class="bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 px-4 rounded-lg transition duration-300">Login</a>
-        <a id="daftarBtn" href="daftar-akun.html" class="bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 px-4 rounded-lg transition duration-300">Daftar</a>
+      <div class="navbar-auth">
+        <a id="loginBtn" href="login.html" class="btn-auth">Login</a>
+        <a id="daftarBtn" href="daftar-akun.html" class="btn-auth">Daftar</a>
       </div>
       <!-- Hamburger -->
-      <button id="navToggle" class="md:hidden flex items-center justify-center p-2 rounded hover:bg-[#222] focus:outline-none" aria-label="Menu">
-        <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+      <button id="navToggle" class="navbar-toggle" aria-label="Menu">
+        <span class="navbar-toggle-bar"></span>
+        <span class="navbar-toggle-bar"></span>
+        <span class="navbar-toggle-bar"></span>
       </button>
     </header>
-    <!-- Mobile Nav -->
-    <nav id="mobileNav" class="fixed top-16 left-0 w-full bg-[#0C142A] text-white flex-col items-start px-2 sm:px-6 py-4 gap-2 hidden transition-all duration-300 z-40">
-      <a href="#" class="block py-2 hover:underline ml-2">About Us</a>
-      <a href="sparepart.html" class="block py-2 hover:underline ml-2">Spareparts</a>
-      <a href="#services" class="block py-2 hover:underline ml-2">Services</a>
-      <a href="#footer" class="block py-2 hover:underline ml-2">Contact Us</a>
-      <div class="flex gap-2 mt-2 w-full pl-2">
-        <a href="login.html" class="flex-1 text-center bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition duration-300">Login</a>
-        <a href="daftar-akun.html" class="flex-1 text-center bg-[#FFB300] hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition duration-300">Daftar</a>
+    <!-- Mobile Nav Dropdown -->
+    <nav id="mobileNav" class="mobile-nav-dropdown">
+      <a href="#" class="mobile-nav-link">About Us</a>
+      <a href="sparepart.html" class="mobile-nav-link">Spareparts</a>
+      <a href="#services" class="mobile-nav-link">Services</a>
+      <a href="#footer" class="mobile-nav-link">Contact Us</a>
+      <div class="mobile-auth">
+        <a href="login.html" class="btn-auth">Login</a>
+        <a href="daftar-akun.html" class="btn-auth">Daftar</a>
       </div>
     </nav>
-    <div class="h-16"></div>
+    <div class="navbar-spacer"></div>
 
     <!-- Hero -->
-    <section class="relative bg-cover bg-center text-white min-h-screen flex items-center px-4 sm:px-10" style="background-image: url('assets/bg-hero.png'); background-size: cover">
-      <div class="absolute inset-0 bg-black bg-opacity-70"></div>
-      <div class="relative z-10 w-full max-w-5xl mx-auto flex flex-col gap-10">
-        <div class="mb-8 ml-[-rem] sm:ml-[-3rem] md:ml-[-14rem]">
-          <div class="text-[#FFC72C] text-lg sm:text-xl font-bold mb-2 tracking-widest">BERKENDARA DENGAN NYAMAN</div>
-          <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4">
-            Premium Motor <span class="text-[#FFC72C]">Detailing</span><br />
-            & Repair <span class="text-[#FFC72C]">Solutions</span>
+    <section class="hero-section">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-title-group hero-title-group-large hero-title-group-left">
+          <div class="hero-subtitle">BERKENDARA DENGAN NYAMAN</div>
+          <h1 class="hero-title">
+            Premium Motor <span class="highlight">Detailing</span><br />
+            & Repair <span class="highlight">Solutions</span>
           </h1>
-          <div class="text-white text-base sm:text-lg mb-6 opacity-80" style="max-width: 480px">
-            lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak
-          </div>
-          <div class="flex gap-4 items-center flex-wrap">
-            <a href="#" class="bg-[#FFC72C] hover:bg-[#D79700] text-[#222] font-bold py-3 px-8 rounded-md text-lg shadow transition">BUAT JANJI</a>
-            <a href="#" class="text-white text-base font-semibold underline hover:text-[#FFC72C] transition">READ MORE &rarr;</a>
+          <div class="hero-desc">lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak</div>
+          <div class="hero-actions">
+            <a href="#" class="btn-primary">BUAT JANJI</a>
+            <a href="#" class="btn-link">READ MORE &rarr;</a>
           </div>
         </div>
-        <div class="flex flex-col md:flex-row gap-4 w-full">
-          <div class="feature-card flex-1 bg-[#23294A] rounded-md p-11 min-w-[220px] cursor-pointer transition-all duration-300">
-            <div class="text-white font-bold text-base mb-2 uppercase tracking-wide">Expertise & Profesional</div>
-            <div class="text-gray-200 text-sm">Kami memiliki mekanis yang handal dan profesional dalam menangani berbagai jenis motor</div>
+        <div class="hero-features">
+          <div class="feature-card">
+            <div class="feature-title">Expertise & Profesional</div>
+            <div class="feature-desc">Kami memiliki mekanis yang handal dan profesional dalam menangani berbagai jenis motor</div>
           </div>
-          <div class="feature-card flex-1 bg-[#23294A] rounded-md p-6 min-w-[220px] cursor-pointer transition-all duration-300">
-            <div class="text-white font-bold text-base mb-2 uppercase tracking-wide">24/7 Ready Support</div>
-            <div class="text-gray-200 text-sm">Layanan kami tersedia 24 jam setiap hari untuk menangani permintaan customer</div>
+          <div class="feature-card">
+            <div class="feature-title">24/7 Ready Support</div>
+            <div class="feature-desc">Layanan kami tersedia 24 jam setiap hari untuk menangani permintaan customer</div>
           </div>
-          <div class="feature-card flex-1 bg-[#23294A] rounded-md p-6 min-w-[220px] cursor-pointer transition-all duration-300">
-            <div class="text-white font-bold text-base mb-2 uppercase tracking-wide">Free Consulting</div>
-            <div class="text-gray-200 text-sm">Kami menyediakan layanan konsultasi gratis kepada customer untuk membantu customer merawat motor.</div>
+          <div class="feature-card">
+            <div class="feature-title">Free Consulting</div>
+            <div class="feature-desc">Kami menyediakan layanan konsultasi gratis kepada customer untuk membantu customer merawat motor.</div>
           </div>
         </div>
       </div>
@@ -179,11 +178,6 @@
           </div>
         </div>
 
-        <!-- Center Image -->
-        <div class="about-center">
-          <img src="assets/motor-merah.png" alt="Motor Merah" class="about-img" />
-        </div>
-
         <!-- Right Form -->
         <div class="about-right">
           <form class="request-form">
@@ -205,12 +199,12 @@
       const navToggle = document.getElementById("navToggle");
       const mobileNav = document.getElementById("mobileNav");
       navToggle.addEventListener("click", function () {
-        mobileNav.classList.toggle("hidden");
+        mobileNav.classList.toggle("open");
       });
       // Hide mobile nav on link click
       mobileNav.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
-          mobileNav.classList.add("hidden");
+          mobileNav.classList.remove("open");
         });
       });
       function goHome() {
