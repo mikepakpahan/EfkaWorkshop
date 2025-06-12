@@ -205,6 +205,14 @@
   object-fit: contain;
   margin-bottom: 18px;
 }
+
+.sparepart-product-title {
+  color: #232323;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 .sparepart-product-desc {
   color: #23294a;
   font-size: 1rem;

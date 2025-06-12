@@ -114,75 +114,43 @@ include 'backend/config.php';
 
     <!-- Layanan Servis -->
     <section class="min-h-screen w-full py-16 px-0" id="services" style="background: #1b2649">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="mb-12">
-          <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">Our Services</div>
-          <h2 class="text-white text-4xl sm:text-5xl font-bold mb-2">Delivering <span class="text-[#FFC72C]">Superior</span> Motor Detailing<br />& Repair</h2>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Card 1 -->
-          <div class="bg-transparent">
-            <div class="relative">
-              <img src="assets/paint-correction.JPG" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                <div class="text-white font-bold text-lg mb-1">Paint Correction</div>
-                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+          <div class="max-w-7xl mx-auto px-4">
+              <div class="mb-12">
+                  <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">Our Services</div>
+                  <h2 class="text-white text-4xl sm:text-5xl font-bold mb-2">Delivering <span class="text-[#FFC72C]">Superior</span> Motor Detailing<br />& Repair</h2>
               </div>
-            </div>
-          </div>
-          <!-- Card 2 -->
-          <div class="bg-transparent">
-            <div class="relative">
-              <img src="assets/ganti-minyak-rem.JPG" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                <div class="text-white font-bold text-lg mb-1">Ganti Minyak Rem</div>
-                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <?php
+                  // 1. Buat query untuk mengambil semua data dari tabel services
+                  $sql = "SELECT service_name, description, image_url FROM services ORDER BY id";
+                  $result = $conn->query($sql);
+
+                  // 2. Cek apakah ada data yang ditemukan
+                  if ($result->num_rows > 0) {
+                      // 3. Lakukan looping untuk setiap baris data
+                      while($row = $result->fetch_assoc()) {
+                          // 4. Tampilkan HTML card untuk setiap data, dengan nilai dinamis
+                          //    Kita gunakan struktur HTML card Anda sebagai template.
+                          echo '
+                          <div class="bg-transparent">
+                              <div class="relative">
+                                  <img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["service_name"]) . '" class="w-full h-56 object-cover rounded-t-md" />
+                                  <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                                      <div class="text-white font-bold text-lg mb-1">' . htmlspecialchars($row["service_name"]) . '</div>
+                                      <div class="text-gray-200 text-sm">' . htmlspecialchars($row["description"]) . '</div>
+                                  </div>
+                              </div>
+                          </div>';
+                      }
+                  } else {
+                      // Tampilkan pesan jika tidak ada data layanan
+                      echo '<p class="text-white">Saat ini belum ada layanan yang tersedia.</p>';
+                  }
+                  ?>
               </div>
-            </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="bg-transparent">
-            <div class="relative">
-              <img src="assets/ganti-saringan-hawa.JPG" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                <div class="text-white font-bold text-lg mb-1">Ganti Saringan Hawa</div>
-                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
               </div>
-            </div>
-          </div>
-          <!-- Card 4 -->
-          <div class="bg-transparent">
-            <div class="relative">
-              <img src="assets/pengecekan-kelistrikan.JPG" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                <div class="text-white font-bold text-lg mb-1">Pengecekan Kelistrikan</div>
-                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
-              </div>
-            </div>
-          </div>
-          <!-- Card 5 -->
-          <div class="bg-transparent">
-            <div class="relative">
-              <img src="assets/pengecekan-tekanan-ban.JPG" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                <div class="text-white font-bold text-lg mb-1">Pengecakan Tekanan Ban</div>
-                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
-              </div>
-            </div>
-          </div>
-          <!-- Card 6 -->
-          <div class="bg-transparent">
-            <div class="relative">
-              <img src="assets/servis-shock.JPG" alt="Paint Correction" class="w-full h-56 object-cover rounded-t-md" />
-              <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                <div class="text-white font-bold text-lg mb-1">Servis Shock</div>
-                <div class="text-gray-200 text-sm">Kami menyediakan layanan penghalusan cat sepeda motor anda agar sepeda motor anda terlihat kinclong</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
 
     <!-- About Us -->
     <section class="min-h-screen w-full pt-20 pb-16 px-0" id="aboutus" style="background: #0c0a27">
