@@ -1,5 +1,5 @@
 <?php
-include 'backend/config.php';
+include '../../../backend/config.php';
 ?>
 
 <!DOCTYPE html>
@@ -15,16 +15,16 @@ include 'backend/config.php';
     <!-- Navbar -->
     <header class="navbar">
       <div class="navbar-logo">
-        <img src="assets/logo-efka.png" alt="EFKA Workshop" class="logo-img" />
+        <img src="../../../assets/logo-efka.png" alt="EFKA Workshop" class="logo-img" />
       </div>
       <nav class="navbar-menu">
-        <a href="index.php" class="nav-link">HOME</a>
-        <a href="#" class="nav-link">ABOUT US</a>
+        <a href="../../../index.php" class="nav-link">HOME</a>
+        <a href="../../../index.php#aboutus" class="nav-link">ABOUT US</a>
         <a href="#" class="nav-link">SERVICES</a>
         <a href="#" class="nav-link">CONTACT US</a>
       </nav>
       <div class="navbar-icons">
-        <img src="assets/icon-cart.png" alt="Cart" class="cart-icon" />
+        <img src="../../../assets/icon-cart.png" alt="Cart" class="cart-icon" />
         <?php
         if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
             echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
@@ -48,7 +48,7 @@ include 'backend/config.php';
           <a href="#" class="sparepart-hero-btn">BELI SEKARANG</a>
         </div>
         <div class="sparepart-hero-img">
-          <img src="assets/oil-products.png" alt="Oil Product" />
+          <img src="../../../assets/oil-products.png" alt="Oil Product" />
         </div>
       </div>
     </section>
@@ -60,74 +60,74 @@ include 'backend/config.php';
         <div class="sparepart-products-grid">
           <!-- Product Card 1 -->
           <div class="sparepart-product-card">
-            <img src="assets/aki.png" alt="Aki Motor" class="sparepart-product-img" />
+            <img src="../../../assets/aki.png" alt="Aki Motor" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 2 -->
           <div class="sparepart-product-card">
-            <img src="assets/busi.png" alt="Busi" class="sparepart-product-img" />
+            <img src="../../../assets/busi.png" alt="Busi" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 3 -->
           <div class="sparepart-product-card">
-            <img src="assets/oli-mesin.png" alt="oli-mesin" class="sparepart-product-img" />
+            <img src="../../../assets/oli-mesin.png" alt="oli-mesin" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 4 -->
           <div class="sparepart-product-card">
-            <img src="assets/fan-belt.png" alt="fan-belt Motor" class="sparepart-product-img" />
+            <img src="../../../assets/fan-belt.png" alt="fan-belt Motor" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 5 -->
           <div class="sparepart-product-card">
-            <img src="assets/lampu-motor.png" alt="Lampu Motor" class="sparepart-product-img" />
+            <img src="../../../assets/lampu-motor.png" alt="Lampu Motor" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 6 -->
           <div class="sparepart-product-card">
-            <img src="assets/shockbreaker.png" alt="Shockbreaker" class="sparepart-product-img" />
+            <img src="../../../assets/shockbreaker.png" alt="Shockbreaker" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 7 -->
           <div class="sparepart-product-card">
-            <img src="assets/ban.png" alt="Ban" class="sparepart-product-img" />
+            <img src="../../../assets/ban.png" alt="Ban" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
           <!-- Product Card 8 -->
           <div class="sparepart-product-card">
-            <img src="assets/filter-udara.png" alt="Filter Udara" class="sparepart-product-img" />
+            <img src="../../../assets/filter-udara.png" alt="Filter Udara" class="sparepart-product-img" />
             <div class="sparepart-product-desc">Aki motor blablabla blublublu blebleble</div>
             <div class="sparepart-product-price">Rp 250.000</div>
             <div class="sparepart-product-actions">
-              <img src="assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
+              <img src="../../../assets/add-cart.png" alt="Add to Cart" class="add-cart-icon" />
             </div>
           </div>
         </div>
@@ -135,7 +135,7 @@ include 'backend/config.php';
     </section>
     <!-- Floating Home Button - Fixed di sudut kanan bawah -->
     <button onclick="goHome()" class="floating-home-btn">
-      <img src="assets/arrow.png" alt="Home" class="floating-home-img" />
+      <img src="../../../assets/arrow.png" alt="Home" class="floating-home-img" />
     </button>
     <script>
       function goHome() {

@@ -280,7 +280,7 @@
 /* Hero Section Responsive */
 .hero-section {
   position: relative;
-  background-image: url("assets/bg-hero.png");
+  background-image: url("../../../assets/bg-Servis-Motor.png");
   background-size: cover;
   color: #fff;
   min-height: 100vh;
