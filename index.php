@@ -1,3 +1,7 @@
+<?php
+include 'backend/config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -8,30 +12,44 @@
     <title>Efka Workshop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="scripts.js"></script>
+    <style>
+      .welcome-text {
+      color: white;
+      font-size: 16px;
+      margin-right: 15px;
+      align-self: center;
+      }
+    </style>
   </head>
   <body style="font-family: 'Open Sans Condensed', Arial, sans-serif">
     <!-- Navbar -->
     <header class="navbar">
-      <div class="navbar-logo">
+    <div class="navbar-logo">
         <img src="assets/logo-efka.png" alt="Logo EFKA" class="logo-img" />
-      </div>
-      <nav id="mainNav" class="navbar-menu">
+    </div>
+    <nav id="mainNav" class="navbar-menu">
         <a href="#" class="nav-link">About Us</a>
-        <a href="sparepart.html" class="nav-link">Spareparts</a>
-        <a href="dashboard-admin.html" class="nav-link">Services</a>
-        <a href="sparepart-admin.html" class="nav-link">Contact Us</a>
-      </nav>
-      <div class="navbar-auth">
-        <a id="loginBtn" href="login.html" class="btn-auth">Login</a>
-        <a id="daftarBtn" href="daftar-akun.html" class="btn-auth">Daftar</a>
-      </div>
-      <!-- Hamburger -->
-      <button id="navToggle" class="navbar-toggle" aria-label="Menu">
+        <a href="sparepart.php" class="nav-link">Spareparts</a>
+        <a href="#" class="nav-link">Services</a> <a href="#" class="nav-link">Contact Us</a> </nav>
+    
+    <div class="navbar-auth">
+        <?php
+        if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
+            echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
+            echo '<a href="backend/logout.php" class="btn-auth">Logout</a>';
+        } else {
+            echo '<a id="loginBtn" href="Pages/login/login-page.php" class="btn-auth">Login</a>';
+            echo '<a id="daftarBtn" href="Pages/login/login-page.php" class="btn-auth">Daftar</a>';
+        }
+        ?>
+    </div>
+    
+    <button id="navToggle" class="navbar-toggle" aria-label="Menu">
         <span class="navbar-toggle-bar"></span>
         <span class="navbar-toggle-bar"></span>
         <span class="navbar-toggle-bar"></span>
-      </button>
-    </header>
+    </button>
+</header>
     <!-- Mobile Nav Dropdown -->
     <nav id="mobileNav" class="mobile-nav-dropdown">
       <a href="#" class="mobile-nav-link">About Us</a>
@@ -39,8 +57,15 @@
       <a href="#services" class="mobile-nav-link">Services</a>
       <a href="#footer" class="mobile-nav-link">Contact Us</a>
       <div class="mobile-auth">
-        <a href="login.html" class="btn-auth">Login</a>
-        <a href="daftar-akun.html" class="btn-auth">Daftar</a>
+        <?php
+        if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
+            echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
+            echo '<a href="backend/logout.php" class="btn-auth">Logout</a>';
+        } else {
+            echo '<a id="loginBtn" href="Pages/login/login-page.php" class="btn-auth">Login</a>';
+            echo '<a id="daftarBtn" href="Pages/login/login-page.php" class="btn-auth">Daftar</a>';
+        }
+        ?>
       </div>
     </nav>
     <div class="navbar-spacer"></div>
@@ -57,7 +82,15 @@
           </h1>
           <div class="hero-desc">lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak</div>
           <div class="hero-actions">
-            <a href="#" class="btn-primary">BUAT JANJI</a>
+            <?php
+            if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
+                // Jika SUDAH LOGIN, tombol akan berfungsi normal (scroll ke form)
+                echo '<a href="#aboutus" class="btn-primary">BUAT JANJI</a>';
+            } else {
+                // Jika BELUM LOGIN, tombol akan memunculkan alert
+                echo '<a href="#" onclick="alert(\'Anda harus login terlebih dahulu untuk membuat janji.\');" class="btn-primary">BUAT JANJI</a>';
+            }
+            ?>
             <a href="#" class="btn-link">READ MORE &rarr;</a>
           </div>
         </div>
@@ -184,7 +217,16 @@
             <input type="text" placeholder="Name" class="form-input" />
             <input type="email" placeholder="Email" class="form-input" />
             <textarea id="message" placeholder="Message" rows="6" class="form-textarea"></textarea>
-            <button type="submit" class="form-btn">REQUEST A SERVICE</button>
+            <?php
+            if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
+                // Jika SUDAH LOGIN, tombol akan berfungsi normal (scroll ke form)
+                echo '<button type="submit" class="form-btn">REQUEST A SERVICE</button>';
+            } else {
+                // Jika BELUM LOGIN, tombol akan memunculkan alert
+                echo '<button type="submit" onclick="alert(\'Anda harus login terlebih dahulu untuk membuat janji.\');" class="form-btn">REQUEST A SERVICE</button>';
+            }
+            ?>
+            
           </form>
         </div>
       </div>

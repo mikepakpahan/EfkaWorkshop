@@ -1,3 +1,7 @@
+<?php
+include 'backend/config.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -14,15 +18,22 @@
         <img src="assets/logo-efka.png" alt="EFKA Workshop" class="logo-img" />
       </div>
       <nav class="navbar-menu">
-        <a href="index.html" class="nav-link">HOME</a>
+        <a href="index.php" class="nav-link">HOME</a>
         <a href="#" class="nav-link">ABOUT US</a>
         <a href="#" class="nav-link">SERVICES</a>
         <a href="#" class="nav-link">CONTACT US</a>
       </nav>
       <div class="navbar-icons">
         <img src="assets/icon-cart.png" alt="Cart" class="cart-icon" />
-        <a href="login.html" class="btn-auth">Login</a>
-        <a href="daftar-akun.html" class="btn-auth btn-auth-yellow">Daftar</a>
+        <?php
+        if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
+            echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
+            echo '<a href="backend/logout.php" class="btn-auth">Logout</a>';
+        } else {
+            echo '<a id="loginBtn" href="Pages/login/login-page.php" class="btn-auth">Login</a>';
+            echo '<a id="daftarBtn" href="Pages/login/login-page.php" class="btn-auth">Daftar</a>';
+        }
+        ?>
       </div>
     </header>
     <div class="navbar-spacer"></div>
