@@ -1,5 +1,38 @@
 <?php
 include '../../../backend/config.php';
+
+$cart_count = 0;
+
+// Cek jika pengguna sudah login, baru kita hitung keranjangnya
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    $user_id = $_SESSION['user_id'];
+
+    // Query untuk MENGHITUNG jumlah baris/jenis item di tabel carts untuk user ini
+    $sql_count = "SELECT COUNT(id) AS total_items FROM carts WHERE user_id = ?";
+    $stmt_count = $conn->prepare($sql_count);
+    $stmt_count->bind_param("i", $user_id);
+    $stmt_count->execute();
+    $result_count = $stmt_count->get_result();
+    
+    if ($result_count) {
+        $row_count = $result_count->fetch_assoc();
+        $cart_count = $row_count['total_items'];
+    }
+}
+
+// --- LOGIKA BARU UNTUK HERO BANNER ---
+$hero_product = null; // Inisialisasi variabel
+
+// Query untuk mengambil satu produk yang ditandai sebagai featured
+$sql_hero = "SELECT id, part_name, description, image_url FROM spareparts WHERE is_featured = 1 LIMIT 1";
+$result_hero = $conn->query($sql_hero);
+
+if ($result_hero && $result_hero->num_rows > 0) {
+    $hero_product = $result_hero->fetch_assoc();
+}
+// --- AKHIR LOGIKA HERO BANNER ---
+?>
+
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +50,13 @@ include '../../../backend/config.php';
         padding: 0;
         cursor: pointer;
       }
+
+      .welcome-text {
+      color: white;
+      font-size: 1.5rem;
+      margin-right: 15px;
+      align-self: center;
+      }
     </style>
   </head>
   <body style="font-family: 'Open Sans Condensed', Arial, sans-serif">
@@ -32,7 +72,20 @@ include '../../../backend/config.php';
         <a href="#" class="nav-link">CONTACT US</a>
       </nav>
       <div class="navbar-icons">
-        <a href="../checkout/checkout.php"> <img src="../../../assets/icon-cart.png" alt="Cart" class="cart-icon" /></a>
+        <div class="cart-icon-container">
+            <a href="../checkout/checkout.php"> 
+              <img src="../../../assets/icon-cart.png" alt="Cart" class="cart-icon" />
+            </a>
+            
+            <?php
+            // Tampilkan badge HANYA JIKA ada item di keranjang (count > 0)
+            if ($cart_count > 0):
+            ?>
+                <span class="cart-indicator"><?php echo $cart_count; ?></span>
+            <?php 
+            endif; 
+            ?>
+        </div>
         <?php
         if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
             echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
@@ -47,19 +100,26 @@ include '../../../backend/config.php';
     <div class="navbar-spacer"></div>
 
     <!-- Hero Banner -->
-    <section class="sparepart-hero" style="background: #fff6f6">
-      <div class="sparepart-hero-content">
-        <div>
-          <div class="sparepart-hero-label" style="color: #232323">World Best Quality</div>
-          <h1 class="sparepart-hero-title" style="color: #232323">NEW OIL PRODUCT</h1>
-          <div class="sparepart-hero-desc" style="color: #232323">deskripsi produk nya aja nanti ini</div>
-          <a href="#" class="sparepart-hero-btn">BELI SEKARANG</a>
-        </div>
-        <div class="sparepart-hero-img">
-          <img src="../../../assets/oil-products.png" alt="Oil Product" />
-        </div>
-      </div>
-    </section>
+    <?php 
+    // Tampilkan section ini HANYA JIKA ada produk yang ditandai sebagai hero
+    if ($hero_product): 
+    ?>
+        <section class="sparepart-hero" style="background: #fff6f6">
+            <div class="sparepart-hero-content">
+                <div>
+                    <div class="sparepart-hero-label" style="color: #232323">Produk Unggulan Kami</div>
+                    <h1 class="sparepart-hero-title" style="color: #232323"><?php echo htmlspecialchars($hero_product['part_name']); ?></h1>
+                    <div class="sparepart-hero-desc" style="color: #232323"><?php echo htmlspecialchars($hero_product['description']); ?></div>
+                    <button id="hero-add-to-cart-btn" class="sparepart-hero-btn" data-product-id="<?php echo $hero_product['id']; ?>">
+                        BELI SEKARANG
+                    </button>
+                </div>
+                <div class="sparepart-hero-img">
+                    <img src="<?php echo htmlspecialchars($hero_product['image_url']); ?>" alt="<?php echo htmlspecialchars($hero_product['part_name']); ?>" />
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
 
     <!-- Latest Products -->
     <section class="sparepart-products-section">
@@ -98,10 +158,7 @@ include '../../../backend/config.php';
                                 </button>
                             </form>';
                         } else {
-                            // Jika BELUM LOGIN, bisa tampilkan link ke halaman login atau tidak menampilkan apa-apa
-                            // Di sini kita tidak tampilkan apa-apa agar rapi.
                         }
-                        // -- LOGIKA TAMBAHAN SELESAI --
 
                     echo '
                         </div>
@@ -125,26 +182,43 @@ include '../../../backend/config.php';
       }
 
       document.addEventListener('DOMContentLoaded', function () {
-          // Ambil semua form 'add-to-cart'
           const cartForms = document.querySelectorAll('.sparepart-product-actions form');
 
           cartForms.forEach(form => {
               form.addEventListener('submit', function (event) {
-                  // 1. Mencegah form untuk submit dan me-refresh halaman
                   event.preventDefault();
 
-                  // 2. Kirim data form menggunakan Fetch API (AJAX)
                   fetch(form.action, {
                       method: 'POST',
                       body: new FormData(form)
                   })
-                  .then(response => response.json()) // 3. Ubah jawaban dari server menjadi objek JSON
+                  .then(response => response.json())
                   .then(data => {
-                      // 4. Tampilkan pesan dari server sebagai alert
+                      // Tampilkan pesan dari server
                       alert(data.message);
+
+                      // --- PERUBAHAN DIMULAI DI SINI ---
+                      // Cek jika status sukses dan ada data cart_count
+                      if (data.status === 'success' && typeof data.cart_count !== 'undefined') {
+                          // Cari kontainer ikon keranjang di header
+                          const cartContainer = document.querySelector('.cart-icon-container');
+                          if (cartContainer) {
+                              // Coba cari apakah indikator sudah ada
+                              let indicator = cartContainer.querySelector('.cart-indicator');
+
+                              if (!indicator) {
+                                  // Jika belum ada, buat elemen span baru
+                                  indicator = document.createElement('span');
+                                  indicator.className = 'cart-indicator';
+                                  cartContainer.appendChild(indicator);
+                              }
+                              
+                              // Perbarui angka di dalam indikator
+                              indicator.textContent = data.cart_count;
+                          }
+                      }
                   })
                   .catch(error => {
-                      // Tangani jika ada error jaringan
                       console.error('Error:', error);
                       alert('Terjadi masalah koneksi.');
                   });

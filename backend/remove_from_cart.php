@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
     
     if ($stmt->execute()) {
         // Jika berhasil, kembalikan ke halaman checkout
-        header("Location: ../Pages/Checkout/checkout.php"); // Sesuaikan path ini!
+        header("Location: ../Pages/customer/checkout/checkout.php"); // Sesuaikan path ini!
         exit;
     } else {
         echo "Gagal menghapus item.";
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
 
 } else {
     // Jika tidak ada data post, kembalikan saja
-    header("Location: ../Pages/Checkout/checkout.php"); // Sesuaikan path ini!
+    header("Location: ../Pages/customer/checkout/checkout.php"); // Sesuaikan path ini!
     exit;
 }
 ?>

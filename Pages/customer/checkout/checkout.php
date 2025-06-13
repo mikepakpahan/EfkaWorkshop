@@ -94,7 +94,7 @@ if ($result->num_rows > 0) {
                             <td><?php echo $item['quantity']; ?></td>
                             <td>Rp <?php echo number_format($item['sub_total'], 0, ',', '.'); ?></td>
                             <td>
-                                <form action="../../backend/remove_from_cart.php" method="POST">
+                                <form action="../../../backend/remove_from_cart.php" method="POST">
                                     <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                     <button type="submit" class="remove-btn" onclick="return confirm('Yakin ingin menghapus item ini?')">Hapus</button>
                                 </form>
@@ -111,7 +111,7 @@ if ($result->num_rows > 0) {
         <?php else: ?>
             <div class="empty-cart">
                 <h2>Keranjang belanja Anda masih kosong.</h2>
-                <a href="../Sparepart/sparepart.php">Mulai Belanja Sekarang</a>
+                <a href="../spareparts/sparepart.php">Mulai Belanja Sekarang</a>
             </div>
         <?php endif; ?>
     </div>
