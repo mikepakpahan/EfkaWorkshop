@@ -57,12 +57,12 @@ $result = $conn->query($sql);
                 <img src="/EfkaWorkshop/assets/icons/manage-spareparts.png" alt="Management Sparepart icon">
                 <span>Management Sparepart</span>
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="../service/manage-service.php" class="sidebar-link">
                 <img src="/EfkaWorkshop/assets/icons/manage-services.png" alt="Management Service icon">
                 <span>Management Service</span>
             </a>
             <a href="#" class="sidebar-link">
-                <img src="/EfkaWorkshop/assets/icons/spareparts-order.png" alt="Sparepart Order icon">
+                <img src="/EfkaWorkshop/assets/icons/sparepart-order.png" alt="Sparepart Order icon">
                 <span>Sparepart Order</span>
             </a>
             <a href="#" class="sidebar-link">
