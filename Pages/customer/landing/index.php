@@ -29,7 +29,7 @@ include 'backend/config.php';
     </div>
     <nav id="mainNav" class="navbar-menu">
         <a href="#aboutus" class="nav-link">About Us</a>
-        <a href="Pages/customer/spareparts/sparepart.php" class="nav-link">Spareparts</a>
+        <a href="Pages/customer/spareparts/spareparts.php" class="nav-link">Spareparts</a>
         <a href="#services" class="nav-link">Services</a> 
         <a href="#footer" class="nav-link">Contact Us</a> </nav>
     
