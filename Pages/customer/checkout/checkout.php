@@ -111,7 +111,7 @@ if ($result->num_rows > 0) {
         <?php else: ?>
             <div class="empty-cart">
                 <h2>Keranjang belanja Anda masih kosong.</h2>
-                <a href="../spareparts/sparepart.php">Mulai Belanja Sekarang</a>
+                <a href="../spareparts/spareparts.php">Mulai Belanja Sekarang</a>
             </div>
         <?php endif; ?>
     </div>
