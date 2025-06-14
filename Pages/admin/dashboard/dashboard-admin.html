@@ -8,56 +8,100 @@
     <link rel="stylesheet" href="dashboard-admin.css" />
   </head>
   <body>
-    <div class="dashboard-container">
+    <div class="dashboard-layout">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="main-header-logo-box">
+          <img src="../../../assets/logo-efka.png" alt="EFKA Workshop" class="main-header-logo-img" />
+        </div>
+        <span class="main-header-title">Dashboard</span>
+      </header>
       <!-- Sidebar -->
       <aside class="sidebar">
-        <div class="sidebar-header">
-          <img src="../../../assets/logo-efka.png" alt="EFKA Workshop" />
-          <!-- <span class="logo-text">EFKA WORKSHOP</span> -->
-        </div>
         <nav class="sidebar-menu">
-          <a href="#" class="sidebar-link active">
+          <a href="#" class="sidebar-menu-item active">
             <img src="../../../assets/icon-dashboard.png" class="sidebar-icon" alt="Dashboard" />
-            <span class="sidebar-link-text">Dashboard</span>
+            <span class="sidebar-menu-label">Dashboard</span>
           </a>
-          <a href="#" class="sidebar-link">
-            <img src="../../../assets/icon-sparepart.png" class="sidebar-icon" alt="Sparepart" />
-            <span class="sidebar-link-text">Sparepart</span>
+          <a href="#" class="sidebar-menu-item">
+            <img src="../../../assets/icon-sparepart.png" class="sidebar-icon" alt="Management Sparepart" />
+            <span class="sidebar-menu-label">Management Sparepart</span>
           </a>
-          <a href="#" class="sidebar-link">
-            <img src="../../../assets/icon-contact.png" class="sidebar-icon" alt="Contact Us" />
-            <span class="sidebar-link-text">Contact Us</span>
+          <a href="#" class="sidebar-menu-item">
+            <img src="../../../assets/icon-management-service.png" class="sidebar-icon" alt="Management Service" />
+            <span class="sidebar-menu-label">Management Service</span>
           </a>
-          <a href="#" class="sidebar-link">
+          <a href="#" class="sidebar-menu-item">
+            <img src="../../../assets/icon-cart.png" class="sidebar-icon" alt="Sparepart Order" />
+            <span class="sidebar-menu-label">Sparepart Order</span>
+          </a>
+          <a href="#" class="sidebar-menu-item">
+            <img src="../../../assets/icon-pending.png" class="sidebar-icon" alt="Pending Service" />
+            <span class="sidebar-menu-label">Pending Service</span>
+          </a>
+          <a href="#" class="sidebar-menu-item">
+            <img src="../../../assets/icon-queue.png" class="sidebar-icon" alt="Queue" />
+            <span class="sidebar-menu-label">Queue</span>
+          </a>
+          <a href="#" class="sidebar-menu-item">
             <img src="../../../assets/icon-user.png" class="sidebar-icon" alt="User" />
-            <span class="sidebar-link-text">User</span>
+            <span class="sidebar-menu-label">User</span>
           </a>
         </nav>
-        <div class="sidebar-footer"></div>
       </aside>
       <!-- Main Content -->
       <main class="main-content">
-        <div class="dashboard-header">Dashboard</div>
-        <div class="dashboard-main">
-          <div class="dashboard-cards-container">
-            <div class="dashboard-card">
-              <div class="card-title">Total Order</div>
-              <div class="card-value">1.200</div>
-            </div>
-            <div class="dashboard-card">
-              <div class="card-title">Total Sparepart</div>
-              <div class="card-value">1.675</div>
-            </div>
-            <div class="dashboard-card">
-              <div class="card-title">Income</div>
-              <div class="card-value">Rp 50.000.000</div>
-            </div>
-            <div class="dashboard-card">
-              <div class="card-title">Customer</div>
-              <div class="card-value">789</div>
-            </div>
+        <section class="dashboard-grid">
+          <div class="dashboard-card">
+            <div class="card-title">Total Order</div>
+            <div class="card-value">1.200</div>
+            <div class="card-desc">selama ini</div>
           </div>
-        </div>
+          <div class="dashboard-card">
+            <div class="card-title">Total Penjualan Sparepart</div>
+            <div class="card-value">1.200</div>
+            <div class="card-desc">selama ini</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">Total Bookking</div>
+            <div class="card-value">342</div>
+            <div class="card-desc">selama ini</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">Total Order</div>
+            <div class="card-value">200</div>
+            <div class="card-desc">Hari ini</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">Total Penjualan Sparepart</div>
+            <div class="card-value">178</div>
+            <div class="card-desc">Hari ini</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">Total Bookking</div>
+            <div class="card-value">21</div>
+            <div class="card-desc">Hari ini ini</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">xxxxxxxxxxxxxxxxxxxxxx<br />xxxxx</div>
+            <div class="card-value">xxxxxx</div>
+            <div class="card-desc">xxxxxxxxxxxx</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">xxxxxxxxxxxx</div>
+            <div class="card-value">xxx</div>
+            <div class="card-desc">xxxx</div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-title">xxxxxxx</div>
+            <div class="card-value">xxxxxx</div>
+            <div class="card-desc">xxxxxxxxx</div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
       </main>
     </div>
   </body>
