@@ -181,6 +181,7 @@ include 'backend/config.php';
         </div>
 
         <!-- Center Image -->
+         
 
         <!-- Right Form -->
         <div class="about-right">

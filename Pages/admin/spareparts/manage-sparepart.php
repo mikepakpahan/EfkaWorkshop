@@ -49,7 +49,7 @@ $result = $conn->query($sql);
         <div class="main-body">
             <aside class="sidebar">
         <nav class="sidebar-menu">
-            <a href="#" class="sidebar-link">
+            <a href="../dashboard/dashboard.php" class="sidebar-link">
                 <img src="/EfkaWorkshop/assets/icons/dashboard.png" alt="Dashboard icon">
                 <span>Dashboard</span>
             </a>
@@ -61,7 +61,7 @@ $result = $conn->query($sql);
                 <img src="/EfkaWorkshop/assets/icons/manage-services.png" alt="Management Service icon">
                 <span>Management Service</span>
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="../spareparts/sparepart-order.php" class="sidebar-link">
                 <img src="/EfkaWorkshop/assets/icons/sparepart-order.png" alt="Sparepart Order icon">
                 <span>Sparepart Order</span>
             </a>
@@ -73,7 +73,7 @@ $result = $conn->query($sql);
                 <img src="/EfkaWorkshop/assets/icons/queue.png" alt="Queue icon">
                 <span>Queue</span>
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="../user/user.php" class="sidebar-link">
                 <img src="/EfkaWorkshop/assets/icons/user.png" alt="User icon">
                 <span>User</span>
             </a>

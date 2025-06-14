@@ -22,7 +22,7 @@ if (!isset($activeMenu)) {
                 <img src="/EfkaWorkshop/assets/icons/manage-services.png" alt="Management Service icon">
                 <span>Management Service</span>
             </a>
-            <a href="../order/order.php" class="sidebar-link <?php if ($activeMenu == 'order') echo 'active'; ?>">
+            <a href="../spareparts/sparepart-order.php    " class="sidebar-link <?php if ($activeMenu == 'order') echo 'active'; ?>">
                 <img src="/EfkaWorkshop/assets/icons/sparepart-order.png" alt="Sparepart Order icon">
                 <span>Sparepart Order</span>
             </a>
