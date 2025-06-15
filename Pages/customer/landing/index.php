@@ -174,6 +174,9 @@ include 'backend/config.php';
           </div>
         </div>
 
+        <!-- Center Image -->
+         
+
         <!-- Right Form -->
         <div class="about-right">
           <form class="request-form">
