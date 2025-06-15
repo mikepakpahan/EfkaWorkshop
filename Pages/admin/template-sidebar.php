@@ -22,7 +22,7 @@ if (!isset($activeMenu)) {
                 <img src="/EfkaWorkshop/assets/icons/manage-services.png" alt="Management Service icon">
                 <span>Management Service</span>
             </a>
-            <a href="../order/order.php" class="sidebar-link <?php if ($activeMenu == 'order') echo 'active'; ?>">
+            <a href="../order/sparepart-order.php" class="sidebar-link <?php if ($activeMenu == 'order') echo 'active'; ?>">
                 <img src="/EfkaWorkshop/assets/icons/sparepart-order.png" alt="Sparepart Order icon">
                 <span>Sparepart Order</span>
             </a>
@@ -37,6 +37,10 @@ if (!isset($activeMenu)) {
             <a href="../user/user.php" class="sidebar-link <?php if ($activeMenu == 'user') echo 'active'; ?>">
                 <img src="/EfkaWorkshop/assets/icons/user.png" alt="User icon">
                 <span>User</span>
+            </a>
+            <a href="/EfkaWorkshop/backend/logout.php" class="sidebar-link sidebar-link-logout">
+                <i class="fas fa-sign-out-alt" style="width: 24px; text-align: center;"></i> 
+                <span>Logout</span>
             </a>
         </nav>
     </aside>

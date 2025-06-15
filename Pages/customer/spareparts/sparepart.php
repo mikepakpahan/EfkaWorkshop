@@ -91,8 +91,8 @@ if ($result_hero && $result_hero->num_rows > 0) {
             echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
             echo '<a href="../../../backend/logout.php" class="btn-auth">Logout</a>';
         } else {
-            echo '<a id="loginBtn" href="Pages/login/login-page.php" class="btn-auth">Login</a>';
-            echo '<a id="daftarBtn" href="Pages/login/login-page.php" class="btn-auth">Daftar</a>';
+            echo '<a id="loginBtn" href="/EfkaWorkshop/Pages/login/login-page.php" class="btn-auth">Login</a>';
+            echo '<a id="daftarBtn" href="/EfkaWorkshop/Pages/login/login-page.php" class="btn-auth">Daftar</a>';
         }
         ?>
       </div>

@@ -1,14 +1,35 @@
 <?php
 
+require '../../../backend/config.php';
+
 $pageTitle = 'Pending Service';
 $activeMenu = 'pending';
 
-include '../template-header.php';
+include '../template-header.php'; 
 include '../template-sidebar.php';
+
+$sql = "SELECT 
+            sb.id, 
+            u.name, 
+            u.email, 
+            sb.motor_type, 
+            sb.booking_date, 
+            sb.complaint 
+        FROM service_bookings sb
+        JOIN users u ON sb.user_id = u.id
+        WHERE sb.status = 'pending'
+        ORDER BY sb.booking_date ASC";
+
+$result = $conn->query($sql);
+
 ?>
 
 <link rel="stylesheet" href="../style.css">
-<style>/* Styling untuk container tabel */
+
+<style>
+    /* ... (Semua CSS Anda sebelumnya tetap di sini) ... */
+
+    /* Styling untuk container tabel */
     .table-container {
         background-color: #FFFFFF;
         padding: 2rem;
@@ -19,7 +40,7 @@ include '../template-sidebar.php';
     /* Styling dasar tabel */
     .pending-table {
         width: 100%;
-        border-collapse: collapse; /* Menghilangkan spasi antar border */
+        border-collapse: collapse;
         font-size: 0.9rem;
     }
 
@@ -27,7 +48,7 @@ include '../template-sidebar.php';
     .pending-table thead th {
         text-align: left;
         padding: 12px 16px;
-        border-bottom: 2px solid #E5E7EB; /* Garis bawah tebal untuk header */
+        border-bottom: 2px solid #E5E7EB;
         background-color: #F9FAFB;
         font-weight: 600;
     }
@@ -35,20 +56,19 @@ include '../template-sidebar.php';
     /* Sel data tabel */
     .pending-table tbody td {
         padding: 12px 16px;
-        border-bottom: 1px solid #F3F4F6; /* Garis bawah tipis antar baris */
+        border-bottom: 1px solid #F3F4F6;
     }
 
     /* Warna baris selang-seling */
-    .pending-table tbody tr.alternate-row {
+    .pending-table tbody tr:nth-child(even) {
         background-color: #F9FAFB;
     }
 
-    /* Agar deskripsi tidak terlalu panjang */
+    /* Mengubah CSS untuk deskripsi agar bisa text-wrap */
     .description-cell {
-        max-width: 250px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        max-width: 300px; /* Lebar maksimal kolom deskripsi */
+        white-space: normal; /* Memungkinkan teks untuk turun (wrap) */
+        word-break: break-word; /* Memaksa teks panjang tanpa spasi untuk patah */
     }
 
     /* Styling untuk tombol di dalam tabel */
@@ -72,7 +92,7 @@ include '../template-sidebar.php';
     }
 
     .btn-reject {
-        background-color: #FFC20E; /* Kuning sesuai screenshot, bisa diganti ke warna merah seperti #EF4444 */
+        background-color: #EF4444; /* Merah */
     }
 </style>
 
@@ -84,38 +104,42 @@ include '../template-sidebar.php';
                     <th>No</th>
                     <th>Nama</th>
                     <th>Email</th>
-                    <th>Type of Motorbike</th>
-                    <th>Date</th>
-                    <th>Deskripsi</th>
+                    <th>Tipe Motor</th>
+                    <th>Tanggal Booking</th>
+                    <th>Keluhan/Deskripsi</th>
                     <th>Konfirmasi</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>M. Rifky Kembaren</td>
-                    <td>M.RifkyKembaren@gmail.com</td>
-                    <td>Stylo 160</td>
-                    <td>13/05/2025</td>
-                    <td class="description-cell">XXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXX</td>
-                    <td class="action-cell">
-                        <button class="btn btn-accept">Accept</button>
-                        <button class="btn btn-reject">Reject</button>
-                    </td>
-                </tr>
-                <tr class="alternate-row">
-                    <td>2</td>
-                    <td>Michael Babista Pakpahan</td>
-                    <td>michael@gmail.com</td>
-                    <td>ZX 10</td>
-                    <td>9/05/2025</td>
-                    <td class="description-cell">XXXXXXXXXXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXXXXXXXXXX</td>
-                    <td class="action-cell">
-                        <button class="btn btn-accept">Accept</button>
-                        <button class="btn btn-reject">Reject</button>
-                    </td>
-                </tr>
-                </tbody>
+                <?php
+                // Cek jika ada data yang ditemukan
+                if ($result && $result->num_rows > 0) {
+                    $counter = 1; // Variabel untuk nomor urut
+                    // Looping untuk setiap baris data
+                    while($row = $result->fetch_assoc()) {
+                        // Format tanggal dari YYYY-MM-DD menjadi DD/MM/YYYY
+                        $formatted_date = date('d/m/Y', strtotime($row['booking_date']));
+                        
+                        echo "<tr>";
+                        echo "<td>" . $counter . "</td>";
+                        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['motor_type']) . "</td>";
+                        echo "<td>" . $formatted_date . "</td>";
+                        echo "<td class='description-cell'>" . htmlspecialchars($row['complaint']) . "</td>";
+                        echo "<td class='action-cell'>
+                                <button class='btn btn-accept' data-booking-id='" . $row['id'] . "'>Accept</button>
+                                <button class='btn btn-reject' data-booking-id='" . $row['id'] . "'>Reject</button>
+                              </td>";
+                        echo "</tr>";
+                        $counter++;
+                    }
+                } else {
+                    // Tampilkan pesan jika tidak ada data pending
+                    echo "<tr><td colspan='7' style='text-align:center; padding: 20px;'>Tidak ada service yang sedang pending.</td></tr>";
+                }
+                ?>
+            </tbody>
         </table>
     </div>
 </main>

@@ -1,6 +1,12 @@
 <?php
 include '../../../backend/config.php';
 
+$pageTitle = 'Management Sparepart';
+$activeMenu = 'sparepart';
+
+include '../template-header.php';
+include '../template-sidebar.php';
+
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     die("Akses ditolak. Halaman ini hanya untuk Admin.");
 }
@@ -21,6 +27,7 @@ $result = $conn->query($sql);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
     <style>
         /* Tambahan CSS untuk menandai item yang dipilih */
         .product-card.selected {
@@ -33,7 +40,7 @@ $result = $conn->query($sql);
     </style>
   </head>
 <body>
-    <div class="page-container">
+    <!-- <div class="page-container">
         <header class="top-header">
             <button class="menu-toggle" id="menu-toggle-btn" aria-label="Toggle Menu">
                 <span></span>
@@ -49,7 +56,7 @@ $result = $conn->query($sql);
         <div class="main-body">
             <aside class="sidebar">
         <nav class="sidebar-menu">
-            <a href="#" class="sidebar-link">
+            <a href="../dashboard/dashboard.php" class="sidebar-link">
                 <img src="/EfkaWorkshop/assets/icons/dashboard.png" alt="Dashboard icon">
                 <span>Dashboard</span>
             </a>
@@ -78,7 +85,7 @@ $result = $conn->query($sql);
                 <span>User</span>
             </a>
         </nav>
-            </aside>
+            </aside> -->
 
             <main class="main-content">
                 <div class="content-actions">
@@ -175,5 +182,6 @@ $result = $conn->query($sql);
             });
         });
     </script>
+    <script src="../script.js"></script>
 </body>
 </html>

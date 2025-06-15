@@ -110,6 +110,18 @@ body {
   object-fit: contain;
 }
 
+.sidebar-link-logout {
+  margin-top: auto; /* Ini adalah trik ajaib untuk mendorong item ini ke paling bawah */
+
+  /* Beri sedikit jarak dari bawah jika perlu */
+  margin-bottom: 20px;
+}
+
+/* Beri warna berbeda saat di-hover agar lebih terasa seperti tombol keluar */
+.sidebar-link-logout:hover {
+  background-color: #c82333; /* Contoh warna merah */
+}
+
 /* ================== Responsive Styles for Mobile ================== */
 
 /* Sembunyikan tombol menu di desktop */

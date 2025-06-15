@@ -29,7 +29,7 @@ include 'backend/config.php';
     </div>
     <nav id="mainNav" class="navbar-menu">
         <a href="#aboutus" class="nav-link">About Us</a>
-        <a href="Pages/customer/spareparts/spareparts.php" class="nav-link">Spareparts</a>
+        <a href="/EfkaWorkshop/Pages/customer/spareparts/sparepart.php" class="nav-link">Spareparts</a>
         <a href="#services" class="nav-link">Services</a> 
         <a href="#footer" class="nav-link">Contact Us</a> </nav>
     
@@ -54,7 +54,7 @@ include 'backend/config.php';
     <!-- Mobile Nav Dropdown -->
     <nav id="mobileNav" class="mobile-nav-dropdown">
       <a href="#" class="mobile-nav-link">About Us</a>
-      <a href="sparepart.html" class="mobile-nav-link">Spareparts</a>
+      <a href="/EfkaWorkshop/Pages/customer/spareparts/sparepart.php" class="mobile-nav-link">Spareparts</a>
       <a href="#services" class="mobile-nav-link">Services</a>
       <a href="#footer" class="mobile-nav-link">Contact Us</a>
       <div class="mobile-auth">
@@ -112,45 +112,39 @@ include 'backend/config.php';
       </div>
     </section>
 
-    <!-- Layanan Servis -->
     <section class="min-h-screen w-full py-16 px-0" id="services" style="background: #1b2649">
-          <div class="max-w-7xl mx-auto px-4">
-              <div class="mb-12">
-                  <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">Our Services</div>
-                  <h2 class="text-white text-4xl sm:text-5xl font-bold mb-2">Delivering <span class="text-[#FFC72C]">Superior</span> Motor Detailing<br />& Repair</h2>
-              </div>
-              
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                  <?php
-                  // 1. Buat query untuk mengambil semua data dari tabel services
-                  $sql = "SELECT service_name, description, image_url FROM services ORDER BY id";
-                  $result = $conn->query($sql);
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-12">
+            <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">Our Services</div>
+            <h2 class="text-white text-4xl sm:text-5xl font-bold mb-2">Delivering <span class="text-[#FFC72C]">Superior</span> Motor Detailing<br />& Repair</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <?php
+            // Pastikan variabel $conn sudah ada dari include 'config.php' di atas file
+            $sql_services = "SELECT service_name, description, image_url FROM services ORDER BY id";
+            $result_services = $conn->query($sql_services);
 
-                  // 2. Cek apakah ada data yang ditemukan
-                  if ($result->num_rows > 0) {
-                      // 3. Lakukan looping untuk setiap baris data
-                      while($row = $result->fetch_assoc()) {
-                          // 4. Tampilkan HTML card untuk setiap data, dengan nilai dinamis
-                          //    Kita gunakan struktur HTML card Anda sebagai template.
-                          echo '
-                          <div class="bg-transparent">
-                              <div class="relative">
-                                  <img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["service_name"]) . '" class="w-full h-56 object-cover rounded-t-md" />
-                                  <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
-                                      <div class="text-white font-bold text-lg mb-1">' . htmlspecialchars($row["service_name"]) . '</div>
-                                      <div class="text-gray-200 text-sm">' . htmlspecialchars($row["description"]) . '</div>
-                                  </div>
-                              </div>
-                          </div>';
-                      }
-                  } else {
-                      // Tampilkan pesan jika tidak ada data layanan
-                      echo '<p class="text-white">Saat ini belum ada layanan yang tersedia.</p>';
-                  }
-                  ?>
-              </div>
-              </div>
-      </section>
+            if ($result_services && $result_services->num_rows > 0) {
+                while($row = $result_services->fetch_assoc()) {
+                    echo '
+                    <div class="bg-transparent">
+                        <div class="relative">
+                            <img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["service_name"]) . '" class="w-full h-56 object-cover rounded-t-md" />
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 p-4 rounded-b-md">
+                                <div class="text-white font-bold text-lg mb-1">' . htmlspecialchars($row["service_name"]) . '</div>
+                                <div class="text-gray-200 text-sm">' . htmlspecialchars($row["description"]) . '</div>
+                            </div>
+                        </div>
+                    </div>';
+                }
+            } else {
+                echo '<p class="text-white col-span-3">Saat ini belum ada layanan yang tersedia.</p>';
+            }
+            ?>
+        </div>
+    </div>
+</section>
 
     <!-- About Us -->
     <section class="min-h-screen w-full pt-20 pb-16 px-0" id="aboutus" style="background: #0c0a27">
@@ -189,10 +183,10 @@ include 'backend/config.php';
             <?php
             if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
                 // Jika SUDAH LOGIN, tombol akan berfungsi normal (scroll ke form)
-                echo '<button type="submit" class="form-btn">REQUEST A SERVICE</button>';
+                echo '<button type="submit" class="form-btn">Kirim Feedback</button>';
             } else {
                 // Jika BELUM LOGIN, tombol akan memunculkan alert
-                echo '<button type="submit" onclick="alert(\'Anda harus login terlebih dahulu untuk membuat janji.\');" class="form-btn">REQUEST A SERVICE</button>';
+                echo '<button type="submit" onclick="alert(\'Anda harus login terlebih dahulu.\');" class="form-btn">Kirim Feedback</button>';
             }
             ?>
             
@@ -201,39 +195,67 @@ include 'backend/config.php';
       </div>
     </section>
 
+    <section class="py-16" id="booking-section" style="background: #0D1117;">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-white text-3xl sm:text-4xl font-bold mb-4">Buat Janji Servis Anda Sekarang</h2>
+        <p class="text-gray-400 mb-8">Silakan isi form di bawah ini. Pastikan Anda sudah login untuk melanjutkan.</p>
+
+        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+            <form action="/EfkaWorkshop/backend/proses_booking.php" method="POST" class="max-w-xl mx-auto text-left">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nama</label>
+                        <input type="text" id="name" name="name" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white" value="<?php echo htmlspecialchars($_SESSION['user_name']); ?>" readonly>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                        <input type="email" id="email" name="email" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white" value="<?php echo htmlspecialchars($_SESSION['user_email']); ?>" readonly>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="motor_type" class="block text-sm font-medium text-gray-300 mb-1">Merk Motor</label>
+                        <select id="motor_type" name="motor_type" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white" required>
+                            <option value="" disabled selected>-- Pilih Merk Motor --</option>
+                            <option value="Honda">Honda</option>
+                            <option value="Yamaha">Yamaha</option>
+                            <option value="Suzuki">Suzuki</option>
+                            <option value="Kawasaki">Kawasaki</option>
+                            <option value="Vespa">Vespa</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="booking_date" class="block text-sm font-medium text-gray-300 mb-1">Tanggal Booking</label>
+                        <input type="date" id="booking_date" name="booking_date" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white" required min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="complaint" class="block text-sm font-medium text-gray-300 mb-1">Keluhan / Layanan yang Diinginkan</label>
+                    <textarea id="complaint" name="complaint" rows="4" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white" placeholder="Contoh: Ganti oli, servis rem, dan cek kelistrikan." required></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="w-full py-3 px-4 bg-[#FFC72C] text-black font-bold rounded-md hover:bg-yellow-400 transition-colors">Kirim Jadwal Booking</button>
+                </div>
+            </form>
+        <?php else: ?>
+            <div class="mt-8">
+                <p class="text-yellow-400 mb-4">Anda harus login untuk dapat membuat janji servis.</p>
+                <a href="Pages/login/login-page.php" class="py-3 px-8 bg-[#FFC72C] text-black font-bold rounded-md hover:bg-yellow-400 transition-colors">Login atau Daftar Sekarang</a>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
     <!-- Floating Home Button - Fixed di sudut kanan bawah -->
     <button onclick="goHome()" class="fixed bottom-6 right-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
       <img src="assets/arrow.png" alt="Home" class="w-10 h-10" />
     </button>
+    <script src="Pages/customer/landing/script.js"></script>
     <script>
-      // Responsive Navbar Toggle
-      const navToggle = document.getElementById("navToggle");
-      const mobileNav = document.getElementById("mobileNav");
-      navToggle.addEventListener("click", function () {
-        mobileNav.classList.toggle("open");
-      });
-      // Hide mobile nav on link click
-      mobileNav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          mobileNav.classList.remove("open");
-        });
-      });
       function goHome() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
-      // Feature card hover/click effect
-      document.querySelectorAll(".feature-card").forEach((card) => {
-        card.addEventListener("mouseenter", function () {
-          this.classList.add("feature-card-hover");
-        });
-        card.addEventListener("mouseleave", function () {
-          this.classList.remove("feature-card-hover");
-        });
-        card.addEventListener("click", function () {
-          document.querySelectorAll(".feature-card").forEach((c) => c.classList.remove("feature-card-active"));
-          this.classList.add("feature-card-active");
-        });
-      });
     </script>
   </body>
 
