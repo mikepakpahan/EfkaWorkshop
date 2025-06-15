@@ -1,0 +1,374 @@
+/* ================== Global Styles & Resets ================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", "Open Sans", sans-serif;
+  background-color: #f3f4f6; /* Warna abu-abu muda untuk background konten */
+  color: #1f2937;
+  height: 100vh;
+  overflow: hidden; /* Mencegah scroll di level body */
+}
+
+/* ================== Page Layout Containers ================== */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main-body {
+  display: flex;
+  flex-grow: 1; /* Memastikan body mengisi sisa tinggi layar */
+  overflow: hidden; /* Mencegah body meluap */
+}
+
+/* ================== Top Header Styles ================== */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #1b2649;
+  border-bottom: 1px solid #e5e7eb; /* Garis pemisah tipis */
+  flex-shrink: 0; /* Mencegah header menyusut */
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 32px;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #111827; /* Warna teks logo sedikit lebih gelap */
+}
+
+.header-logo img {
+  height: 50px;
+  border-radius: 12px;
+  background: #ffb300;
+  padding: 4px 8px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffb300;
+}
+
+/* ================== Sidebar Styles ================== */
+.sidebar {
+  width: 260px;
+  background-color: #000000;
+  padding: 1.5rem 1rem;
+  color: #d1d5db;
+  flex-shrink: 0;
+  overflow-y: auto; /* Mengaktifkan scroll jika menu panjang */
+}
+
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  text-decoration: none;
+  color: #d1d5db;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-menu a i {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-menu a:hover {
+  background-color: #374151;
+}
+
+.sidebar-menu a.active {
+  background-color: #ffc20e;
+  color: #1f2937;
+}
+
+.sidebar-menu a img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* ================== Main Content Styles ================== */
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto; /* Scroll hanya akan muncul di area konten ini */
+}
+
+.content-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #ffc20e;
+  color: #1f2937;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #f0b500;
+}
+
+/* ================== Products Grid Styles ================== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.product-img {
+  width: 100%;
+  max-width: 150px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.product-info {
+  width: 100%;
+  text-align: left;
+}
+
+.product-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+  min-height: 40px;
+}
+
+.product-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f3f4f6;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.product-detail span {
+  color: #4b5563;
+}
+
+.product-detail strong {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.product-detail:last-child {
+  margin-bottom: 0;
+}
+
+/* ================== Responsive Styles for Mobile ================== */
+
+/* Sembunyikan tombol menu di desktop */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Terapkan style ini jika lebar layar 768px atau kurang */
+@media (max-width: 768px) {
+  /* =================================================================
+       1. HEADER DENGAN CSS GRID (ANTI-TUMPANG TINDIH)
+       ================================================================= */
+  .top-header {
+    display: grid;
+    /* Membuat 3 kolom: Kiri (auto), Tengah (1fr), Kanan (auto) */
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem; /* Jarak antar elemen header */
+    padding: 0.75rem 1rem;
+    position: relative;
+    z-index: 2000;
+    background-color: #1b2649; /* Warna background header dari file Anda */
+  }
+
+  /* Tampilkan tombol menu */
+  .menu-toggle {
+    display: block; /* Pastikan tombol terlihat */
+  }
+
+  /* Tengahkan judul dan atur warna & style */
+  .page-title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffb300; /* Warna kuning dari file Anda */
+    text-align: center;
+
+    /* Pengaman jika judul sangat panjang */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Sembunyikan teks logo EFKA WORKSHOP */
+  .logo-text {
+    display: none;
+  }
+
+  /* Pastikan ukuran logo ikon pas */
+  .header-logo img {
+    height: 32px;
+  }
+
+  /* Animasi Tombol Menu (Hamburger menjadi X) */
+  .menu-toggle {
+    width: 28px;
+    height: 22px;
+    position: relative;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  .menu-toggle span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: #ffffff; /* Warna garis putih */
+    border-radius: 3px;
+    left: 0;
+    opacity: 1;
+    transition: all 0.25s ease-in-out;
+  }
+  .menu-toggle span:nth-child(1) {
+    top: 0px;
+  }
+  .menu-toggle span:nth-child(2) {
+    top: 9px;
+  }
+  .menu-toggle span:nth-child(3) {
+    top: 18px;
+  }
+  .menu-toggle.is-open span:nth-child(1) {
+    top: 9px;
+    transform: rotate(135deg);
+  }
+  .menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+    left: -28px;
+  }
+  .menu-toggle.is-open span:nth-child(3) {
+    top: 9px;
+    transform: rotate(-135deg);
+  }
+
+  /* =================================================================
+       2. PERBAIKAN SIDEBAR
+       ================================================================= */
+  .main-body {
+    position: relative;
+  }
+
+  .sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  /* =================================================================
+       3. PERBAIKAN KONTEN UTAMA
+       ================================================================= */
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .content-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 0.875rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .product-description {
+    font-size: 0.8rem;
+    min-height: auto;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-detail {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+}
