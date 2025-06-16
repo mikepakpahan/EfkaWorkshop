@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_file = $target_dir . $image_name;
         
         // --- DAN PERUBAHAN DI SINI ---
-        $image_url_for_db = "/EfkaWorkshop/assets/spareparts/" . $image_name; // Path relatif dari root project
+        $image_url_for_db = "/EfkaWorkshop/assets/spareparts/" . $image_name;
 
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
             // File berhasil diupload

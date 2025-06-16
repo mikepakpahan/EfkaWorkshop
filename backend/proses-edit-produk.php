@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
             // Upload berhasil, siapkan path baru untuk DB
-            $new_image_url = "../assets/spareparts/" . $image_name;
+            $new_image_url = "../../../assets/spareparts/" . $image_name;
             
             // Hapus file gambar lama dari server untuk menghemat ruang
             if (file_exists("../" . $old_image_path)) {

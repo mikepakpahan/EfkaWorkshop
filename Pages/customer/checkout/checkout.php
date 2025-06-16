@@ -1,25 +1,23 @@
 <?php
 // Pastikan path ke config.php sudah benar dari lokasi file ini
-include '../../../backend/config.php';
+require '../../../backend/config.php';
 
 // KEAMANAN: Wajib login untuk akses halaman ini
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    // Arahkan ke halaman login jika belum login
     header("Location: ../../login/login-page.php");
     exit;
 }
 
-// Ambil user_id dari session
 $user_id = $_SESSION['user_id'];
 
-// Query untuk mengambil semua item di keranjang milik user yang sedang login.
-// Kita menggunakan JOIN untuk mendapatkan detail produk (nama, harga, gambar) dari tabel spareparts.
+// Query untuk mengambil semua item di keranjang milik user
 $sql = "SELECT 
             s.id AS product_id, 
             s.part_name, 
             s.price, 
             s.image_url,
-            c.quantity
+            c.quantity,
+            c.id AS cart_id
         FROM carts c
         JOIN spareparts s ON c.sparepart_id = s.id
         WHERE c.user_id = ?";
@@ -28,93 +26,230 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
 $cart_items = [];
-$grand_total = 0;
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $sub_total = $row['price'] * $row['quantity'];
-        $grand_total += $sub_total;
-        $row['sub_total'] = $sub_total;
         $cart_items[] = $row;
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang Belanja - Efka Workshop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        /* Contoh CSS sederhana, bisa Anda pindah ke file .css */
-        body { font-family: 'Open Sans Condensed', sans-serif; background-color: #f9f9f9; }
-        .container { max-width: 960px; margin: 40px auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { text-align: center; margin-bottom: 30px; }
+        body { font-family: 'Inter', sans-serif; background-color: #F4F6F8; color: #333; margin: 0; }
+        .cart-page-container { max-width: 1100px; margin: 2rem auto; padding: 1rem; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .cart-header .logo { display: flex; align-items: center; gap: 1rem; }
+        .cart-header .logo img { height: 40px; }
+        .cart-header .logo h1 { font-size: 1.5rem; font-weight: 700; margin: 0; }
+        .cart-header .search-bar { width: 300px; position: relative; }
+        .cart-header .search-bar input { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; }
+        .cart-header .search-bar .search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; }
+        .cart-table-wrapper { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .cart-table { width: 100%; border-collapse: collapse; }
-        .cart-table th, .cart-table td { padding: 15px; border-bottom: 1px solid #ddd; text-align: left; }
-        .cart-table th { background-color: #f2f2f2; }
-        .product-info { display: flex; align-items: center; }
-        .product-info img { width: 80px; height: 80px; object-fit: cover; margin-right: 15px; }
-        .remove-btn { color: #e74c3c; text-decoration: none; font-weight: bold; }
-        .cart-total { text-align: right; margin-top: 30px; }
-        .cart-total h3 { font-size: 24px; }
-        .btn-checkout { display: block; width: 250px; float: right; margin-top: 20px; padding: 15px; background-color: #2ecc71; color: white; text-align: center; text-decoration: none; font-weight: bold; border-radius: 5px; }
+        .cart-table th, .cart-table td { text-align: left; padding: 1rem; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        .cart-table th { font-weight: 600; color: #888; text-transform: uppercase; font-size: 0.8rem; }
+        .product-cell { display: flex; align-items: center; gap: 1rem; }
+        .product-cell img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+        .quantity-stepper { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 6px; }
+        .quantity-stepper button { background: #f5f5f5; border: none; padding: 0.5rem 0.75rem; cursor: pointer; font-size: 1rem; line-height: 1; }
+        .quantity-stepper input { width: 40px; text-align: center; border: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd; padding: 0.5rem 0; }
+        .quantity-stepper input:focus { outline: none; }
+        .delete-btn { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 1.2rem; }
+        .cart-summary { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding: 1.5rem; background: #fff; border-radius: 12px; }
+        .checkout-btn { background-color: #FFC20E; color: #1F2937; padding: 1rem 2rem; border: none; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer; }
+        .grand-total { font-size: 1.5rem; font-weight: 700; }
+        .grand-total span { font-size: 0.9rem; font-weight: 400; color: #888; }
         .empty-cart { text-align: center; padding: 50px; }
+        input[type="checkbox"] { width: 20px; height: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Keranjang Belanja Anda</h1>
+<div class="cart-page-container">
+    <header class="cart-header">
+        <div class="logo">
+            <img src="/EfkaWorkshop/assets/logo-efka.png" alt="EFKA Workshop Logo">
+            <h1>Shopping Cart</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </header>
 
+    <div class="cart-table-wrapper">
         <?php if (!empty($cart_items)): ?>
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>Produk</th>
-                        <th>Harga</th>
-                        <th>Kuantitas</th>
-                        <th>Subtotal</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cart_items as $item): ?>
+            <form id="checkout-form" action="../../../backend/proses_checkout.php" method="POST">
+                <table class="cart-table">
+                    <thead>
                         <tr>
-                            <td>
-                                <div class="product-info">
-                                    <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['part_name']); ?>">
-                                    <span><?php echo htmlspecialchars($item['part_name']); ?></span>
-                                </div>
-                            </td>
-                            <td>Rp <?php echo number_format($item['price'], 0, ',', '.'); ?></td>
-                            <td><?php echo $item['quantity']; ?></td>
-                            <td>Rp <?php echo number_format($item['sub_total'], 0, ',', '.'); ?></td>
-                            <td>
-                                <form action="../../../backend/remove_from_cart.php" method="POST">
-                                    <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
-                                    <button type="submit" class="remove-btn" onclick="return confirm('Yakin ingin menghapus item ini?')">Hapus</button>
-                                </form>
-                            </td>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>Produk</th>
+                            <th>Harga Satuan</th>
+                            <th>Kuantitas</th>
+                            <th>Total Harga</th>
+                            <th>Aksi</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
-            <div class="cart-total">
-                <h3>Total Belanja: Rp <?php echo number_format($grand_total, 0, ',', '.'); ?></h3>
-                <a href="#" class="btn-checkout">Lanjutkan ke Pembayaran</a>
-            </div>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cart_items as $item): ?>
+                            <tr data-row-id="<?php echo $item['cart_id']; ?>">
+                                <td>
+                                    <input type="checkbox" class="item-checkbox" name="cart_ids[]" value="<?php echo $item['cart_id']; ?>" 
+                                           data-price="<?php echo $item['price']; ?>" data-quantity="<?php echo $item['quantity']; ?>" checked>
+                                </td>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['part_name']); ?>">
+                                        <span><?php echo htmlspecialchars($item['part_name']); ?></span>
+                                    </div>
+                                </td>
+                                <td class="unit-price">Rp <?php echo number_format($item['price'], 0, ',', '.'); ?></td>
+                                <td>
+                                    <div class="quantity-stepper">
+                                        <button type="button" class="qty-btn minus" data-cartid="<?php echo $item['cart_id']; ?>">-</button>
+                                        <input type="text" class="qty-input" value="<?php echo $item['quantity']; ?>" readonly>
+                                        <button type="button" class="qty-btn plus" data-cartid="<?php echo $item['cart_id']; ?>">+</button>
+                                    </div>
+                                </td>
+                                <td class="sub-total">Rp <?php echo number_format($item['price'] * $item['quantity'], 0, ',', '.'); ?></td>
+                                <td>
+                                    <button type="button" class="delete-btn" data-cartid="<?php echo $item['cart_id']; ?>"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </form>
         <?php else: ?>
             <div class="empty-cart">
                 <h2>Keranjang belanja Anda masih kosong.</h2>
-                <a href="../spareparts/spareparts.php">Mulai Belanja Sekarang</a>
+                <a href="/EfkaWorkshop/Pages/customer/spareparts/sparepart.php">Mulai Belanja Sekarang</a>
             </div>
         <?php endif; ?>
     </div>
+
+    <?php if (!empty($cart_items)): ?>
+    <div class="cart-summary">
+        <button type="submit" form="checkout-form" class="checkout-btn">Checkout</button>
+        <div class="grand-total">
+            Total (<span id="total-product-count">0</span> Product) : <span id="grand-total-price">Rp 0</span>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tableBody = document.querySelector('.cart-table tbody');
+    const selectAllCheckbox = document.getElementById('select-all');
+
+    function updateTotal() {
+        let grandTotal = 0;
+        let totalItems = 0;
+        const itemCheckboxes = document.querySelectorAll('.item-checkbox:checked');
+        
+        itemCheckboxes.forEach(checkbox => {
+            const row = checkbox.closest('tr');
+            const price = parseFloat(checkbox.dataset.price);
+            const quantity = parseInt(row.querySelector('.qty-input').value);
+            grandTotal += price * quantity;
+            totalItems += quantity;
+        });
+
+        document.getElementById('grand-total-price').textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+        document.getElementById('total-product-count').textContent = itemCheckboxes.length;
+    }
+
+    function updateCartOnServer(cartId, newQuantity) {
+        const formData = new FormData();
+        formData.append('cart_id', cartId);
+        formData.append('quantity', newQuantity);
+
+        fetch('../../../backend/update_cart_quantity.php', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json()).then(data => {
+            if (data.status !== 'success') {
+                alert('Gagal memperbarui keranjang.');
+            }
+        });
+    }
+
+    // Event listener untuk seluruh tabel
+    if(tableBody) {
+        tableBody.addEventListener('click', function(e) {
+            const target = e.target;
+            const row = target.closest('tr');
+            if (!row) return;
+
+            const cartId = row.dataset.rowId;
+            const unitPrice = parseFloat(row.querySelector('.item-checkbox').dataset.price);
+            const qtyInput = row.querySelector('.qty-input');
+            let currentQty = parseInt(qtyInput.value);
+
+            // Tombol Plus
+            if (target.classList.contains('plus')) {
+                currentQty++;
+                qtyInput.value = currentQty;
+                updateCartOnServer(cartId, currentQty);
+            }
+            // Tombol Minus
+            if (target.classList.contains('minus') && currentQty > 1) {
+                currentQty--;
+                qtyInput.value = currentQty;
+                updateCartOnServer(cartId, currentQty);
+            }
+            // Tombol Delete
+            if (target.classList.contains('delete-btn') || target.closest('.delete-btn')) {
+                if (confirm('Yakin ingin menghapus item ini dari keranjang?')) {
+                    const formData = new FormData();
+                    formData.append('cart_id', cartId);
+                    fetch('../../../backend/remove_from_cart.php', {
+                        method: 'POST',
+                        body: formData
+                    }).then(response => response.json()).then(data => {
+                        if (data.status === 'success') {
+                            row.remove();
+                            updateTotal();
+                        } else {
+                            alert(data.message || 'Gagal menghapus item.');
+                        }
+                    });
+                }
+            }
+
+            // Update subtotal dan total setelah aksi
+            row.querySelector('.sub-total').textContent = 'Rp ' + (unitPrice * currentQty).toLocaleString('id-ID');
+            updateTotal();
+        });
+    }
+
+    // Event listener untuk checkbox
+    document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', updateTotal);
+    });
+
+    // Event listener untuk checkbox "Select All"
+    if(selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateTotal();
+        });
+    }
+    
+    // Panggil sekali saat halaman dimuat
+    updateTotal();
+});
+</script>
 
 </body>
 </html>

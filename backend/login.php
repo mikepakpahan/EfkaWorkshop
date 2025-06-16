@@ -7,7 +7,7 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 
 // Menyiapkan statement untuk mencari user berdasarkan email untuk mencegah SQL Injection
-$stmt = $conn->prepare("SELECT id, name, email, password, role FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, name, email, password, role, account_status FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -21,28 +21,38 @@ if ($result->num_rows === 1) {
     // Verifikasi password yang diinput oleh user dengan hash yang ada di database
     if (password_verify($password, $user['password'])) {
         
-        // --- JIKA PASSWORD BENAR ---
-        
-        // Simpan semua informasi penting user ke dalam SESSION
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_name'] = $user['name'];
-        $_SESSION['user_email'] = $user['email'];
-        $_SESSION['user_role'] = $user['role'];
-        $_SESSION['logged_in'] = true;
+        // --- PENGECEKAN STATUS AKUN DIMULAI DI SINI ---
+        // Setelah password dipastikan benar, kita cek status akunnya.
+        if ($user['account_status'] === 'active') {
 
-        // --- LOGIKA PENGALIHAN BERDASARKAN ROLE ---
-        // Cek isi dari $_SESSION['user_role'] yang baru saja disimpan
-        if ($_SESSION['user_role'] === 'admin') {
-            // Jika role adalah 'admin', arahkan ke halaman manajemen sparepart
-            header("Location: ../Pages/admin/spareparts/manage-sparepart.php"); // Sesuaikan jika nama file dashboard admin Anda berbeda
+            // JIKA AKUN AKTIF, lanjutkan proses login seperti biasa
+            
+            // Simpan semua informasi penting user ke dalam SESSION
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_role'] = $user['role'];
+            $_SESSION['logged_in'] = true;
+
+            // LOGIKA PENGALIHAN BERDASARKAN ROLE
+            if ($_SESSION['user_role'] === 'admin') {
+                // Jika role adalah 'admin', arahkan ke dashboard admin
+                header("Location: ../Pages/admin/dashboard/dashboard.php");
+            } else {
+                // Jika bukan admin (customer), arahkan ke halaman utama
+                header("Location: ../index.php");
+            }
+            exit();
+
         } else {
-            // Jika bukan admin (customer), arahkan ke halaman utama
-            header("Location: ../index.php");
+            // JIKA AKUN TIDAK AKTIF (misal: 'inactive' atau 'suspended')
+            echo "Login Gagal. Akun Anda saat ini tidak aktif. Silakan hubungi admin.";
+            exit();
         }
-        exit(); // Hentikan eksekusi skrip setelah redirect
+        // --- AKHIR DARI PENGECEKAN STATUS AKUN ---
 
     } else {
-        // Jika password tidak cocok
+        // Jika password tidak cocok dari awal
         echo "Login Gagal. Email atau Password salah.";
     }
 } else {

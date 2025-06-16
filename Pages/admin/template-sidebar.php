@@ -38,6 +38,10 @@ if (!isset($activeMenu)) {
                 <img src="/EfkaWorkshop/assets/icons/user.png" alt="User icon">
                 <span>User</span>
             </a>
+            <a href="../history/history.php" class="sidebar-link <?php if ($activeMenu == 'history') echo 'active'; ?>">
+                <i class="fas fa-history"></i>
+                <span>History Orders</span>
+            </a>
             <a href="/EfkaWorkshop/backend/logout.php" class="sidebar-link sidebar-link-logout">
                 <i class="fas fa-sign-out-alt" style="width: 24px; text-align: center;"></i> 
                 <span>Logout</span>

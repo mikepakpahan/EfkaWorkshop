@@ -10,6 +10,8 @@ include 'backend/config.php';
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="Pages/customer/landing/style.css" />
     <title>Efka Workshop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="scripts.js"></script>
     <style>
@@ -179,21 +181,22 @@ include 'backend/config.php';
 
         <!-- Right Form -->
         <div class="about-right">
-          <form class="request-form">
-            <input type="text" placeholder="Name" class="form-input" />
-            <input type="email" placeholder="Email" class="form-input" />
-            <textarea id="message" placeholder="Message" rows="6" class="form-textarea"></textarea>
-            <?php
-            if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-                // Jika SUDAH LOGIN, tombol akan berfungsi normal (scroll ke form)
-                echo '<button type="submit" class="form-btn">Kirim Feedback</button>';
-            } else {
-                // Jika BELUM LOGIN, tombol akan memunculkan alert
-                echo '<button type="submit" onclick="alert(\'Anda harus login terlebih dahulu.\');" class="form-btn">Kirim Feedback</button>';
-            }
-            ?>
-            
-          </form>
+            <form class="request-form" id="feedback-form" action="backend/proses_feedback.php" method="POST">
+                <input type="text" name="name" placeholder="Nama Anda" class="form-input" 
+                      value="<?php echo isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : ''; ?>" required readonly>
+                <input type="email" name="email" placeholder="Email Anda" class="form-input"
+                      value="<?php echo isset($_SESSION['user_email']) ? htmlspecialchars($_SESSION['user_email']) : ''; ?>" required readonly>
+                <textarea id="message" name="message" placeholder="Tuliskan masukan atau keluhan Anda di sini..." rows="6" class="form-textarea" required></textarea>
+                <?php
+                if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
+                    // Jika SUDAH LOGIN, tombol bisa diklik
+                    echo '<button type="submit" class="form-btn">Kirim Feedback</button>';
+                } else {
+                    // Jika BELUM LOGIN, tombol dinonaktifkan
+                    echo '<button type="button" onclick="alert(\'Anda harus login untuk mengirim feedback.\');" class="form-btn" style="background-color:#ccc; cursor:not-allowed;">Kirim Feedback</button>';
+                }
+                ?>
+            </form>
         </div>
       </div>
     </section>
@@ -204,7 +207,7 @@ include 'backend/config.php';
         <p class="text-gray-400 mb-8">Silakan isi form di bawah ini. Pastikan Anda sudah login untuk melanjutkan.</p>
 
         <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
-            <form action="/EfkaWorkshop/backend/proses_booking.php" method="POST" class="max-w-xl mx-auto text-left">
+            <form id="booking-form" action="/EfkaWorkshop/backend/proses_booking.php" method="POST" class="max-w-xl mx-auto text-left">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nama</label>

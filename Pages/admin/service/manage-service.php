@@ -1,82 +1,103 @@
 <?php
-
 $pageTitle = 'Manage Service';
 $activeMenu = 'service';
 
+require '../../../backend/config.php';
 include '../template-header.php';
 include '../template-sidebar.php';
+
+// Ambil semua data layanan dari database
+$sql = "SELECT id, service_name, description, image_url FROM services ORDER BY id DESC";
+$result = $conn->query($sql);
 ?>
 
-<link rel="stylesheet" href="service.css">
-<link rel="stylesheet" href="../style.css">
-  <div class="main-content">
+<link rel="stylesheet" href="service.css"> <link rel="stylesheet" href="../style.css">
+<style>
+    /* CSS untuk menandai card yang dipilih */
+    .service-card.selected {
+        outline: 3px solid #FFC72C;
+        outline-offset: -3px;
+    }
+    .service-card {
+        cursor: pointer;
+    }
+</style>
+
+<div class="main-content">
     <div class="content-actions">
-      <button id="btn-edit" class="btn btn-edit">Edit</button>
-      <button id="btn-hapus" class="btn btn-hapus">Hapus</button>
-      <button id="btn-tambah" class="btn btn-tambah">Tambah</button>
-    </div>
-<div class="service-container">
-  <div class="service-grid">
-    <div class="service-card">
-      <img src="/EfkaWorkshop/assets/paint-correction.jpg" alt="Paint Correction">
-      <div class="overlay">
-        <h3>Paint Correction</h3>
-        <p>Mengembalikan kilau cat motor Anda dan menghilangkan goresan halus agar terlihat seperti baru.
-</p>
-      </div>
+        <button id="btn-edit" class="btn btn-edit">Edit</button>
+        <button id="btn-hapus" class="btn btn-hapus">Hapus</button>
+        <button id="btn-tambah" class="btn btn-tambah">Tambah</button>
     </div>
 
-    <div class="service-card">
-      <img src="/EfkaWorkshop/assets/ganti-minyak-rem.jpg" alt="Ganti Minyak Rem">
-      <div class="overlay">
-        <h3>Ganti Minyak Rem</h3>
-        <p>Memastikan sistem pengereman Anda berfungsi optimal dengan penggantian minyak rem berkualitas.
-</p>
-      </div>
+    <div class="service-container">
+        <div class="service-grid">
+            <?php
+            if ($result && $result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    // Beri atribut data-id pada setiap card untuk identifikasi oleh JavaScript
+                    echo '
+                    <div class="service-card" data-id="' . $row['id'] . '">
+                        <img src="/EfkaWorkshop/' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["service_name"]) . '">
+                        <div class="overlay">
+                            <h3>' . htmlspecialchars($row["service_name"]) . '</h3>
+                            <p>' . htmlspecialchars($row["description"]) . '</p>
+                        </div>
+                    </div>';
+                }
+            } else {
+                echo "<p>Belum ada data layanan yang ditambahkan.</p>";
+            }
+            ?>
+        </div>
     </div>
-
-    <div class="service-card">
-      <img src="/EfkaWorkshop/assets/ganti-saringan-hawa.jpg" alt="Ganti Saringan Hawa">
-      <div class="overlay">
-        <h3>Ganti Saringan Hawa</h3>
-        <p>Menjaga performa mesin dengan mengganti saringan udara yang kotor agar pembakaran lebih sempurna.
-</p>
-      </div>
-    </div>
-
-    <div class="service-card">
-      <img src="/EfkaWorkshop/assets/pengecekan-kelistrikan.jpg" alt="Pengecekan Kelistrikan">
-      <div class="overlay">
-        <h3>Pengecekan Kelistrikan</h3>
-        <p>Mendiagnosa dan memperbaiki semua masalah pada sistem kelistrikan motor Anda, dari lampu hingga starter.
-</p>
-      </div>
-    </div>
-
-    <div class="service-card">
-      <img src="/EfkaWorkshop/assets/pengecekan-tekanan-ban.jpg" alt="Pengecekan Tekanan Ban">
-      <div class="overlay">
-        <h3>Pengecekan Tekanan Ban</h3>
-        <p>Menjaga keamanan dan kenyamanan berkendara dengan memastikan tekanan angin pada ban Anda sesuai standar.
-</p>
-      </div>
-    </div>
-
-    <div class="service-card">
-      <img src="/EfkaWorkshop/assets/servis-shock.jpg" alt="Service Shock">
-      <div class="overlay">
-        <h3>Servis Shock</h3>
-        <p>Mengembalikan kenyamanan suspensi motor Anda agar mampu meredam guncangan di jalan dengan baik.
-</p>
-      </div>
-    </div>
-  </div>
 </div>
 
-      </div>
-    </div>
-  </div>
-</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const serviceGrid = document.querySelector('.service-grid');
+    let selectedServiceId = null;
 
+    // Logika untuk memilih service card
+    serviceGrid.addEventListener('click', function(e) {
+        const card = e.target.closest('.service-card');
+        if (!card) return;
 
-<script src="../script.js"></script>
+        // Hapus seleksi dari card lain
+        document.querySelectorAll('.service-card.selected').forEach(selectedCard => {
+            selectedCard.classList.remove('selected');
+        });
+
+        // Tambah seleksi ke card yang diklik
+        card.classList.add('selected');
+        selectedServiceId = card.dataset.id; // Simpan ID service yang dipilih
+    });
+
+    // Logika untuk tombol Tambah
+    document.getElementById('btn-tambah').addEventListener('click', function() {
+        // Arahkan ke halaman tambah service (akan kita buat nanti)
+        window.location.href = 'admin_tambah_service.php';
+    });
+
+    // Logika untuk tombol Hapus
+    document.getElementById('btn-hapus').addEventListener('click', function() {
+        if (!selectedServiceId) {
+            alert('Pilih layanan yang ingin dihapus terlebih dahulu.');
+            return;
+        }
+        if (confirm('Anda yakin ingin menghapus layanan ini secara permanen?')) {
+            window.location.href = '/EfkaWorkshop/backend/admin_hapus_service.php?id=' + selectedServiceId;
+        }
+    });
+
+    // Logika untuk tombol Edit
+    document.getElementById('btn-edit').addEventListener('click', function() {
+        if (!selectedServiceId) {
+            alert('Pilih layanan yang ingin diedit terlebih dahulu.');
+            return;
+        }
+        // Arahkan ke halaman edit (akan kita buat nanti)
+        window.location.href = 'admin_edit_service.php?id=' + selectedServiceId;
+    });
+});
+</script>

@@ -1,13 +1,12 @@
 <?php
-
+// Pastikan path ini benar dari lokasi file Anda
 require '../../../backend/config.php';
 
+// Variabel untuk menandai menu aktif di sidebar
 $pageTitle = 'Pending Service';
 $activeMenu = 'pending';
 
-include '../template-header.php'; 
-include '../template-sidebar.php';
-
+// Mengambil data booking yang statusnya 'pending' dari database
 $sql = "SELECT 
             sb.id, 
             u.name, 
@@ -22,78 +21,23 @@ $sql = "SELECT
 
 $result = $conn->query($sql);
 
+// Memasukkan template header (yang sudah berisi config.php dan pengecekan admin)
+// Sesuaikan path jika perlu
+include '../template-header.php'; 
+// Memasukkan template sidebar
+include '../template-sidebar.php';
 ?>
 
 <link rel="stylesheet" href="../style.css">
-
+<link rel="stylesheet" href="service.css">
 <style>
-    /* ... (Semua CSS Anda sebelumnya tetap di sini) ... */
-
-    /* Styling untuk container tabel */
-    .table-container {
-        background-color: #FFFFFF;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    .form-group input[type="text"] {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     }
 
-    /* Styling dasar tabel */
-    .pending-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.9rem;
-    }
-
-    /* Header tabel */
-    .pending-table thead th {
-        text-align: left;
-        padding: 12px 16px;
-        border-bottom: 2px solid #E5E7EB;
-        background-color: #F9FAFB;
-        font-weight: 600;
-    }
-
-    /* Sel data tabel */
-    .pending-table tbody td {
-        padding: 12px 16px;
-        border-bottom: 1px solid #F3F4F6;
-    }
-
-    /* Warna baris selang-seling */
-    .pending-table tbody tr:nth-child(even) {
-        background-color: #F9FAFB;
-    }
-
-    /* Mengubah CSS untuk deskripsi agar bisa text-wrap */
-    .description-cell {
-        max-width: 300px; /* Lebar maksimal kolom deskripsi */
-        white-space: normal; /* Memungkinkan teks untuk turun (wrap) */
-        word-break: break-word; /* Memaksa teks panjang tanpa spasi untuk patah */
-    }
-
-    /* Styling untuk tombol di dalam tabel */
-    .action-cell {
-        display: flex;
-        gap: 8px;
-    }
-
-    .btn-accept, .btn-reject {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 0.8rem;
-        color: #1F2937;
-    }
-
-    .btn-accept {
-        background-color: #FFC20E; /* Kuning */
-    }
-
-    .btn-reject {
-        background-color: #EF4444; /* Merah */
-    }
 </style>
 
 <main class="main-content">
@@ -112,14 +56,10 @@ $result = $conn->query($sql);
             </thead>
             <tbody>
                 <?php
-                // Cek jika ada data yang ditemukan
                 if ($result && $result->num_rows > 0) {
-                    $counter = 1; // Variabel untuk nomor urut
-                    // Looping untuk setiap baris data
+                    $counter = 1;
                     while($row = $result->fetch_assoc()) {
-                        // Format tanggal dari YYYY-MM-DD menjadi DD/MM/YYYY
                         $formatted_date = date('d/m/Y', strtotime($row['booking_date']));
-                        
                         echo "<tr>";
                         echo "<td>" . $counter . "</td>";
                         echo "<td>" . htmlspecialchars($row['name']) . "</td>";
@@ -135,7 +75,6 @@ $result = $conn->query($sql);
                         $counter++;
                     }
                 } else {
-                    // Tampilkan pesan jika tidak ada data pending
                     echo "<tr><td colspan='7' style='text-align:center; padding: 20px;'>Tidak ada service yang sedang pending.</td></tr>";
                 }
                 ?>
@@ -144,4 +83,66 @@ $result = $conn->query($sql);
     </div>
 </main>
 
+<!-- Overlay Blur -->
+<div id="overlay-blur" style="display:none;">
+  <!-- Modal Konten -->
+  <div class="modal-content">
+    <!-- Isi overlay/modal di sini -->
+    <h2>Judul Overlay</h2>
+    <p>Ini isi overlay/modal.</p>
+    <button id="closeOverlay">Tutup</button>
+  </div>
+</div>
+
+<div id="modal-overlay" class="modal-overlay"></div>
+<div id="accept-modal" class="modal">
+    <div class="modal-header">
+        <h2>Accept Service Booking</h2>
+        <button id="close-modal-btn" class="close-btn">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="booking-details">
+            <p><strong>Nama:</strong> <span id="modal-name"></span></p>
+            <p><strong>Email:</strong> <span id="modal-email"></span></p>
+            <p><strong>Tipe Motor:</strong> <span id="modal-motor-type"></span></p>
+            <p><strong>Keluhan/Pesan:</strong></p>
+            <p id="modal-complaint" class="complaint-text"></p>
+        </div>
+        <form id="accept-form" action="/EfkaWorkshop/backend/proses_accept_booking.php" method="POST">
+            <input type="hidden" name="booking_id" id="modal-booking-id">
+            <div class="form-group">
+                <label for="service_price">Input Harga Servis (Rp)</label>
+                <input type="number" id="service_price" name="service_price" placeholder="Contoh: 150000" required>
+            </div>
+            <button type="submit" class="btn-kirim">Kirim Konfirmasi</button>
+        </form>
+    </div>
+</div>
+<div id="reject-modal" class="modal">
+    <div class="modal-header">
+        <h2>Reject Service Booking</h2>
+        <button id="close-reject-modal-btn" class="close-btn">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="booking-details">
+            <p><strong>Nama:</strong> <span id="modal-reject-name"></span></p>
+            <p><strong>Email:</strong> <span id="modal-reject-email"></span></p>
+            <p><strong>Tipe Motor:</strong> <span id="modal-reject-motor-type"></span></p>
+        </div>
+        
+        <form id="reject-form" action="/EfkaWorkshop/backend/proses_reject_booking.php" method="POST">
+            <input type="hidden" name="booking_id" id="modal-reject-booking-id">
+            
+            <div class="form-group">
+                <label for="rejection_reason">Alasan Penolakan</label>
+                <textarea id="rejection_reason" name="rejection_reason" rows="4" placeholder="Contoh: Jadwal pada tanggal tersebut sudah penuh." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-kirim" style="background-color: #EF4444; color: white;">Kirim Penolakan</button>
+        </form>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
 <script src="../script.js"></script>
