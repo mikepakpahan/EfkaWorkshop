@@ -59,7 +59,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $confirmation_link = "http://localhost/EfkaWorkshop/confirm_booking.php?token=" . $confirmation_token;
             
             // ... (Body email Anda tetap sama) ...
-            $mail->Body    = "<html>... (isi body email Anda) ...</html>";
+            $mail->Body    = "
+            <html>
+                <body>
+                    <h2>Halo, " . htmlspecialchars($customer_name) . "!</h2>
+                    <p>Kabar baik! Permintaan booking servis Anda telah kami terima dengan rincian sebagai berikut:</p>
+                    <p><strong>Harga Estimasi Servis:</strong> Rp " . number_format($service_price, 0, ',', '.') . "</p>
+                    <p>Silakan klik tombol di bawah ini untuk mengonfirmasi jadwal Anda. Dengan mengonfirmasi, Anda akan masuk ke dalam antrian servis kami.</p>
+                    <a href='" . $confirmation_link . "' style='background-color: #FFC72C; color: black; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Konfirmasi Jadwal Saya</a>
+                    <p>Jika Anda tidak merasa melakukan booking ini, silakan abaikan email ini.</p>
+                    <p>Terima kasih,<br>Tim EFKA Workshop</p>
+                </body>
+            </html>";
 
             $mail->send();
             
