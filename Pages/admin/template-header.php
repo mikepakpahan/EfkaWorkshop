@@ -1,8 +1,19 @@
 <?php
-// Set judul default jika tidak ada judul yang di-set di halaman utama
+
+require_once '../../../backend/config.php';
 if (!isset($pageTitle)) {
     $pageTitle = 'EFKA Workshop Admin';
 }
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== 'admin') {
+    // Versi BARU yang mengimpor halaman error custom
+    // Alih-alih echo, kita panggil seluruh file halaman error-mu
+    include __DIR__ . '/../errors/access_denied.php';
+    
+    // Hentikan eksekusi sisa halaman
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +21,7 @@ if (!isset($pageTitle)) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Management Sparepart - EFKA Workshop</title>
+    <title>ADMIN EFKA WORKSHOP</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,3 +42,6 @@ if (!isset($pageTitle)) {
                 <img src="/EfkaWorkshop/assets/logo-efka.png" alt="EFKA Workshop Logo" class="logo">
             </div>
         </header>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

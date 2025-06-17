@@ -88,7 +88,7 @@ include 'backend/config.php';
             <?php
             if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
                 // Jika SUDAH LOGIN, tombol akan berfungsi normal (scroll ke form)
-                echo '<a href="#aboutus" class="btn-primary">BUAT JANJI</a>';
+                echo '<a href="#booking-section" class="btn-primary">BUAT JANJI</a>';
             } else {
                 // Jika BELUM LOGIN, tombol akan memunculkan alert
                 echo '<a href="#" onclick="alert(\'Anda harus login terlebih dahulu untuk membuat janji.\');" class="btn-primary">BUAT JANJI</a>';
@@ -201,7 +201,7 @@ include 'backend/config.php';
       </div>
     </section>
 
-    <section class="py-16" id="booking-section" style="background: #0D1117;">
+    <section class="py-16" id="booking-section" style="background: #0D1117;" id="booking-section">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h2 class="text-white text-3xl sm:text-4xl font-bold mb-4">Buat Janji Servis Anda Sekarang</h2>
         <p class="text-gray-400 mb-8">Silakan isi form di bawah ini. Pastikan Anda sudah login untuk melanjutkan.</p>
@@ -305,4 +305,26 @@ include 'backend/config.php';
       </div>
     </div>
   </footer>
+  <script>
+    // Navbar dropdown toggle
+const navToggle = document.getElementById("navToggle");
+const mobileNav = document.getElementById("mobileNav");
+navToggle.addEventListener("click", function () {
+  if (mobileNav.style.display === "flex") {
+    mobileNav.style.display = "none";
+  } else {
+    mobileNav.style.display = "flex";
+  }
+});
+// Optional: klik di luar menu untuk close
+window.addEventListener("click", function (e) {
+  if (
+    mobileNav.style.display === "flex" &&
+    !mobileNav.contains(e.target) &&
+    !navToggle.contains(e.target)
+  ) {
+    mobileNav.style.display = "none";
+  }
+});
+  </script>
 </html>

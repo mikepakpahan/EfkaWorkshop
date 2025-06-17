@@ -123,3 +123,5 @@ $result = $conn->query($sql);
         </table>
     </div>
 </div>
+
+<script src="../script.js"></script>

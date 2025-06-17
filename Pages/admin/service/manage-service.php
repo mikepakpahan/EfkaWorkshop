@@ -101,3 +101,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<script src="../script.js"></script>

@@ -42,6 +42,10 @@ if (!isset($activeMenu)) {
                 <i class="fas fa-history"></i>
                 <span>History Orders</span>
             </a>
+            <a href="../feedback/feedback.php" class="sidebar-link <?php if ($activeMenu == 'feedback') echo 'active'; ?>">
+                <i class="fas fa-comment-dots"></i>
+                <span>Feedback Customer</span>
+            </a>
             <a href="/EfkaWorkshop/backend/logout.php" class="sidebar-link sidebar-link-logout">
                 <i class="fas fa-sign-out-alt" style="width: 24px; text-align: center;"></i> 
                 <span>Logout</span>

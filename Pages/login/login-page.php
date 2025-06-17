@@ -13,12 +13,6 @@
       <div class="form-container sign-up">
         <form action="../../backend/register.php" method="POST">
           <h1>Create Account</h1>
-          <div class="social-icons">
-            <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-          </div>
           <span>or use your email for registeration</span>
           <input type="text" placeholder="Name" name="name" required />
           <input type="email" placeholder="Email" name="email" required />
@@ -29,16 +23,9 @@
       <div class="form-container sign-in">
         <form action="../../backend/login.php" method="POST">
           <h1>Sign In</h1>
-          <div class="social-icons">
-            <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-            <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
-          </div>
           <span>or use your email password</span>
           <input type="email" placeholder="Email" name="email" required />
           <input type="password" placeholder="Password" name="password" required />
-          <a href="#">Forget Your Password?</a>
           <button type="submit">Sign In</button>
         </form>
       </div>

@@ -61,3 +61,5 @@ $result = $conn->query($sql);
         </div>
     </div>
 </div>
+
+<script src="../script.js"></script>

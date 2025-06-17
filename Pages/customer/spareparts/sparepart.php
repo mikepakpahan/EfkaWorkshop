@@ -43,6 +43,8 @@ if ($result_hero && $result_hero->num_rows > 0) {
     <title>Sparepart - Efka Workshop</title>
     <link rel="stylesheet" href="sparepart.css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <style>
       .add-cart-btn {
         background: none;
@@ -176,55 +178,90 @@ if ($result_hero && $result_hero->num_rows > 0) {
     <button onclick="goHome()" class="floating-home-btn">
       <img src="../../../assets/arrow.png" alt="Home" class="floating-home-img" />
     </button>
+
     <script>
+      // Fungsi ini bisa diletakkan di luar atau di dalam DOMContentLoaded
       function goHome() {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+          window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       document.addEventListener('DOMContentLoaded', function () {
-          const cartForms = document.querySelectorAll('.sparepart-product-actions form');
+          
+          // ==========================================================
+          // FUNGSI JAGOAN UNTUK MENAMBAHKAN ITEM KE KERANJANG (AJAX)
+          // ==========================================================
+          function handleAddToCart(productId) {
+              if (!productId) {
+                  alert('ID Produk tidak ditemukan!');
+                  return;
+              }
 
+              // Siapkan data untuk dikirim ke backend
+              const formData = new FormData();
+              formData.append('product_id', productId);
+
+              // Kirim data menggunakan Fetch API
+              fetch('../../../backend/add_to_cart.php', { // Pastikan path ini benar
+                  method: 'POST',
+                  body: formData
+              })
+              .then(response => response.json())
+              .then(data => {
+                  // Tampilkan notifikasi (kita pakai SweetAlert yang sudah ada)
+                  Swal.fire({
+                      title: data.status === 'success' ? 'Berhasil!' : 'Oops...',
+                      text: data.message,
+                      icon: data.status, // 'success' atau 'error'
+                      timer: 1500, // Notifikasi hilang setelah 1.5 detik
+                      showConfirmButton: false
+                  });
+
+                  // Update indikator keranjang jika sukses
+                  if (data.status === 'success' && typeof data.cart_count !== 'undefined') {
+                      const cartContainer = document.querySelector('.cart-icon-container');
+                      if (cartContainer) {
+                          let indicator = cartContainer.querySelector('.cart-indicator');
+                          if (!indicator) {
+                              indicator = document.createElement('span');
+                              indicator.className = 'cart-indicator';
+                              cartContainer.appendChild(indicator);
+                          }
+                          indicator.textContent = data.cart_count;
+                      }
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  Swal.fire('Error', 'Terjadi masalah koneksi.', 'error');
+              });
+          }
+
+
+          // ==========================================================
+          // 1. EVENT LISTENER UNTUK TOMBOL-TOMBOL DI GRID PRODUK
+          // ==========================================================
+          const cartForms = document.querySelectorAll('.sparepart-product-actions form');
           cartForms.forEach(form => {
               form.addEventListener('submit', function (event) {
-                  event.preventDefault();
-
-                  fetch(form.action, {
-                      method: 'POST',
-                      body: new FormData(form)
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                      // Tampilkan pesan dari server
-                      alert(data.message);
-
-                      // --- PERUBAHAN DIMULAI DI SINI ---
-                      // Cek jika status sukses dan ada data cart_count
-                      if (data.status === 'success' && typeof data.cart_count !== 'undefined') {
-                          // Cari kontainer ikon keranjang di header
-                          const cartContainer = document.querySelector('.cart-icon-container');
-                          if (cartContainer) {
-                              // Coba cari apakah indikator sudah ada
-                              let indicator = cartContainer.querySelector('.cart-indicator');
-
-                              if (!indicator) {
-                                  // Jika belum ada, buat elemen span baru
-                                  indicator = document.createElement('span');
-                                  indicator.className = 'cart-indicator';
-                                  cartContainer.appendChild(indicator);
-                              }
-                              
-                              // Perbarui angka di dalam indikator
-                              indicator.textContent = data.cart_count;
-                          }
-                      }
-                  })
-                  .catch(error => {
-                      console.error('Error:', error);
-                      alert('Terjadi masalah koneksi.');
-                  });
+                  event.preventDefault(); // Mencegah refresh
+                  const productId = form.querySelector('input[name="product_id"]').value;
+                  handleAddToCart(productId); // Panggil fungsi jagoan
               });
           });
+
+
+          // ==========================================================
+          // 2. EVENT LISTENER UNTUK TOMBOL "BELI SEKARANG" DI HERO BANNER
+          // ==========================================================
+          const heroBtn = document.getElementById('hero-add-to-cart-btn');
+          if (heroBtn) {
+              heroBtn.addEventListener('click', function () {
+                  const productId = this.dataset.productId; // Ambil ID dari atribut data-*
+                  handleAddToCart(productId); // Panggil fungsi jagoan yang sama
+              });
+          }
+
       });
-    </script>
+  </script>
   </body>
 </html>
