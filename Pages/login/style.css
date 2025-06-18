@@ -8,11 +8,8 @@
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100vh;
+  /* Hapus display: flex dari sini untuk perbaikan SweetAlert sebelumnya */
+  margin: 0;
 }
 
 body::before {
@@ -22,11 +19,9 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-
   background-image: url("/EfkaWorkshop/assets/bg-Servis-motor.png");
   background-size: cover;
   background-position: center;
-
   z-index: -1;
 }
 
@@ -39,12 +34,11 @@ body::before {
   max-width: 100%;
   min-height: 480px;
 
-  /* --- INI DIA JURUSNYA --- */
+  /* Jurus penengah diri yang kebal SweetAlert */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* ------------------------- */
 }
 
 .container p {
@@ -120,6 +114,7 @@ body::before {
 
 .container.active .sign-in {
   transform: translateX(100%);
+  opacity: 0; /* Tambahkan ini agar form sign-in menghilang saat bergeser */
 }
 
 .sign-up {
@@ -238,7 +233,6 @@ body::before {
 
 .password-wrapper input {
   width: 100%;
-  /* Tambahkan padding di kanan agar teks tidak tertimpa ikon */
   padding-right: 40px !important;
   box-sizing: border-box;
 }
@@ -288,3 +282,4 @@ body::before {
   color: #28a745;
   margin-right: 8px;
 }
+/* Tidak ada lagi kurung kurawal nyasar di sini */

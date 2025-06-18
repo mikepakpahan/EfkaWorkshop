@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Subject = 'Booking Servis Anda di EFKA Workshop Telah Diterima!';
             
             // Buat link konfirmasi yang lebih solid
-            $confirmation_link = "http://localhost/EfkaWorkshop/confirm_booking.php?token=" . $confirmation_token;
+            $confirmation_link = "http://192.168.100.110/EfkaWorkshop/confirm_booking.php?token=" . $confirmation_token;
             
             // ... (Body email Anda tetap sama) ...
             $mail->Body    = "

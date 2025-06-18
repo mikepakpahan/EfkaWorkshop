@@ -1,224 +1,287 @@
 <?php
-include '../../../backend/config.php';
-
 $pageTitle = 'Management Sparepart';
 $activeMenu = 'sparepart';
 
-include '../template-header.php';
-include '../template-sidebar.php';
-
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    die("Akses ditolak. Halaman ini hanya untuk Admin.");
-}
-
-// Ambil semua data sparepart dari database
-$sql = "SELECT id, part_name, description, price, stock, image_url, is_featured FROM spareparts ORDER BY id DESC";
-$result = $conn->query($sql);
+require '../../../backend/config.php';
+// Template header sekarang hanya berisi <head> dan bagian awal <body>
+include '../template-header.php'; 
+// Template sidebar akan dipanggil setelahnya
 ?>
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Management Sparepart - EFKA Workshop</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        /* Tambahan CSS untuk menandai item yang dipilih */
-        .product-card.selected {
-            border: 2px solid #007bff;
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-        }
-        .product-card {
-            cursor: pointer;
-        }
-    </style>
-  </head>
+<link rel="stylesheet" href="/EfkaWorkshop/assets/libs/sweetalert2/sweetalert2.min.css">
+<script src="/EfkaWorkshop/assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+
+<style>
+    /* GANTI ATAU TAMBAHKAN BLOK-BLOK CSS INI DI style.css ADMIN ANDA */
+
+    /* Mengunci ukuran dasar dan menghilangkan scrollbar default */
+    html, body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif; /* Pastikan font konsisten */
+    }
+
+    /* Pembungkus utama seluruh halaman admin */
+    .page-container {
+        display: flex;
+        flex-direction: column; /* Menyusun Header dan Main Body secara vertikal */
+        height: 100%;
+    }
+
+    /* Header atas */
+    .top-header {
+        flex-shrink: 0; /* Mencegah header dari "gepeng" atau menyusut */
+    }
+
+    /* Wadah untuk sidebar dan konten utama */
+    .main-body {
+        display: flex;
+        flex-grow: 1; /* Ini adalah kunci #1: membuat wadah ini mengisi sisa tinggi layar */
+        overflow: hidden; /* Mencegah munculnya scrollbar yang tidak diinginkan di sini */
+    }
+
+    /* Sidebar di kiri */
+    .sidebar {
+        flex-shrink: 0; /* Mencegah sidebar menyusut lebarnya */
+        width: 250px; /* Beri lebar tetap (sesuaikan jika perlu) */
+        /* Jika menu sidebar-mu bisa jadi panjang, tambahkan ini: */
+        /* overflow-y: auto; */ 
+    }
+
+    /* Area konten utama di kanan */
+    .main-content {
+        flex-grow: 1;         /* Kunci #2: mengisi sisa lebar setelah sidebar */
+        overflow-y: auto;     /* JAGOAN KITA: di sinilah scrollbar seharusnya muncul */
+        padding: 2rem;        /* Padding untuk memberi jarak konten dari tepi */
+        margin-bottom: 70px;
+    }
+    .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .content-header h1 { margin: 0; }
+    .content-actions .btn { margin-left: 0.5rem; }
+    .feedback-tabs { display: flex; margin-bottom: 1.5rem; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; width: fit-content; }
+    .tab-btn { padding: 10px 20px; background-color: #fff; border: none; cursor: pointer; font-weight: 600; color: #555; transition: all 0.3s ease; }
+    .tab-btn:first-child { border-right: 1px solid #ddd; }
+    .tab-btn.active { background-color: #FFC72C; color: #1F2937; }
+    .feedback-viewport { width: 100%; overflow: hidden; }
+    .feedback-slider { display: flex; width: 200%; transition: transform 0.4s ease-in-out; }
+    .feedback-slider.show-read { transform: translateX(-50%); }
+    .feedback-panel { width: 50%; padding: 0 5px; box-sizing: border-box; }
+    .products-grid { /* Style grid produk Anda yang sudah ada */ }
+    .product-card {
+        cursor: pointer;
+        transition: all 0.2s ease-in-out; /* Tambahkan transisi biar mulus */
+    }
+
+    /* === INI DIA CSS YANG HILANG === */
+    .product-card.selected {
+        outline: 3px solid #007bff; /* Garis biru tebal di luar */
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4); /* Bayangan biru yang lebih kentara */
+        transform: scale(1.02); /* Sedikit membesar biar lebih nonjol */
+    }
+    /* =============================== */
+
+    .hero-badge {
+        /* ... (CSS hero-badge Anda) ... */
+    }
+</style>
+
 <body>
+    <div class="page-container">
+        <?php include '../template-sidebar.php'; ?>
 
+        <div class="main-body">
             <main class="main-content">
-                <div class="content-actions">
-                    <button id="btn-edit" class="btn btn-edit">Edit</button>
-                    <button id="btn-hapus" class="btn btn-hapus">Hapus</button>
-                    <button id="btn-tambah" class="btn btn-tambah">Tambah</button>
-                    <button id="btn-hero" class="btn" style="background-color: #17a2b8; color: white;">Jadikan Hero</button>
+                <div class="content-header">
+                    <h1>Management Sparepart</h1>
+                    <div class="content-actions">
+                        <button id="btn-reactivate" class="btn btn-tambah" style="display: none;">Aktifkan Kembali</button>
+                        <button id="btn-hero" class="btn btn-hero">Jadikan Hero</button>
+                        <button id="btn-edit" class="btn btn-edit">Edit</button>
+                        <button id="btn-archive" class="btn btn-hapus">Arsipkan</button>
+                        <button id="btn-tambah" class="btn btn-tambah">Tambah</button>
                     </div>
+                </div>
 
-                <div class="products-grid">
-                    <?php
-                    // Cek jika ada data produk
-                    if ($result && $result->num_rows > 0) {
-                        // Looping untuk setiap produk
-                        while($row = $result->fetch_assoc()) {
-                            // Format harga agar mudah dibaca
-                            $formatted_price = number_format($row["price"], 0, ',', '.');
-                            
-                            // Tampilkan HTML card dengan data dari database
-                            // PENTING: tambahkan atribut data-id dan data-is-featured
-                            echo '
-                            <div class="product-card" data-id="' . $row['id'] . '" data-is-featured="' . $row['is_featured'] . '">
-                                
-                                ' . ($row['is_featured'] ? '<span class="hero-badge">★ Unggulan</span>' : '') . '
-                                <img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["part_name"]) . '" class="product-img">
-                                <div class="product-info">
-                                    <h3 class="product-title">' . htmlspecialchars($row["part_name"]) . '</h3>
-                                    <p class="product-description">' . htmlspecialchars($row["description"]) . '</p>
-                                    <div class="product-detail">
-                                        <span>Harga</span>
-                                        <strong>Rp ' . $formatted_price . '</strong>
-                                    </div>
-                                    <div class="product-detail">
-                                        <span>Stok</span>
-                                        <strong>' . $row['stock'] . '</strong>
-                                    </div>
+                <div class="feedback-tabs">
+                    <button id="active-btn" class="tab-btn active">Produk Aktif</button>
+                    <button id="archived-btn" class="tab-btn">Diarsipkan</button>
+                </div>
+
+                <div class="feedback-viewport">
+                    <div id="product-slider" class="feedback-slider">
+                        
+                        <div class="feedback-panel">
+                            <div class="products-grid" id="active-products-grid">
                                 </div>
-                            </div>';
-                        }
-                    } else {
-                        echo "<p>Belum ada produk di database.</p>";
-                    }
-                    ?>
+                        </div>
+
+                        <div class="feedback-panel">
+                            <div class="products-grid" id="archived-products-grid">
+                                </div>
+                        </div>
+
+                    </div>
                 </div>
             </main>
         </div>
     </div>
+
+    <script src="../script.js"></script> 
     <script>
-    // Bungkus SEMUA kode di dalam event listener ini
-    document.addEventListener('DOMContentLoaded', function() {
-
-        // =================================================
-        // DEKLARASI ELEMEN-ELEMEN
-        // =================================================
-        const menuToggleBtn = document.getElementById('menu-toggle-btn');
-        const sidebar = document.querySelector('.sidebar');
-        const itemGrid = document.querySelector('.products-grid, .service-grid'); // Menargetkan kedua jenis grid
-        const tambahBtn = document.getElementById('btn-tambah');
-        const hapusBtn = document.getElementById('btn-hapus');
-        const editBtn = document.getElementById('btn-edit');
-        const heroBtn = document.getElementById('btn-hero'); // Untuk sparepart
-        
-        let selectedItemId = null; // Satu variabel untuk menyimpan ID yang dipilih
-
-        // =================================================
-        // EVENT LISTENERS
-        // =================================================
-
-        // 1. Logika untuk Menu Toggle (Sidebar)
-        if (menuToggleBtn && sidebar) {
-            menuToggleBtn.addEventListener('click', () => {
-                sidebar.classList.toggle('is-open');
-                menuToggleBtn.classList.toggle('is-open');
-            });
-        }
-
-        // 2. Logika untuk Memilih Item (Card)
-        if (itemGrid) {
-            itemGrid.addEventListener('click', function(e) {
-                const card = e.target.closest('.product-card, .service-card');
-                if (!card) return;
-
-                // Hapus seleksi dari card lain yang mungkin terpilih
-                itemGrid.querySelectorAll('.selected').forEach(selectedCard => {
-                    selectedCard.classList.remove('selected');
-                });
-
-                // Tambahkan seleksi ke card yang baru diklik
-                card.classList.add('selected');
-                selectedItemId = card.dataset.id; // Simpan ID item yang dipilih
-            });
-        }
-
-        // 3. Logika untuk Tombol Tambah
-        if (tambahBtn) {
-            tambahBtn.addEventListener('click', function() {
-                // Cek apakah ini halaman sparepart atau service
-                if (document.querySelector('.products-grid')) {
-                    window.location.href = 'admin-tambah-produk.php';
-                } else if (document.querySelector('.service-grid')) {
-                    window.location.href = 'admin-tambah-service.php';
-                }
-            });
-        }
-
-        // 4. Logika untuk Tombol Hapus (dengan SweetAlert2)
-        if (hapusBtn) {
-            hapusBtn.addEventListener('click', function() {
-                if (!selectedItemId) {
-                    Swal.fire('Oops...', 'Pilih item yang ingin dihapus terlebih dahulu.', 'warning');
-                    return;
-                }
-
-                Swal.fire({
-                    title: 'Anda Yakin?',
-                    text: "Aksi ini akan menghapus data secara permanen!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let deleteUrl = '';
-                        if (document.querySelector('.products-grid')) {
-                            deleteUrl = '../../../backend/admin_hapus_produk.php?id=';
-                        } else if (document.querySelector('.service-grid')) {
-                            deleteUrl = '../../../backend/admin_hapus_service.php?id=';
-                        }
-                        window.location.href = deleteUrl + selectedItemId;
-                    }
-                });
-            });
-        }
-
-        // 5. Logika untuk Tombol Edit (Lebih Aman)
-        if (editBtn) {
-            editBtn.addEventListener('click', function() {
-                if (!selectedItemId) {
-                    Swal.fire('Oops...', 'Pilih item yang ingin diedit terlebih dahulu.', 'warning');
-                    return;
-                }
-                
-                let editUrl = '';
-                if (document.querySelector('.products-grid')) {
-                    editUrl = 'admin-edit-produk.php?id=';
-                } else if (document.querySelector('.service-grid')) {
-                    editUrl = 'admin-edit-service.php?id=';
-                }
-                window.location.href = editUrl + selectedItemId;
-            });
-        }
-
-        // 6. Logika untuk Tombol "Jadikan Hero" (jika ada)
-        if(heroBtn) {
-            heroBtn.addEventListener('click', function() {
-                if (!selectedItemId) {
-                    Swal.fire('Oops...', 'Pilih produk yang ingin dijadikan hero banner.', 'warning');
-                    return;
-                }
-                // ... (logika SweetAlert untuk hero yang sudah kita buat sebelumnya) ...
-                Swal.fire({
-                    title: 'Jadikan Produk Unggulan?',
-                    text: "Produk ini akan ditampilkan di banner utama halaman sparepart.",
-                    icon: 'info',
-                    showCancelButton: true,
-                    confirmButtonText: 'Ya, Jadikan Hero!',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '/EfkaWorkshop/backend/proses_make_hero.php?id=' + selectedItemId;
-                    }
-                })
-            });
-        }
-    });
+    // Logika JavaScript akan kita buat setelah ini
     </script>
-    <script src="../script.js"></script>
 </body>
 </html>
+
+<?php
+// Ambil semua data sparepart dari database
+$sql = "SELECT id, part_name, description, price, stock, image_url, is_featured, is_active FROM spareparts ORDER BY id DESC";
+$result = $conn->query($sql);
+
+$active_products_html = '';
+$archived_products_html = '';
+
+if ($result && $result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $formatted_price = number_format($row["price"], 0, ',', '.');
+        $is_hero_badge = $row['is_featured'] ? '<span class="hero-badge">★ Unggulan</span>' : '';
+        
+        $card_html = '
+        <div class="product-card" data-id="' . $row['id'] . '" data-is-featured="' . $row['is_featured'] . '">
+            ' . $is_hero_badge . '
+            <img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["part_name"]) . '" class="product-img">
+            <div class="product-info">
+                <h3 class="product-title">' . htmlspecialchars($row["part_name"]) . '</h3>
+                <p class="product-description">' . htmlspecialchars($row["description"]) . '</p>
+                <div class="product-detail">
+                    <span>Harga</span>
+                    <strong>Rp ' . $formatted_price . '</strong>
+                </div>
+                <div class="product-detail">
+                    <span>Stok</span>
+                    <strong>' . $row['stock'] . '</strong>
+                </div>
+            </div>
+        </div>';
+
+        // Pisahkan HTML berdasarkan status is_active
+        if ($row['is_active']) {
+            $active_products_html .= $card_html;
+        } else {
+            $archived_products_html .= $card_html;
+        }
+    }
+}
+
+// Jika tidak ada produk aktif
+if (empty($active_products_html)) {
+    $active_products_html = "<p>Tidak ada produk aktif.</p>";
+}
+// Jika tidak ada produk yang diarsipkan
+if (empty($archived_products_html)) {
+    $archived_products_html = "<p>Tidak ada produk yang diarsipkan.</p>";
+}
+?>
+
+<script>
+// Sisipkan HTML yang sudah dibuat PHP ke dalam grid yang sesuai
+document.getElementById('active-products-grid').innerHTML = `<?php echo addslashes($active_products_html); ?>`;
+document.getElementById('archived-products-grid').innerHTML = `<?php echo addslashes($archived_products_html); ?>`;
+
+document.addEventListener('DOMContentLoaded', function() {
+    // === DEKLARASI ELEMEN ===
+    const slider = document.getElementById('product-slider');
+    const activeBtn = document.getElementById('active-btn');
+    const archivedBtn = document.getElementById('archived-btn');
+    const productGrid = document.querySelector('.feedback-viewport'); // Target utama untuk event
+    
+    const tambahBtn = document.getElementById('btn-tambah');
+    const arsipBtn = document.getElementById('btn-archive');
+    const aktifkanBtn = document.getElementById('btn-reactivate');
+    const editBtn = document.getElementById('btn-edit');
+    const heroBtn = document.getElementById('btn-hero');
+
+    let selectedProductId = null;
+    let isArchivedTab = false;
+
+    // === LOGIKA TABS ===
+    activeBtn.addEventListener('click', function() {
+        slider.classList.remove('show-read'); // Gunakan class yang sama dari feedback
+        activeBtn.classList.add('active');
+        archivedBtn.classList.remove('active');
+        isArchivedTab = false;
+        updateButtonVisibility();
+    });
+
+    archivedBtn.addEventListener('click', function() {
+        slider.classList.add('show-read');
+        activeBtn.classList.remove('active');
+        archivedBtn.classList.add('active');
+        isArchivedTab = true;
+        updateButtonVisibility();
+    });
+
+    // === LOGIKA PEMILIHAN KARTU ===
+    productGrid.addEventListener('click', function(e) {
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+
+        productGrid.querySelectorAll('.selected').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedProductId = card.dataset.id;
+    });
+
+    // === LOGIKA TOMBOL AKSI ===
+    function updateButtonVisibility() {
+        if (isArchivedTab) {
+            arsipBtn.style.display = 'none';
+            heroBtn.style.display = 'none';
+            editBtn.style.display = 'none';
+            aktifkanBtn.style.display = 'inline-block';
+        } else {
+            arsipBtn.style.display = 'inline-block';
+            heroBtn.style.display = 'inline-block';
+            editBtn.style.display = 'inline-block';
+            aktifkanBtn.style.display = 'none';
+        }
+    }
+
+    tambahBtn.addEventListener('click', () => window.location.href = 'admin_tambah_produk.php');
+    
+    editBtn.addEventListener('click', () => {
+        if (!selectedProductId) return Swal.fire('Oops...', 'Pilih produk untuk diedit.', 'warning');
+        window.location.href = 'admin_edit_produk.php?id=' + selectedProductId;
+    });
+
+    heroBtn.addEventListener('click', () => {
+        if (!selectedProductId) return Swal.fire('Oops...', 'Pilih produk untuk dijadikan hero.', 'warning');
+        Swal.fire({
+            title: 'Jadikan Produk Unggulan?',
+            text: "Produk ini akan jadi banner utama di halaman sparepart.",
+            icon: 'info', showCancelButton: true, confirmButtonText: 'Ya, Jadikan Hero!'
+        }).then(result => {
+            if (result.isConfirmed) window.location.href = '../../backend/proses_make_hero.php?id=' + selectedProductId;
+        });
+    });
+
+    arsipBtn.addEventListener('click', () => {
+        if (!selectedProductId) return Swal.fire('Oops...', 'Pilih produk untuk diarsipkan.', 'warning');
+        Swal.fire({
+            title: 'Arsipkan Produk?',
+            text: "Produk ini tidak akan tampil di halaman customer, tapi riwayatnya tetap aman.",
+            icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya, Arsipkan!'
+        }).then(result => {
+            if (result.isConfirmed) window.location.href = '../../backend/admin_hapus_produk.php?id=' + selectedProductId; // Menggunakan skrip lama yang sudah diubah jadi soft-delete
+        });
+    });
+
+    aktifkanBtn.addEventListener('click', () => {
+        if (!selectedProductId) return Swal.fire('Oops...', 'Pilih produk untuk diaktifkan kembali.', 'warning');
+        window.location.href = '../../backend/proses_reactivate_produk.php?id=' + selectedProductId;
+    });
+
+    // Panggil sekali di awal
+    updateButtonVisibility();
+});
+</script>
