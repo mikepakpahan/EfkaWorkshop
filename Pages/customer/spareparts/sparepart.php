@@ -62,44 +62,9 @@ if ($result_hero && $result_hero->num_rows > 0) {
     </style>
   </head>
   <body style="font-family: 'Open Sans Condensed', Arial, sans-serif">
-    <!-- Navbar -->
-    <header class="navbar">
-      <div class="navbar-logo">
-        <img src="../../../assets/logo-efka.png" alt="EFKA Workshop" class="logo-img" />
-      </div>
-      <nav class="navbar-menu">
-        <a href="../../../index.php" class="nav-link">HOME</a>
-        <a href="../../../index.php#aboutus" class="nav-link">ABOUT US</a>
-        <a href="#" class="nav-link">SERVICES</a>
-        <a href="#" class="nav-link">CONTACT US</a>
-      </nav>
-      <div class="navbar-icons">
-        <div class="cart-icon-container">
-            <a href="../checkout/checkout.php"> 
-              <img src="../../../assets/icon-cart.png" alt="Cart" class="cart-icon" />
-            </a>
-            
-            <?php
-            // Tampilkan badge HANYA JIKA ada item di keranjang (count > 0)
-            if ($cart_count > 0):
-            ?>
-                <span class="cart-indicator"><?php echo $cart_count; ?></span>
-            <?php 
-            endif; 
-            ?>
-        </div>
-        <?php
-        if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-            echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
-            echo '<a href="../../../backend/logout.php" class="btn-auth">Logout</a>';
-        } else {
-            echo '<a id="loginBtn" href="/EfkaWorkshop/Pages/login/login-page.php" class="btn-auth">Login</a>';
-            echo '<a id="daftarBtn" href="/EfkaWorkshop/Pages/login/login-page.php" class="btn-auth">Daftar</a>';
-        }
-        ?>
-      </div>
-    </header>
-    <div class="navbar-spacer"></div>
+    <?php
+    include '../header.php';
+    ?>
 
     <!-- Hero Banner -->
     <?php 
@@ -178,7 +143,9 @@ if ($result_hero && $result_hero->num_rows > 0) {
     <button onclick="goHome()" class="floating-home-btn">
       <img src="../../../assets/arrow.png" alt="Home" class="floating-home-img" />
     </button>
-
+<?php
+      include '../footer.php';
+    ?>
     <script>
       // Fungsi ini bisa diletakkan di luar atau di dalam DOMContentLoaded
       function goHome() {

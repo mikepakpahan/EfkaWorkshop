@@ -1,5 +1,22 @@
 <?php
 include 'backend/config.php';
+
+// --- LOGIKA BARU UNTUK MENGHITUNG RATING ---
+$average_rating = 0;
+$total_reviews = 0;
+
+// Query untuk mengambil rata-rata rating DAN jumlah total review sekaligus
+$sql_rating = "SELECT AVG(rating) as avg_rating, COUNT(id) as total_reviews FROM reviews";
+$result_rating = $conn->query($sql_rating);
+
+if ($result_rating && $result_rating->num_rows > 0) {
+    $rating_data = $result_rating->fetch_assoc();
+    // Kita format angkanya jadi satu desimal, misal: 4.7
+    $average_rating = number_format($rating_data['avg_rating'] ?? 0, 1);
+    $total_reviews = $rating_data['total_reviews'] ?? 0;
+}
+// --- AKHIR LOGIKA RATING ---
+
 ?>
 
 <!DOCTYPE html>
@@ -14,65 +31,12 @@ include 'backend/config.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="scripts.js"></script>
-    <style>
-      .welcome-text {
-      color: white;
-      font-size: 1.5rem;
-      margin-right: 15px;
-      align-self: center;
-      }
-    </style>
   </head>
   <body style="font-family: 'Open Sans Condensed', Arial, sans-serif">
-    <!-- Navbar -->
-    <header class="navbar">
-    <div class="navbar-logo">
-        <img src="assets/logo-efka.png" alt="Logo EFKA" class="logo-img" />
-    </div>
-    <nav id="mainNav" class="navbar-menu">
-        <a href="#aboutus" class="nav-link">About Us</a>
-        <a href="/EfkaWorkshop/Pages/customer/spareparts/sparepart.php" class="nav-link">Spareparts</a>
-        <a href="#services" class="nav-link">Services</a> 
-        <a href="#footer" class="nav-link">Contact Us</a> </nav>
+    <?php
+      include 'Pages/customer/header.php';
+    ?>
     
-    <div class="navbar-auth">
-        <?php
-        if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-            echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
-            echo '<a href="backend/logout.php" class="btn-auth">Logout</a>';
-        } else {
-            echo '<a id="loginBtn" href="Pages/login/login-page.php" class="btn-auth">Login</a>';
-            echo '<a id="daftarBtn" href="Pages/login/login-page.php" class="btn-auth">Daftar</a>';
-        }
-        ?>
-    </div>
-    
-    <button id="navToggle" class="navbar-toggle" aria-label="Menu">
-        <span class="navbar-toggle-bar"></span>
-        <span class="navbar-toggle-bar"></span>
-        <span class="navbar-toggle-bar"></span>
-    </button>
-</header>
-    <!-- Mobile Nav Dropdown -->
-    <nav id="mobileNav" class="mobile-nav-dropdown">
-      <a href="#" class="mobile-nav-link">About Us</a>
-      <a href="/EfkaWorkshop/Pages/customer/spareparts/sparepart.php" class="mobile-nav-link">Spareparts</a>
-      <a href="#services" class="mobile-nav-link">Services</a>
-      <a href="#footer" class="mobile-nav-link">Contact Us</a>
-      <div class="mobile-auth">
-        <?php
-        if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-            echo '<span class="welcome-text">Hi, ' . htmlspecialchars($_SESSION["user_name"]) . '</span>';
-            echo '<a href="backend/logout.php" class="btn-auth">Logout</a>';
-        } else {
-            echo '<a id="loginBtn" href="Pages/login/login-page.php" class="btn-auth">Login</a>';
-            echo '<a id="daftarBtn" href="Pages/login/login-page.php" class="btn-auth">Daftar</a>';
-        }
-        ?>
-      </div>
-    </nav>
-    <div class="navbar-spacer"></div>
-
     <!-- Hero -->
     <section class="hero-section">
       <div class="hero-overlay"></div>
@@ -157,18 +121,40 @@ include 'backend/config.php';
           <h2 class="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">Motor Detailing And Repair<br />Services You Can Rely On</h2>
           <div class="text-gray-200 text-base sm:text-lg mb-6 max-w-xl">lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak lapet ni gadong kocak</div>
           <div class="flex flex-wrap gap-8 mb-6">
-            <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3">
               <img src="assets/icon-staff.png" alt="Staff" class="w-8 h-8" />
               <div>
-                <div class="font-semibold text-white">Professional & Creative Staff</div>
+                  <div class="font-semibold text-white">Professional & Creative Staff</div>
               </div>
-            </div>
-            <div class="flex items-center gap-3">
+          </div>
+          
+          <div class="flex items-center gap-3">
               <img src="assets/icon-warranty.png" alt="Warranty" class="w-8 h-8" />
               <div>
-                <div class="font-semibold text-white">Warranties & Guarantees</div>
+                  <div class="font-semibold text-white">Warranties & Guarantees</div>
               </div>
-            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+              <img src="assets/icons/icon-star.png" alt="Rating" class="w-8 h-8" /> <div>
+                  <div class="font-semibold text-white">Rating Kepuasan</div>
+                  <div class="flex items-center gap-2">
+                      <div class="rating-stars-display">
+                          <?php
+                          // Logika PHP untuk menampilkan bintang (sudah ada di atas file)
+                          for ($i = 1; $i <= 5; $i++) {
+                              if ($i <= $average_rating) {
+                                  echo '<i class="fas fa-star"></i>';
+                              } else {
+                                  echo '<i class="far fa-star"></i>';
+                              }
+                          }
+                          ?>
+                      </div>
+                      <span class="rating-text text-white"><?php echo $average_rating; ?> dari <?php echo $total_reviews; ?> ulasan</span>
+                  </div>
+              </div>
+          </div>
           </div>
           <div class="flex items-center gap-3 mt-2">
             <img src="assets/telephone.png" alt="Telepon" class="w-6 h-6" />
@@ -263,48 +249,11 @@ include 'backend/config.php';
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     </script>
+    <?php
+      include 'Pages/customer/footer.php';
+    ?>
   </body>
 
-  <!-- Footer -->
-  <footer id="footer" class="bg-[#13162B] text-white py-0">
-    <div class="w-full px-0 pt-0 pb-0" style="background: #13162b">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between max-w-[1200px] mx-auto py-6 px-4 gap-4">
-        <!-- Logo & Tagline -->
-        <div class="flex flex-col md:items-start w-full md:w-auto">
-          <div class="flex items-center w-full">
-            <div class="flex items-center justify-center rounded-2xl w-full ml-[-0.5cm]" style="background: #ffb300; height: 75px">
-              <img src="assets/logo-efka.png" alt="EFKA Logo" class="object-contain h-[80px] w-auto mx-auto" />
-            </div>
-          </div>
-          <div class="mt-2 text-xs text-white font-mono text-center md:text-center" style="letter-spacing: 1px">Motorcycle Service &amp;<br />Repair</div>
-        </div>
-        <!-- Address & Contact -->
-        <div class="flex-1 flex flex-col justify-center md:ml-9">
-          <div class="text-white font-mono text-sm mb-2" style="letter-spacing: 1px">
-            <span> Jl. Mekar Jaya No. 27, RT 03/RW 05 Kelurahan Tanjung Sari, Kecamatan Medan Selayang </span>
-            <span> Kota Medan, Sumatera Utara 20131 </span>
-          </div>
-          <div class="text-white font-mono text-sm mb-2" style="letter-spacing: 1px">(061) 7881 2345</div>
-          <a href="mailto:info@efkaworkshop.com" class="text-white font-mono text-sm underline mb-2" style="letter-spacing: 1px">info@efkaworkshop.com</a>
-        </div>
-        <!-- Social & Copyright -->
-        <div class="flex flex-col items-center md:items-end gap-2 w-full md:w-auto">
-          <div class="flex gap-4 mb-2">
-            <a href="#" class="inline-flex items-center justify-center w-8 h-8 rounded bg-transparent hover:bg-[#23294A] transition">
-              <img src="assets/logo-ig.png" alt="Instagram" class="w-5 h-5" />
-            </a>
-            <a href="#" class="inline-flex items-center justify-center w-8 h-8 rounded bg-transparent hover:bg-[#23294A] transition">
-              <img src="assets/logo-wa.png" alt="WhatsApp" class="w-5 h-5" />
-            </a>
-            <a href="#" class="inline-flex items-center justify-center w-8 h-8 rounded bg-transparent hover:bg-[#23294A] transition">
-              <img src="assets/logo-x.png" alt="Twitter/X" class="w-5 h-5" />
-            </a>
-          </div>
-          <div class="text-xs text-white font-mono text-center md:text-right mb-2" style="letter-spacing: 1px">© 2025 Efka Workshop. All Rights reserved</div>
-        </div>
-      </div>
-    </div>
-  </footer>
   <script>
     // Navbar dropdown toggle
 const navToggle = document.getElementById("navToggle");
