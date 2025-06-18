@@ -8,10 +8,6 @@
 }
 
 body {
-  /* background-color: #c9d6ff; */
-  background-image: url("../../assets/bg-Servis-Motor.png");
-  /* background: linear-gradient(to right, #e2e2e2, #c9d6ff); */
-  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,15 +15,36 @@ body {
   height: 100vh;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url("/EfkaWorkshop/assets/bg-Servis-motor.png");
+  background-size: cover;
+  background-position: center;
+
+  z-index: -1;
+}
+
 .container {
   background-color: #fff;
   border-radius: 30px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-  position: relative;
   overflow: hidden;
   width: 768px;
   max-width: 100%;
   min-height: 480px;
+
+  /* --- INI DIA JURUSNYA --- */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* ------------------------- */
 }
 
 .container p {
@@ -211,4 +228,63 @@ body {
 
 .container.active .toggle-right {
   transform: translateX(200%);
+}
+
+/* Wrapper untuk input password dan ikon mata */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  /* Tambahkan padding di kanan agar teks tidak tertimpa ikon */
+  padding-right: 40px !important;
+  box-sizing: border-box;
+}
+
+.password-wrapper i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
+/* Container untuk pesan kriteria password */
+.password-criteria {
+  text-align: left;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 0.8rem;
+}
+
+.criteria-item {
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+/* Style untuk kriteria yang BELUM terpenuhi */
+.criteria-item.invalid {
+  color: #888;
+}
+.criteria-item.invalid::before {
+  content: "\f00d"; /* Ikon silang Font Awesome */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #d33;
+  margin-right: 8px;
+}
+
+/* Style untuk kriteria yang SUDAH terpenuhi */
+.criteria-item.valid {
+  color: #28a745;
+}
+.criteria-item.valid::before {
+  content: "\f00c"; /* Ikon centang Font Awesome */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #28a745;
+  margin-right: 8px;
 }
