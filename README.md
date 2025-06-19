@@ -28,24 +28,24 @@ Proyek ini adalah manifestasi dari semangat untuk memberikan solusi nyata, di ma
     <td align="center"><b>Halaman Sparepart Customer</b></td>
   </tr>
   <tr>
-    <td><img src="https://drive.google.com/file/d/1PyCbT5BMGnmtiVfBzjXgXnpfARExQlfO/view?usp=drive_link" alt="Halaman Utama" width="400"></td>
-    <td><img src="https://drive.google.com/file/d/11AO4Ns_HERPZjJbXQ3qM1FwZKpvcQrYO/view?usp=drive_link" alt="Halaman Sparepart" width="400"></td>
+    <td><img src="assets/images/landing-page.png" alt="Halaman Utama" width="400"></td>
+    <td><img src="assets/images/sparepart-page.png" alt="Halaman Sparepart" width="400"></td>
   </tr>
   <tr>
     <td align="center"><b>Halaman Login/Register Modern</b></td>
     <td align="center"><b>Invoice & QR Code Unik</b></td>
   </tr>
   <tr>
-    <td><img src="https://i.imgur.com/S9g9sJt.jpeg" alt="Halaman Login" width="400"></td>
-    <td><img src="https://i.imgur.com/z6E9A9q.png" alt="Halaman Invoice" width="400"></td>
+    <td><img src="assets/images/login-page.png" alt="Halaman Login" width="400"></td>
+    <td><img src="assets/images/invoice-sparepart.png" alt="Halaman Invoice" width="400"></td>
   </tr>
    <tr>
     <td align="center"><b>Panel Admin - Dashboard Analitis</b></td>
     <td align="center"><b>Panel Admin - Manajemen Feedback</b></td>
   </tr>
   <tr>
-    <td><img src="https://i.imgur.com/G9i3E7S.png" alt="Dashboard Admin" width="400"></td>
-    <td><img src="https://i.imgur.com/i9o3y2J.png" alt="Manajemen Feedback" width="400"></td>
+    <td><img src="assets/images/dashboard-admin.png" alt="Dashboard Admin" width="400"></td>
+    <td><img src="assets/images/inbox-feedback.png" alt="Manajemen Feedback" width="400"></td>
   </tr>
 </table>
 </details>
