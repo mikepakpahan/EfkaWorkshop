@@ -51,6 +51,9 @@ if ($result_hero && $result_hero->num_rows > 0) {
         border: none;
         padding: 0;
         cursor: pointer;
+        position: absolute;
+        bottom: 0px; /* Jarak dari bawah */
+        right: 10px; /* Jarak dari kanan */
       }
 
       .welcome-text {
