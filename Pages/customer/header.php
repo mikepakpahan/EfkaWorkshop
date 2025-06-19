@@ -1,8 +1,5 @@
 <?php
-// Pastikan config.php sudah dipanggil di halaman utama sebelum header ini
-// untuk memastikan session dan koneksi DB terbaca.
 
-// Logika untuk menghitung item di keranjang
 $cart_count = 0;
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     $user_id = $_SESSION['user_id'];
@@ -48,7 +45,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
         <div class="nav-actions">
             <?php if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true): ?>
                 <a href="/EfkaWorkshop/Pages/customer/checkout/checkout.php" class="cart-icon-wrapper">
-                    <i class="fas fa-shopping-cart"></i>
+                    <img class="cart-icon" src="/EfkaWorkshop/assets/icons/icon-cart.png" alt="">
                     <?php if ($cart_count > 0): ?>
                         <span class="cart-indicator"><?php echo $cart_count; ?></span>
                     <?php endif; ?>
@@ -60,7 +57,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
                     </a>
                     <div class="dropdown-content">
                         <a href="/EfkaWorkshop/Pages/customer/history/riwayat_saya.php">Riwayat Saya</a>
-                        <a href="#">Profil</a>
+                        <a href="/EfkaWorkshop/Pages/customer/profile/profil.php">Profil</a>
                         <a href="/EfkaWorkshop/backend/logout.php">Logout</a>
                     </div>
                 </div>

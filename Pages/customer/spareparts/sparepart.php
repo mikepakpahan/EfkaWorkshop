@@ -147,88 +147,88 @@ if ($result_hero && $result_hero->num_rows > 0) {
       include '../footer.php';
     ?>
     <script>
-      // Fungsi ini bisa diletakkan di luar atau di dalam DOMContentLoaded
-      function goHome() {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+        // Fungsi ini bisa diletakkan di luar atau di dalam DOMContentLoaded
+        function goHome() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
 
-      document.addEventListener('DOMContentLoaded', function () {
-          
-          // ==========================================================
-          // FUNGSI JAGOAN UNTUK MENAMBAHKAN ITEM KE KERANJANG (AJAX)
-          // ==========================================================
-          function handleAddToCart(productId) {
-              if (!productId) {
-                  alert('ID Produk tidak ditemukan!');
-                  return;
-              }
+        document.addEventListener('DOMContentLoaded', function () {
+            function handleAddToCart(productId) {
+                if (!productId) {
+                    alert('ID Produk tidak ditemukan!');
+                    return;
+                }
 
-              // Siapkan data untuk dikirim ke backend
-              const formData = new FormData();
-              formData.append('product_id', productId);
+                const formData = new FormData();
+                formData.append('product_id', productId);
 
-              // Kirim data menggunakan Fetch API
-              fetch('../../../backend/add_to_cart.php', { // Pastikan path ini benar
-                  method: 'POST',
-                  body: formData
-              })
-              .then(response => response.json())
-              .then(data => {
-                  // Tampilkan notifikasi (kita pakai SweetAlert yang sudah ada)
-                  Swal.fire({
-                      title: data.status === 'success' ? 'Berhasil!' : 'Oops...',
-                      text: data.message,
-                      icon: data.status, // 'success' atau 'error'
-                      timer: 1500, // Notifikasi hilang setelah 1.5 detik
-                      showConfirmButton: false
-                  });
+                fetch('/EfkaWorkshop/backend/add_to_cart.php', { // Gunakan path absolut
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    Swal.fire({
+                        title: data.status === 'success' ? 'Berhasil!' : 'Oops...',
+                        text: data.message,
+                        icon: data.status,
+                        timer: 1500,
+                        showConfirmButton: false,
+                        position: 'top-start', // Notifikasi di pojok kanan atas
+                        toast: true // Mode notifikasi kecil
+                    });
 
-                  // Update indikator keranjang jika sukses
-                  if (data.status === 'success' && typeof data.cart_count !== 'undefined') {
-                      const cartContainer = document.querySelector('.cart-icon-container');
-                      if (cartContainer) {
-                          let indicator = cartContainer.querySelector('.cart-indicator');
-                          if (!indicator) {
-                              indicator = document.createElement('span');
-                              indicator.className = 'cart-indicator';
-                              cartContainer.appendChild(indicator);
-                          }
-                          indicator.textContent = data.cart_count;
-                      }
-                  }
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-                  Swal.fire('Error', 'Terjadi masalah koneksi.', 'error');
-              });
-          }
-
-
-          // ==========================================================
-          // 1. EVENT LISTENER UNTUK TOMBOL-TOMBOL DI GRID PRODUK
-          // ==========================================================
-          const cartForms = document.querySelectorAll('.sparepart-product-actions form');
-          cartForms.forEach(form => {
-              form.addEventListener('submit', function (event) {
-                  event.preventDefault(); // Mencegah refresh
-                  const productId = form.querySelector('input[name="product_id"]').value;
-                  handleAddToCart(productId); // Panggil fungsi jagoan
-              });
-          });
+                    // --- INI DIA PERBAIKAN UTAMANYA ---
+                    if (data.status === 'success' && typeof data.cart_count !== 'undefined') {
+                        // Cari wrapper ikon keranjang, BUKAN container lama
+                        const cartWrapper = document.querySelector('.cart-icon-wrapper');
+                        
+                        if (cartWrapper) {
+                            // Coba cari indikator yang sudah ada
+                            let indicator = cartWrapper.querySelector('.cart-indicator');
+                            
+                            // Jika indikator BELUM ada...
+                            if (!indicator) {
+                                // Buat elemen span baru
+                                indicator = document.createElement('span');
+                                indicator.className = 'cart-indicator'; // Beri class
+                                cartWrapper.appendChild(indicator); // "Tempelkan" ke dalam wrapper
+                            }
+                            
+                            // Perbarui angka di dalam indikator
+                            indicator.textContent = data.cart_count;
+                            // Pastikan dia terlihat jika angkanya lebih dari 0
+                            indicator.style.display = 'flex'; 
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'Terjadi masalah koneksi.', 'error');
+                });
+            }
 
 
-          // ==========================================================
-          // 2. EVENT LISTENER UNTUK TOMBOL "BELI SEKARANG" DI HERO BANNER
-          // ==========================================================
-          const heroBtn = document.getElementById('hero-add-to-cart-btn');
-          if (heroBtn) {
-              heroBtn.addEventListener('click', function () {
-                  const productId = this.dataset.productId; // Ambil ID dari atribut data-*
-                  handleAddToCart(productId); // Panggil fungsi jagoan yang sama
-              });
-          }
+            // ==========================================================
+            // EVENT LISTENERS (BAGIAN INI TIDAK BERUBAH)
+            // ==========================================================
+            const cartForms = document.querySelectorAll('.sparepart-product-actions form');
+            cartForms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    const productId = form.querySelector('input[name="product_id"]').value;
+                    handleAddToCart(productId);
+                });
+            });
 
-      });
-  </script>
+            const heroBtn = document.getElementById('hero-add-to-cart-btn');
+            if (heroBtn) {
+                heroBtn.addEventListener('click', function () {
+                    const productId = this.dataset.productId;
+                    handleAddToCart(productId);
+                });
+            }
+        });
+    </script>
   </body>
 </html>

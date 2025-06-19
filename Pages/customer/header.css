@@ -134,10 +134,21 @@ body {
   color: #fff;
 }
 .cart-icon-wrapper {
-  color: #fff;
-  font-size: 1.2rem;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Sesuaikan ukuran wrapper jika perlu */
+  height: 40px; /* Sesuaikan ukuran wrapper jika perlu */
+  /* Tambahan styling lain sesuai kebutuhan */
 }
+
+.cart-icon {
+  width: auto; /* Biar skala gambar otomatis */
+  height: 35px; /* Sesuaikan tinggi ikon */
+  display: block; /* Menghilangkan spasi ekstra di bawah gambar */
+}
+
 .cart-indicator {
   position: absolute;
   top: -5px;

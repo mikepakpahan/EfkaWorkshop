@@ -1,76 +1,123 @@
 <?php
-// Panggil config di paling atas
-require '../../../backend/config.php'; 
+require '../../../backend/config.php';
 
-// Cek status login dan simpan dalam variabel
-$is_logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-
-$history_items = [];
-// Ambil data dari database HANYA JIKA user sudah login
-if ($is_logged_in) {
-    $user_id = $_SESSION['user_id'];
-    // Query SQL yang sudah dibersihkan dari karakter aneh
-    $sql_history = "SELECT id, transaction_type, description, final_price, completion_date, is_rated 
-                    FROM history WHERE user_id = ? ORDER BY completion_date DESC";
-    $stmt = $conn->prepare($sql_history);
-    $stmt->bind_param("i", $user_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            $history_items[] = $row;
-        }
-    }
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: /EfkaWorkshop/Pages/login/login-page.php");
+    exit;
 }
 
-// Set variabel untuk menu aktif di header
+$user_id = $_SESSION['user_id'];
 $activePage = 'history';
+
+// --- JURUS SQL BARU DENGAN UNION ---
+// Query ini akan menggabungkan data dari 'orders' (yang masih aktif)
+// dan 'history' (yang sudah selesai) menjadi satu daftar.
+$sql = "(
+    SELECT 
+        id, 
+        'processing' AS status,
+        'sparepart' AS transaction_type,
+        NULL AS description,
+        total_amount AS final_price,
+        order_date AS transaction_date,
+        0 AS is_rated
+    FROM orders
+    WHERE user_id = ? AND status = 'processing'
+)
+UNION ALL
+(
+    SELECT 
+        id, 
+        'completed' AS status,
+        transaction_type,
+        description,
+        final_price,
+        completion_date AS transaction_date,
+        is_rated
+    FROM history
+    WHERE user_id = ?
+)
+ORDER BY transaction_date DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $user_id, $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$transactions = $result->fetch_all(MYSQLI_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Transaksi - EFKA Workshop</title>
-    <?php 
-    include '../header.php'; 
-    ?>
+    <?php include '../header.php'; ?>
+    <style>
+        /* ... (CSS lama Anda tetap di sini) ... */
+        .history-container { max-width: 900px; margin: 2rem auto; padding: 2rem; }
+        .history-card { /* ... */ }
+        
+        /* Tambahkan style untuk status 'processing' */
+        .history-card.status-processing {
+            border-left: 5px solid #ffc107; /* Oranye untuk order aktif */
+        }
+        .btn-view-qr {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
 
 <div class="history-container">
     <h1 style="text-align: center; margin-bottom: 2rem;">Riwayat Transaksi Anda</h1>
     
-    <?php if ($is_logged_in): ?>
-        <?php if (!empty($history_items)): ?>
-            <?php foreach ($history_items as $item):
-                $icon = ($item['transaction_type'] === 'service') ? '<i class="fas fa-wrench icon"></i>' : '<i class="fas fa-box-open icon"></i>';
-                $title = ($item['transaction_type'] === 'service') ? 'Riwayat Servis' : 'Riwayat Pembelian Sparepart';
+    <?php if (!empty($transactions)): ?>
+        <?php foreach ($transactions as $item): ?>
+            <?php
+            // Logika untuk menentukan tampilan berdasarkan status
+            $is_processing = ($item['status'] === 'processing');
+            $card_class = $is_processing ? 'status-processing' : '';
+            
+            $icon = ($item['transaction_type'] === 'service') ? '<i class="fas fa-wrench icon"></i>' : '<i class="fas fa-box-open icon"></i>';
+            $title = $is_processing ? 'Pesanan Sparepart (Menunggu Pembayaran)' : (($item['transaction_type'] === 'service') ? 'Riwayat Servis' : 'Riwayat Pembelian Sparepart');
+            
+            // Jika deskripsi kosong (dari tabel orders), buat deskripsi default
+            $description = $item['description'] ?? 'Detail pesanan ada di dalam tiket QR.';
             ?>
-                <div class="history-card">
-                    <div class="history-header">
-                        <div class="history-header-info"><?php echo $icon; ?> <span><?php echo $title; ?></span></div>
-                        <div class="history-date"><?php echo date('d F Y', strtotime($item['completion_date'])); ?></div>
-                    </div>
-                    <div class="history-body">
-                        <p class="description"><?php echo htmlspecialchars($item['description']); ?></p>
-                    </div>
-                    <div class="history-footer">
-                        <span class="total-price">Total: Rp <?php echo number_format($item['final_price'], 0, ',', '.'); ?></span>
+
+            <div class="history-card <?php echo $card_class; ?>">
+                <div class="history-header">
+                    <div class="history-header-info"><?php echo $icon; ?> <span><?php echo $title; ?></span></div>
+                    <div class="history-date"><?php echo date('d F Y', strtotime($item['transaction_date'])); ?></div>
+                </div>
+                <div class="history-body">
+                    <p class="description"><?php echo htmlspecialchars($description); ?></p>
+                </div>
+                <div class="history-footer">
+                    <span class="total-price">Total: Rp <?php echo number_format($item['final_price'], 0, ',', '.'); ?></span>
+                    
+                    <?php if ($is_processing): ?>
+                        <a href="/EfkaWorkshop/order_success.php?order_id=<?php echo $item['id']; ?>" class="btn-view-qr">Lihat Tiket QR</a>
+                    <?php else: ?>
                         <?php if ($item['is_rated'] == 0): ?>
                             <button class="btn-rate" data-historyid="<?php echo $item['id']; ?>">Beri Ulasan</button>
                         <?php else: ?>
                             <span class="rated-badge">Sudah Diulas</span>
                         <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
                 </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p style='text-align:center;'>Anda belum memiliki riwayat transaksi.</p>
-        <?php endif; ?>
-    <?php endif; // Bagian if ($is_logged_in) tidak perlu blok else karena sudah ditangani JavaScript ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p style='text-align:center;'>Anda belum memiliki riwayat transaksi.</p>
+    <?php endif; ?>
 </div>
 
 <?php
