@@ -1,5 +1,4 @@
 <?php
-// Amankan halaman ini hanya untuk admin
 require '../../../backend/config.php';
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     die("Akses ditolak. Halaman ini hanya untuk Admin.");

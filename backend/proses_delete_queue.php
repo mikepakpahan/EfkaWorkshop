@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: ../Pages/admin/queue/queue.php"); // Sesuaikan path
+    header("Location: ../Pages/admin/queue/queue.php");
     exit();
 }
 
@@ -23,6 +23,6 @@ if ($stmt->execute()) {
     $_SESSION['error_message'] = "Gagal menghapus booking.";
 }
 
-header("Location: ../Pages/admin/queue/queue.php"); // Sesuaikan path
+header("Location: ../Pages/admin/queue/queue.php");
 exit();
 ?>

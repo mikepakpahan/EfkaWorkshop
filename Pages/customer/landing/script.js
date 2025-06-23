@@ -1,6 +1,4 @@
-// Bungkus SEMUA kode di dalam event listener ini
 document.addEventListener("DOMContentLoaded", function () {
-  // --- BAGIAN 1: KODE UI ANDA ---
   const navToggle = document.getElementById("navToggle");
   const mobileNav = document.getElementById("mobileNav");
   if (navToggle && mobileNav) {
@@ -27,13 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // ===========================================
-  // LOGIKA UNTUK FORM BOOKING SERVICE
-  // ===========================================
-  const bookingForm = document.getElementById("booking-form"); // Pastikan form Anda punya class="booking-form"
+  const bookingForm = document.getElementById("booking-form");
   if (bookingForm) {
     bookingForm.addEventListener("submit", function (event) {
-      event.preventDefault(); // Mencegah refresh halaman
+      event.preventDefault();
 
       const submitButton = bookingForm.querySelector('button[type="submit"]');
       submitButton.disabled = true;
@@ -94,18 +89,13 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then((response) => response.json())
         .then((data) => {
-          // HAPUS alert() lama dari sini
-
-          // --- GUNAKAN LOGIKA IF/ELSE INI ---
           if (data.status === "success") {
-            // Jika sukses, panggil SweetAlert dengan ikon centang hijau
             Swal.fire({
               title: "Terima Kasih!",
               text: data.message,
               icon: "success",
               confirmButtonColor: "#FFC72C",
               confirmButtonText: "Sama-sama!",
-              // Kita tambahkan lagi jurus animasinya
               showClass: {
                 popup: "animate__animated animate__fadeInDown",
               },
@@ -113,10 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 popup: "animate__animated animate__fadeOutUp",
               },
             });
-            // Kosongkan textarea setelah berhasil
             messageTextarea.value = "";
           } else {
-            // Jika gagal, panggil SweetAlert dengan ikon silang merah
             Swal.fire({
               title: "Oops... Terjadi Kesalahan",
               text: data.message,
@@ -127,7 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch((error) => {
           console.error("Error:", error);
-          // Tampilkan SweetAlert untuk error koneksi juga
           Swal.fire({
             title: "Error Koneksi",
             text: "Terjadi masalah saat menghubungi server. Silakan coba lagi.",
@@ -142,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-// Fungsi goHome bisa di luar atau di dalam, tapi lebih aman jika terdefinisi global jika dipanggil dari HTML onclick
 function goHome() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }

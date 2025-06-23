@@ -1,5 +1,4 @@
 <?php
-// Set menu aktif default jika tidak ada yang di-set
 if (!isset($activeMenu)) {
     $activeMenu = '';
 }

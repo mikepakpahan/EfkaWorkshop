@@ -63,6 +63,6 @@ try {
 }
 
 // Kembali ke halaman order
-header("Location: ../Pages/admin/spareparts/sparepart-order.php"); // Sesuaikan path
+header("Location: ../Pages/admin/spareparts/sparepart-order.php");
 exit();
 ?>

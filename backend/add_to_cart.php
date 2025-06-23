@@ -27,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['product_id'])) {
     } else {
         // JIKA BELUM ADA: Lakukan INSERT baris baru
         $stmt_insert = $conn->prepare("INSERT INTO carts (user_id, sparepart_id, quantity) VALUES (?, ?, ?)");
-        // --- INI BAGIAN YANG DIPERBAIKI: URUTAN VARIABELNYA BENAR ---
         $stmt_insert->bind_param("iii", $user_id, $product_id, $quantity_to_add);
         $stmt_insert->execute();
     }

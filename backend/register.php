@@ -31,7 +31,7 @@ $stmt->bind_param("sss", $name, $email, $hashed_password);
 
 if ($stmt->execute()) {
     $_SESSION['success_message'] = "Pendaftaran berhasil! Silakan login dengan akun Anda.";
-    header("Location: ../Pages/login/login-page.php"); // Sesuaikan path jika perlu
+    header("Location: ../Pages/login/login-page.php");
     exit(); 
 } else {
     if ($conn->errno === 1062) {

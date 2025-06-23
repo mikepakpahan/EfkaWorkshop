@@ -3,57 +3,45 @@ $pageTitle = 'Management Sparepart';
 $activeMenu = 'sparepart';
 
 require '../../../backend/config.php';
-// Template header sekarang hanya berisi <head> dan bagian awal <body>
 include '../template-header.php'; 
-// Template sidebar akan dipanggil setelahnya
 ?>
 
 <link rel="stylesheet" href="/EfkaWorkshop/assets/libs/sweetalert2/sweetalert2.min.css">
 <script src="/EfkaWorkshop/assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
 
 <style>
-    /* GANTI ATAU TAMBAHKAN BLOK-BLOK CSS INI DI style.css ADMIN ANDA */
-
-    /* Mengunci ukuran dasar dan menghilangkan scrollbar default */
     html, body {
         height: 100%;
         margin: 0;
         overflow: hidden;
-        font-family: 'Inter', sans-serif; /* Pastikan font konsisten */
+        font-family: 'Inter', sans-serif;
     }
 
-    /* Pembungkus utama seluruh halaman admin */
     .page-container {
         display: flex;
-        flex-direction: column; /* Menyusun Header dan Main Body secara vertikal */
+        flex-direction: column; 
         height: 100%;
     }
 
-    /* Header atas */
     .top-header {
-        flex-shrink: 0; /* Mencegah header dari "gepeng" atau menyusut */
+        flex-shrink: 0;
     }
 
-    /* Wadah untuk sidebar dan konten utama */
     .main-body {
         display: flex;
-        flex-grow: 1; /* Ini adalah kunci #1: membuat wadah ini mengisi sisa tinggi layar */
-        overflow: hidden; /* Mencegah munculnya scrollbar yang tidak diinginkan di sini */
+        flex-grow: 1; 
+        overflow: hidden;
     }
 
-    /* Sidebar di kiri */
     .sidebar {
-        flex-shrink: 0; /* Mencegah sidebar menyusut lebarnya */
-        width: 250px; /* Beri lebar tetap (sesuaikan jika perlu) */
-        /* Jika menu sidebar-mu bisa jadi panjang, tambahkan ini: */
-        /* overflow-y: auto; */ 
+        flex-shrink: 0; 
+        width: 250px; 
     }
 
-    /* Area konten utama di kanan */
     .main-content {
-        flex-grow: 1;         /* Kunci #2: mengisi sisa lebar setelah sidebar */
-        overflow-y: auto;     /* JAGOAN KITA: di sinilah scrollbar seharusnya muncul */
-        padding: 2rem;        /* Padding untuk memberi jarak konten dari tepi */
+        flex-grow: 1;  
+        overflow-y: auto;  
+        padding: 2rem;
         margin-bottom: 70px;
     }
     .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
@@ -67,23 +55,17 @@ include '../template-header.php';
     .feedback-slider { display: flex; width: 200%; transition: transform 0.4s ease-in-out; }
     .feedback-slider.show-read { transform: translateX(-50%); }
     .feedback-panel { width: 50%; padding: 0 5px; box-sizing: border-box; }
-    .products-grid { /* Style grid produk Anda yang sudah ada */ }
     .product-card {
         cursor: pointer;
-        transition: all 0.2s ease-in-out; /* Tambahkan transisi biar mulus */
+        transition: all 0.2s ease-in-out;
     }
 
-    /* === INI DIA CSS YANG HILANG === */
     .product-card.selected {
-        outline: 3px solid #007bff; /* Garis biru tebal di luar */
-        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4); /* Bayangan biru yang lebih kentara */
-        transform: scale(1.02); /* Sedikit membesar biar lebih nonjol */
+        outline: 3px solid #007bff;
+        box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        transform: scale(1.02); 
     }
-    /* =============================== */
 
-    .hero-badge {
-        /* ... (CSS hero-badge Anda) ... */
-    }
 </style>
 
 <body>
@@ -128,14 +110,10 @@ include '../template-header.php';
     </div>
 
     <script src="../script.js"></script> 
-    <script>
-    // Logika JavaScript akan kita buat setelah ini
-    </script>
 </body>
 </html>
 
 <?php
-// Ambil semua data sparepart dari database
 $sql = "SELECT id, part_name, description, price, stock, image_url, is_featured, is_active FROM spareparts ORDER BY id DESC";
 $result = $conn->query($sql);
 
@@ -165,7 +143,6 @@ if ($result && $result->num_rows > 0) {
             </div>
         </div>';
 
-        // Pisahkan HTML berdasarkan status is_active
         if ($row['is_active']) {
             $active_products_html .= $card_html;
         } else {
@@ -174,27 +151,24 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
-// Jika tidak ada produk aktif
 if (empty($active_products_html)) {
     $active_products_html = "<p>Tidak ada produk aktif.</p>";
 }
-// Jika tidak ada produk yang diarsipkan
+
 if (empty($archived_products_html)) {
     $archived_products_html = "<p>Tidak ada produk yang diarsipkan.</p>";
 }
 ?>
 
 <script>
-// Sisipkan HTML yang sudah dibuat PHP ke dalam grid yang sesuai
 document.getElementById('active-products-grid').innerHTML = `<?php echo addslashes($active_products_html); ?>`;
 document.getElementById('archived-products-grid').innerHTML = `<?php echo addslashes($archived_products_html); ?>`;
 
 document.addEventListener('DOMContentLoaded', function() {
-    // === DEKLARASI ELEMEN ===
     const slider = document.getElementById('product-slider');
     const activeBtn = document.getElementById('active-btn');
     const archivedBtn = document.getElementById('archived-btn');
-    const productGrid = document.querySelector('.feedback-viewport'); // Target utama untuk event
+    const productGrid = document.querySelector('.feedback-viewport');
     
     const tambahBtn = document.getElementById('btn-tambah');
     const arsipBtn = document.getElementById('btn-archive');
@@ -205,9 +179,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedProductId = null;
     let isArchivedTab = false;
 
-    // === LOGIKA TABS ===
     activeBtn.addEventListener('click', function() {
-        slider.classList.remove('show-read'); // Gunakan class yang sama dari feedback
+        slider.classList.remove('show-read'); 
         activeBtn.classList.add('active');
         archivedBtn.classList.remove('active');
         isArchivedTab = false;
@@ -222,7 +195,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateButtonVisibility();
     });
 
-    // === LOGIKA PEMILIHAN KARTU ===
     productGrid.addEventListener('click', function(e) {
         const card = e.target.closest('.product-card');
         if (!card) return;
@@ -232,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedProductId = card.dataset.id;
     });
 
-    // === LOGIKA TOMBOL AKSI ===
     function updateButtonVisibility() {
         if (isArchivedTab) {
             arsipBtn.style.display = 'none';
@@ -247,11 +218,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    tambahBtn.addEventListener('click', () => window.location.href = 'admin_tambah_produk.php');
+    tambahBtn.addEventListener('click', () => window.location.href = 'admin-tambah-produk.php');
     
     editBtn.addEventListener('click', () => {
         if (!selectedProductId) return Swal.fire('Oops...', 'Pilih produk untuk diedit.', 'warning');
-        window.location.href = 'admin_edit_produk.php?id=' + selectedProductId;
+        window.location.href = 'admin-edit-produk.php?id=' + selectedProductId;
     });
 
     heroBtn.addEventListener('click', () => {
@@ -261,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
             text: "Produk ini akan jadi banner utama di halaman sparepart.",
             icon: 'info', showCancelButton: true, confirmButtonText: 'Ya, Jadikan Hero!'
         }).then(result => {
-            if (result.isConfirmed) window.location.href = '../../backend/proses_make_hero.php?id=' + selectedProductId;
+            if (result.isConfirmed) window.location.href = '../../../backend/proses_make_hero.php?id=' + selectedProductId;
         });
     });
 
@@ -272,16 +243,15 @@ document.addEventListener('DOMContentLoaded', function() {
             text: "Produk ini tidak akan tampil di halaman customer, tapi riwayatnya tetap aman.",
             icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya, Arsipkan!'
         }).then(result => {
-            if (result.isConfirmed) window.location.href = '../../backend/admin_hapus_produk.php?id=' + selectedProductId; // Menggunakan skrip lama yang sudah diubah jadi soft-delete
+            if (result.isConfirmed) window.location.href = '../../../backend/admin_hapus_produk.php?id=' + selectedProductId; // Menggunakan skrip lama yang sudah diubah jadi soft-delete
         });
     });
 
     aktifkanBtn.addEventListener('click', () => {
         if (!selectedProductId) return Swal.fire('Oops...', 'Pilih produk untuk diaktifkan kembali.', 'warning');
-        window.location.href = '../../backend/proses_reactivate_produk.php?id=' + selectedProductId;
+        window.location.href = '../../../backend/proses_reactivate_produk.php?id=' + selectedProductId;
     });
 
-    // Panggil sekali di awal
     updateButtonVisibility();
 });
 </script>

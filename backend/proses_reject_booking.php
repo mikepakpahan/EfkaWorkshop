@@ -1,9 +1,7 @@
 <?php
-// Panggil file konfigurasi dan autoloader dari Composer
 require_once 'config.php';
 require_once '../../vendor/autoload.php';
 
-// Gunakan class-class dari PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -17,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // 1. Ambil data dari form modal reject
     $booking_id = intval($_POST['booking_id']);
-    $rejection_reason = trim($_POST['rejection_reason']); // Ambil alasan penolakan
+    $rejection_reason = trim($_POST['rejection_reason']);
 
     // Validasi sederhana
     if (empty($booking_id) || empty($rejection_reason)) {
@@ -43,17 +41,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // 3. Konfigurasi dan Kirim Email dengan PHPMailer
         $mail = new PHPMailer(true);
         try {
-            // Konfigurasi Server SMTP (Sama seperti sebelumnya)
+            // Konfigurasi Server SMTP
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'mike.pakpahan1407@gmail.com'; // GANTI DENGAN EMAIL GMAIL ANDA
-            $mail->Password   = 'wmxp potp xqpx srah'; // GANTI DENGAN APP PASSWORD ANDA
+            $mail->Username   = $_ENV['GMAIL_USER'];
+            $mail->Password   = $_ENV['GMAIL_APP_PASSWORD'];
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
             // Penerima dan Pengirim
-            $mail->setFrom('admin@efka.com', 'EFKA Workshop');
+            $mail->setFrom($_ENV['GMAIL_USER'], 'EFKA Workshop');
             $mail->addAddress($customer_email, $customer_name);
 
             // Konten Email Penolakan

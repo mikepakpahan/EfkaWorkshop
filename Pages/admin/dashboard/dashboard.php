@@ -6,8 +6,6 @@ require '../../../backend/config.php';
 include '../template-header.php';
 include '../template-sidebar.php';
 
-// --- LOGIKA PHP UNTUK MENYIAPKAN DATA GRAFIK ---
-
 // 1. Data untuk Grafik Pendapatan Mingguan (7 Hari Terakhir)
 $weekly_revenue_labels = [];
 $weekly_revenue_data = [];
@@ -41,7 +39,7 @@ $type_labels = [];
 $type_data = [];
 if ($result_type && $result_type->num_rows > 0) {
     while($row = $result_type->fetch_assoc()) {
-        $type_labels[] = ucfirst($row['transaction_type']); // Misal: "Service"
+        $type_labels[] = ucfirst($row['transaction_type']);
         $type_data[] = $row['total'];
     }
 }
@@ -156,8 +154,8 @@ const revenueTypeChart = new Chart(ctxType, {
             label: 'Pendapatan',
             data: typeData,
             backgroundColor: [
-                'rgba(0, 123, 255, 0.7)', // Biru untuk Service
-                'rgba(40, 167, 69, 0.7)',  // Hijau untuk Sparepart
+                'rgba(0, 123, 255, 0.7)',
+                'rgba(40, 167, 69, 0.7)',
             ],
             borderColor: [
                 'rgba(0, 123, 255, 1)',

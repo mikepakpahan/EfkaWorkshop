@@ -1,4 +1,3 @@
-/* ================== Global Styles & Resets ================== */
 * {
   margin: 0;
   padding: 0;
@@ -7,13 +6,12 @@
 
 body {
   font-family: "Inter", "Open Sans", sans-serif;
-  background-color: #f3f4f6; /* Warna abu-abu muda untuk background konten */
+  background-color: #f3f4f6;
   color: #1f2937;
   height: 100vh;
-  overflow: hidden; /* Mencegah scroll di level body */
+  overflow: hidden;
 }
 
-/* ================== Page Layout Containers ================== */
 .page-container {
   display: flex;
   flex-direction: column;
@@ -22,19 +20,18 @@ body {
 
 .main-body {
   display: flex;
-  flex-grow: 1; /* Memastikan body mengisi sisa tinggi layar */
-  overflow: hidden; /* Mencegah body meluap */
+  flex-grow: 1;
+  overflow: hidden;
 }
 
-/* ================== Top Header Styles ================== */
 .top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background-color: #1b2649;
-  border-bottom: 1px solid #e5e7eb; /* Garis pemisah tipis */
-  flex-shrink: 0; /* Mencegah header menyusut */
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
 }
 
 .header-logo {
@@ -50,7 +47,7 @@ body {
 .logo-text {
   font-weight: 700;
   font-size: 1.1rem;
-  color: #111827; /* Warna teks logo sedikit lebih gelap */
+  color: #111827;
 }
 
 .header-logo img {
@@ -66,14 +63,13 @@ body {
   color: #ffb300;
 }
 
-/* ================== Sidebar Styles ================== */
 .sidebar {
   width: 260px;
   background-color: #000000;
   padding: 1.5rem 1rem;
   color: #d1d5db;
   flex-shrink: 0;
-  overflow-y: auto; /* Mengaktifkan scroll jika menu panjang */
+  overflow-y: auto;
 }
 
 .sidebar-menu a {
@@ -110,11 +106,10 @@ body {
   object-fit: contain;
 }
 
-/* ================== Main Content Styles ================== */
 .main-content {
   flex-grow: 1;
   padding: 2rem;
-  overflow-y: auto; /* Scroll hanya akan muncul di area konten ini */
+  overflow-y: auto;
 }
 
 .content-actions {
@@ -139,7 +134,6 @@ body {
   background-color: #f0b500;
 }
 
-/* ================== Products Grid Styles ================== */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -213,9 +207,6 @@ body {
   margin-bottom: 0;
 }
 
-/* ================== Responsive Styles for Mobile ================== */
-
-/* Sembunyikan tombol menu di desktop */
 .menu-toggle {
   display: none;
   background: none;
@@ -225,53 +216,41 @@ body {
   cursor: pointer;
 }
 
-/* Terapkan style ini jika lebar layar 768px atau kurang */
 @media (max-width: 768px) {
-  /* =================================================================
-       1. HEADER DENGAN CSS GRID (ANTI-TUMPANG TINDIH)
-       ================================================================= */
   .top-header {
     display: grid;
-    /* Membuat 3 kolom: Kiri (auto), Tengah (1fr), Kanan (auto) */
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 1rem; /* Jarak antar elemen header */
+    gap: 1rem;
     padding: 0.75rem 1rem;
     position: relative;
     z-index: 2000;
-    background-color: #1b2649; /* Warna background header dari file Anda */
+    background-color: #1b2649;
   }
 
-  /* Tampilkan tombol menu */
   .menu-toggle {
-    display: block; /* Pastikan tombol terlihat */
+    display: block;
   }
 
-  /* Tengahkan judul dan atur warna & style */
   .page-title {
     display: block;
     font-size: 1rem;
     font-weight: 600;
-    color: #ffb300; /* Warna kuning dari file Anda */
+    color: #ffb300;
     text-align: center;
-
-    /* Pengaman jika judul sangat panjang */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  /* Sembunyikan teks logo EFKA WORKSHOP */
   .logo-text {
     display: none;
   }
 
-  /* Pastikan ukuran logo ikon pas */
   .header-logo img {
     height: 32px;
   }
 
-  /* Animasi Tombol Menu (Hamburger menjadi X) */
   .menu-toggle {
     width: 28px;
     height: 22px;
@@ -285,7 +264,7 @@ body {
     position: absolute;
     height: 3px;
     width: 100%;
-    background: #ffffff; /* Warna garis putih */
+    background: #ffffff;
     border-radius: 3px;
     left: 0;
     opacity: 1;
@@ -312,10 +291,6 @@ body {
     top: 9px;
     transform: rotate(-135deg);
   }
-
-  /* =================================================================
-       2. PERBAIKAN SIDEBAR
-       ================================================================= */
   .main-body {
     position: relative;
   }
@@ -333,10 +308,6 @@ body {
   .sidebar.is-open {
     transform: translateX(0);
   }
-
-  /* =================================================================
-       3. PERBAIKAN KONTEN UTAMA
-       ================================================================= */
   .main-content {
     padding: 1.5rem 1rem;
   }
@@ -373,10 +344,6 @@ body {
   }
 }
 
-/* =================================================================
-       Sparepart-order.php
-       ================================================================= */
-
 .order-container {
   width: 100%;
   margin: 0;
@@ -386,7 +353,7 @@ body {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 0 16px; /* Tambahkan padding agar tidak mentok di mobile */
+  padding: 0 16px;
 }
 
 .search-bar {
@@ -421,7 +388,6 @@ body {
   gap: 20px;
 }
 
-/* Tambahan untuk responsif */
 @media (max-width: 768px) {
   .order-list {
     grid-template-columns: repeat(2, 1fr);

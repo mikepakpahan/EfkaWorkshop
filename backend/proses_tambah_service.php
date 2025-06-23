@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Layanan baru berhasil ditambahkan!";
-            header("Location: ../Pages/admin/service/manage-service.php"); // Sesuaikan path
+            header("Location: ../Pages/admin/service/manage-service.php");
             exit();
         } else {
             echo "Error: " . $stmt->error;
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 } else {
     // Jika diakses langsung, redirect
-    header("Location: ../Pages/admin/service/manage-service.php"); // Sesuaikan path
+    header("Location: ../Pages/admin/service/manage-service.php");
     exit();
 }
 ?>

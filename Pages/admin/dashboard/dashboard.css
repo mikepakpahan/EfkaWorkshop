@@ -3,7 +3,7 @@
 .main-content {
   flex-grow: 1;
   padding: 2rem;
-  overflow-y: auto; /* Scroll hanya akan muncul di area konten ini */
+  overflow-y: auto;
 }
 
 .content-actions {

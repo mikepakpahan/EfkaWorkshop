@@ -6,11 +6,7 @@ if (!isset($pageTitle)) {
 }
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['user_role'] !== 'admin') {
-    // Versi BARU yang mengimpor halaman error custom
-    // Alih-alih echo, kita panggil seluruh file halaman error-mu
     include __DIR__ . '/../errors/access_denied.php';
-    
-    // Hentikan eksekusi sisa halaman
     exit();
 }
 

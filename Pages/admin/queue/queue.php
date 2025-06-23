@@ -1,12 +1,9 @@
 <?php
-// Pastikan path ini benar dari lokasi file Anda
 require '../../../backend/config.php';
 
-// Variabel untuk menandai menu aktif di sidebar
 $pageTitle = 'Queue Service';
 $activeMenu = 'queue';
 
-// Mengambil data booking yang statusnya 'confirmed_by_user'
 $sql = "SELECT 
             sb.id, 
             u.name, 
@@ -22,7 +19,6 @@ $sql = "SELECT
 
 $result = $conn->query($sql);
 
-// Memasukkan template header dan sidebar
 include '../template-header.php'; 
 include '../template-sidebar.php';
 ?>

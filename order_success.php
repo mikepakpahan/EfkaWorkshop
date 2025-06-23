@@ -1,10 +1,7 @@
 <?php
-// Pastikan path ke vendor/autoload.php sudah benar!
-// Jika file ini di root EfkaWorkshop, path ini sudah benar.
 require '../vendor/autoload.php';
 require 'backend/config.php';
 
-// --- PERUBAHAN 1: MEMANGGIL CLASS DARI BACON ---
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
@@ -17,7 +14,6 @@ if (!isset($_GET['order_id'])) { die("Order tidak ditemukan."); }
 $order_id = intval($_GET['order_id']);
 $user_id = $_SESSION['user_id'];
 
-// ... (KODE PHP UNTUK MENGAMBIL DATA ORDER & ITEMS TETAP SAMA PERSIS) ...
 $sql_order = "SELECT o.id, o.total_amount, o.order_date, o.completion_token, u.name 
               FROM orders o JOIN users u ON o.user_id = u.id 
               WHERE o.id = ? AND o.user_id = ?";
@@ -33,19 +29,16 @@ $stmt_items->bind_param("i", $order_id);
 $stmt_items->execute();
 $items_result = $stmt_items->get_result();
 $items = $items_result->fetch_all(MYSQLI_ASSOC);
-// --------------------------------------------------------------------------
 
-// --- PERUBAHAN 2: BLOK PEMBUATAN QR CODE DENGAN BACON ---
 $qr_url = "http://192.168.100.110/EfkaWorkshop/mark_as_complete.php?token=" . $order['completion_token'];
 
 $renderer = new ImageRenderer(
-    new RendererStyle(300), // Ukuran QR Code
-    new SvgImageBackEnd()   // Tipe output gambar (SVG lebih tajam)
+    new RendererStyle(300),
+    new SvgImageBackEnd() 
 );
 $writer = new Writer($renderer);
-// Tulis URL kita menjadi string gambar SVG
-$qr_code_svg_string = $writer->writeString($qr_url);
-// Konversi menjadi format yang bisa langsung ditaruh di <img>
+
+$qr_code_svg_string = $writer->writeString($qr_url);  
 $qr_code_data_uri = 'data:image/svg+xml;base64,' . base64_encode($qr_code_svg_string);
 
 ?>
@@ -122,7 +115,7 @@ $qr_code_data_uri = 'data:image/svg+xml;base64,' . base64_encode($qr_code_svg_st
                 fetch(`backend/check_order_status.php?order_id=${orderId}`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Checking status...', data.status); // Untuk debugging, bisa dilihat di console
+                        console.log('Checking status...', data.status);
 
                         // Jika server menjawab 'completed'...
                         if (data.status === 'completed') {

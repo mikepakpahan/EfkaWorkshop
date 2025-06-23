@@ -1,11 +1,9 @@
 <?php
-// Amankan halaman
 require '../../../backend/config.php';
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     die("Akses ditolak.");
 }
 
-// Cek apakah ID ada di URL, jika tidak, tendang balik
 if (!isset($_GET['id'])) {
     header("Location: manage-service.php");
     exit();
@@ -13,7 +11,6 @@ if (!isset($_GET['id'])) {
 
 $service_id = intval($_GET['id']);
 
-// Ambil data layanan yang akan diedit dari database
 $stmt = $conn->prepare("SELECT service_name, description, image_url FROM services WHERE id = ?");
 $stmt->bind_param("i", $service_id);
 $stmt->execute();

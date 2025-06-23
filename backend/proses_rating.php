@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Jika semua query berhasil, simpan perubahan
         $conn->commit();
         
-        // --- INI BAGIAN YANG DIPERBAIKI ---
         echo json_encode(['status' => 'success']);
 
     } catch (Exception $e) {

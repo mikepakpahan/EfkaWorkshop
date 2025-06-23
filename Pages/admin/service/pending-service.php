@@ -1,12 +1,9 @@
 <?php
-// Pastikan path ini benar dari lokasi file Anda
 require '../../../backend/config.php';
 
-// Variabel untuk menandai menu aktif di sidebar
 $pageTitle = 'Pending Service';
 $activeMenu = 'pending';
 
-// Mengambil data booking yang statusnya 'pending' dari database
 $sql = "SELECT 
             sb.id, 
             u.name, 
@@ -21,10 +18,7 @@ $sql = "SELECT
 
 $result = $conn->query($sql);
 
-// Memasukkan template header (yang sudah berisi config.php dan pengecekan admin)
-// Sesuaikan path jika perlu
 include '../template-header.php'; 
-// Memasukkan template sidebar
 include '../template-sidebar.php';
 ?>
 
@@ -83,11 +77,8 @@ include '../template-sidebar.php';
     </div>
 </main>
 
-<!-- Overlay Blur -->
 <div id="overlay-blur" style="display:none;">
-  <!-- Modal Konten -->
   <div class="modal-content">
-    <!-- Isi overlay/modal di sini -->
     <h2>Judul Overlay</h2>
     <p>Ini isi overlay/modal.</p>
     <button id="closeOverlay">Tutup</button>

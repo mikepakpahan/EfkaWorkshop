@@ -10,7 +10,6 @@ include '../template-sidebar.php';
 $sql = "SELECT id, name, email, message, status, submitted_at FROM feedback ORDER BY submitted_at DESC";
 $result = $conn->query($sql);
 
-// Siapkan dua "ember" untuk memisahkan feedback
 $unread_feedback = [];
 $read_feedback = [];
 
@@ -33,7 +32,7 @@ if ($result && $result->num_rows > 0) {
     .main-content {
     flex-grow: 1;
     padding: 2rem;
-    overflow-y: auto; /* Scroll hanya akan muncul di area konten ini */
+    overflow-y: auto;
     }
     .feedback-tabs {
         display: flex;
@@ -59,29 +58,25 @@ if ($result && $result->num_rows > 0) {
         color: #1F2937;
     }
     
-    /* -- CONTAINER UNTUK EFEK SLIDING -- */
     .feedback-viewport {
         width: 100%;
-        overflow: hidden; /* Sembunyikan panel yang di luar layar */
+        overflow: hidden;
     }
     .feedback-slider {
         display: flex;
-        width: 200%; /* Lebar total adalah 2x lebar viewport */
-        transition: transform 0.4s ease-in-out; /* Animasi gesernya */
+        width: 200%;
+        transition: transform 0.4s ease-in-out;
     }
     .feedback-slider.show-read {
-        transform: translateX(-50%); /* Geser ke kiri sejauh 50% (lebar satu panel) */
+        transform: translateX(-50%);
     }
 
-    /* -- PANEL KIRI & KANAN -- */
     .feedback-panel {
-        width: 50%; /* Setiap panel lebarnya setengah dari slider */
+        width: 50%;
         padding: 0 10px;
         box-sizing: border-box;
     }
     .feedback-container { display: flex; flex-direction: column; gap: 1.5rem; }
-    
-    /* ... (CSS untuk feedback-card tetap sama seperti sebelumnya) ... */
     .feedback-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #ccc; }
     .feedback-card.status-new { border-left-color: #FFC72C; }
     .feedback-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: #f8f9fa; border-bottom: 1px solid #eee; }
@@ -148,12 +143,10 @@ if ($result && $result->num_rows > 0) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- ELEMEN UNTUK SLIDING TABS ---
     const unreadBtn = document.getElementById('unread-btn');
     const readBtn = document.getElementById('read-btn');
     const slider = document.getElementById('feedback-slider');
 
-    // --- ELEMEN UNTUK AKSI 'MARK AS READ' ---
     const feedbackViewport = document.querySelector('.feedback-viewport');
 
     if (unreadBtn) {
@@ -172,25 +165,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Listener untuk tombol "Tandai Sudah Dibaca"
     if (feedbackViewport) {
         feedbackViewport.addEventListener('click', function(event) {
             if (event.target.classList.contains('btn-mark-read')) {
                 const button = event.target;
                 const feedbackId = button.dataset.feedbackid;
                 
-                // Mengganti confirm() standar dengan Swal.fire()
                 Swal.fire({
                     title: 'Konfirmasi Tindakan',
                     text: "Anda yakin ingin menandai pesan ini sudah dibaca?",
-                    icon: 'warning', // Ikon peringatan agar user lebih hati-hati
-                    showCancelButton: true, // Tampilkan tombol Batal
-                    confirmButtonColor: '#007bff', // Warna tombol konfirmasi
-                    cancelButtonColor: '#6c757d', // Warna tombol batal
+                    icon: 'warning', 
+                    showCancelButton: true, 
+                    confirmButtonColor: '#007bff', 
+                    cancelButtonColor: '#6c757d',
                     confirmButtonText: 'Ya, Tandai!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
-                    // Bagian ini akan berjalan SETELAH user menekan salah satu tombol
                     if (result.isConfirmed) {
                         // Jika user menekan "Ya, Tandai!", baru kita jalankan aksi
                         window.location.href = '../../../backend/proses_mark_feedback_read.php?id=' + feedbackId;

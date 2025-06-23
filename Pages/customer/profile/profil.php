@@ -1,7 +1,6 @@
 <?php
 require '../../../backend/config.php';
 
-// Pasang Satpam Keamanan
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: /EfkaWorkshop/Pages/login/login-page.php");
     exit;
@@ -10,7 +9,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 $user_id = $_SESSION['user_id'];
 $activePage = 'profile';
 
-// Ambil data user yang sedang login dari database
 $stmt = $conn->prepare("SELECT name, email, created_at FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -56,7 +54,6 @@ $user = $result->fetch_assoc();
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Logika untuk tombol Ubah Password
     const changePasswordBtn = document.getElementById('change-password-btn');
     if(changePasswordBtn) {
         changePasswordBtn.addEventListener('click', function() {
@@ -83,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         Swal.showValidationMessage('Konfirmasi password baru tidak cocok');
                         return false;
                     }
-                    // Di sini kita bisa tambahkan validasi panjang password, dll.
                     return { oldPassword, newPassword };
                 }
             }).then(result => {
@@ -109,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Logika untuk update nama
     const profileForm = document.getElementById('profile-form');
     if(profileForm) {
         profileForm.addEventListener('submit', function(e) {
@@ -123,7 +118,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                  if (data.status === 'success') {
                     Swal.fire('Berhasil!', data.message, 'success').then(() => {
-                        // Perbarui nama di header juga
                         const welcomeText = document.querySelector('.welcome-text');
                         if (welcomeText) {
                             welcomeText.innerHTML = `Hi, ${data.new_name.split(' ')[0]} <i class="fas fa-chevron-down dropdown-arrow"></i>`;

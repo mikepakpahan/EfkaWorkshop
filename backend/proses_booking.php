@@ -1,7 +1,6 @@
 <?php
 include 'config.php';
 
-// Atur header agar browser tahu jawabannya adalah JSON
 header('Content-Type: application/json');
 
 // Keamanan: Cek jika pengguna sudah login

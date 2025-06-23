@@ -1,9 +1,7 @@
 <?php
-// Cukup panggil config.php, dia sudah bawa semua pasukan (autoload, .env, session, db)
 require_once 'config.php';
 require_once '../../vendor/autoload.php';
 
-// Gunakan class-class dari PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -14,7 +12,6 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // ... (Logika ambil data & update database Anda tetap sama) ...
     $booking_id = intval($_POST['booking_id']);
     $service_price = intval($_POST['service_price']);
     if (empty($booking_id) || empty($service_price) || !is_numeric($service_price)) { die("Error: Data tidak valid."); }
@@ -23,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("isi", $service_price, $confirmation_token, $booking_id);
     
     if ($stmt->execute()) {
-        // ... (Logika ambil data customer tetap sama) ...
         $stmt_user = $conn->prepare("SELECT u.name, u.email FROM users u JOIN service_bookings sb ON u.id = sb.user_id WHERE sb.id = ?");
         $stmt_user->bind_param("i", $booking_id);
         $stmt_user->execute();
@@ -31,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $customer_name = $customer['name'];
         $customer_email = $customer['email'];
 
-        // 4. Konfigurasi dan Kirim Email dengan PHPMailer
         $mail = new PHPMailer(true);
         try {
             // Konfigurasi Server SMTP
@@ -41,12 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            // --- INI DIA BAGIAN OPERASI SENYAPNYA ---
             // Ambil kredensial dari variabel .env, bukan ditulis langsung
             $mail->Username   = $_ENV['GMAIL_USER'];
             $mail->Password   = $_ENV['GMAIL_APP_PASSWORD'];
-            // -----------------------------------------
-
             // Penerima dan Pengirim
             $mail->setFrom($_ENV['GMAIL_USER'], 'EFKA Workshop'); // Pengirim juga pakai dari .env
             $mail->addAddress($customer_email, $customer_name);
@@ -55,10 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->isHTML(true);
             $mail->Subject = 'Booking Servis Anda di EFKA Workshop Telah Diterima!';
             
-            // Buat link konfirmasi yang lebih solid
+            // Buat link konfirmasi
             $confirmation_link = "http://192.168.100.110/EfkaWorkshop/confirm_booking.php?token=" . $confirmation_token;
             
-            // ... (Body email Anda tetap sama) ...
             $mail->Body    = "
             <html>
                 <body>

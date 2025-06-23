@@ -1,8 +1,6 @@
 <?php
-// Pastikan path ke config.php sudah benar dari lokasi file ini
 require '../../../backend/config.php';
 
-// KEAMANAN: Wajib login untuk akses halaman ini
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: ../../login/login-page.php");
     exit;
@@ -10,7 +8,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 $user_id = $_SESSION['user_id'];
 
-// Query untuk mengambil semua item di keranjang milik user
 $sql = "SELECT 
             s.id AS product_id, 
             s.part_name, 
@@ -182,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Event listener untuk seluruh tabel
     if(tableBody) {
         tableBody.addEventListener('click', function(e) {
             const target = e.target;
@@ -194,19 +190,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const qtyInput = row.querySelector('.qty-input');
             let currentQty = parseInt(qtyInput.value);
 
-            // Tombol Plus
             if (target.classList.contains('plus')) {
                 currentQty++;
                 qtyInput.value = currentQty;
                 updateCartOnServer(cartId, currentQty);
             }
-            // Tombol Minus
             if (target.classList.contains('minus') && currentQty > 1) {
                 currentQty--;
                 qtyInput.value = currentQty;
                 updateCartOnServer(cartId, currentQty);
             }
-            // Tombol Delete
             if (target.classList.contains('delete-btn') || target.closest('.delete-btn')) {
                 if (confirm('Yakin ingin menghapus item ini dari keranjang?')) {
                     const formData = new FormData();
@@ -225,18 +218,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Update subtotal dan total setelah aksi
             row.querySelector('.sub-total').textContent = 'Rp ' + (unitPrice * currentQty).toLocaleString('id-ID');
             updateTotal();
         });
     }
 
-    // Event listener untuk checkbox
     document.querySelectorAll('.item-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', updateTotal);
     });
 
-    // Event listener untuk checkbox "Select All"
     if(selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
             document.querySelectorAll('.item-checkbox').forEach(checkbox => {
@@ -246,7 +236,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Panggil sekali saat halaman dimuat
     updateTotal();
 });
 </script>

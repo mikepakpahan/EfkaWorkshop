@@ -2,22 +2,18 @@
 $pageTitle = 'Transaction History';
 $activeMenu = 'history';
 
-// Sesuaikan path ke config.php dan template Anda
 require '../../../backend/config.php';
 include '../template-header.php';
 include '../template-sidebar.php';
 
-// --- LOGIKA FILTER DIMULAI DI SINI ---
 $filter = $_GET['filter'] ?? 'all'; 
 
-// Query dasar yang bersih
 $sql = "SELECT 
             h.id, h.transaction_type, h.description, h.final_price, h.completion_date,
             u.name AS user_name
         FROM history h
         LEFT JOIN users u ON h.user_id = u.id";
 
-// Tambahkan kondisi WHERE berdasarkan filter
 $where_clauses = [];
 if ($filter === 'service') {
     $where_clauses[] = "h.transaction_type = 'service'";
@@ -29,7 +25,6 @@ if (!empty($where_clauses)) {
     $sql .= " WHERE " . implode(' AND ', $where_clauses);
 }
 
-// Tambahkan ORDER BY di akhir
 $sql .= " ORDER BY h.completion_date DESC";
 
 $result = $conn->query($sql);
@@ -46,15 +41,10 @@ $result = $conn->query($sql);
     .history-table thead th { text-align: left; padding: 12px 16px; border-bottom: 2px solid #E5E7EB; background-color: #F9FAFB; font-weight: 600; }
     .history-table tbody td { padding: 12px 16px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
     .history-table tbody tr:nth-child(even) { background-color: #F9FAFB; }
-    
-    /* Styling untuk Badge */
     .type-badge { padding: 4px 8px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; color: white; }
     .type-service { background-color: #007bff; }
     .type-sparepart { background-color: #28a745; }
-    /* --- CSS BARU UNTUK STATUS DIBATALKAN --- */
     .type-cancelled { background-color: #dc3545; }
-
-    /* Styling untuk tombol filter */
     .filter-buttons { margin-bottom: 1.5rem; display: flex; gap: 1rem; }
     .filter-btn { padding: 8px 16px; border: 1px solid #ccc; background-color: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; text-decoration: none; color: #333; }
     .filter-btn.active { background-color: #FFC72C; border-color: #FFC72C; color: #1F2937; }
@@ -85,7 +75,6 @@ $result = $conn->query($sql);
                 if ($result && $result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         
-                        // --- LOGIKA BARU YANG LEBIH CERDAS UNTUK BADGE ---
                         $badge_class = '';
                         $badge_text = '';
 
@@ -103,12 +92,10 @@ $result = $conn->query($sql);
                                 $badge_text = 'Sparepart';
                             }
                         }
-                        // --- AKHIR LOGIKA BARU ---
 
                         echo "<tr>";
                         echo "<td>" . $row['id'] . "</td>";
                         echo "<td>" . htmlspecialchars($row['user_name'] ?? 'User Dihapus') . "</td>";
-                        // Tampilkan badge dengan class dan teks dinamis
                         echo "<td><span class='type-badge " . $badge_class . "'>" . $badge_text . "</span></td>";
                         echo "<td>" . htmlspecialchars($row['description']) . "</td>";
                         echo "<td style='text-align:right;'><strong>" . number_format($row['final_price'], 0, ',', '.') . "</strong></td>";

@@ -1,11 +1,9 @@
 <?php
-// Amankan halaman
 include '../../../backend/config.php';
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     die("Akses ditolak.");
 }
 
-// Cek apakah ID ada di URL
 if (!isset($_GET['id'])) {
     header("Location: manage-sparepart.php");
     exit();
@@ -13,14 +11,12 @@ if (!isset($_GET['id'])) {
 
 $product_id = intval($_GET['id']);
 
-// Ambil data produk yang akan diedit dari database
 $stmt = $conn->prepare("SELECT part_name, description, price, stock, image_url FROM spareparts WHERE id = ?");
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    // Jika produk dengan ID tersebut tidak ditemukan
     echo "Produk tidak ditemukan.";
     exit();
 }

@@ -1,6 +1,5 @@
 <?php
 require_once 'config.php';
-// Anda mungkin perlu menyesuaikan path vendor berdasarkan lokasi file config ini
 require_once '../../vendor/autoload.php'; 
 
 if (!isset($_SESSION['logged_in'])) { die("Anda harus login."); }
@@ -22,15 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             FROM carts c JOIN spareparts s ON c.sparepart_id = s.id 
             WHERE c.id IN ($placeholders) AND c.user_id = ?";
     
-    // --- PERBAIKAN 1 DIMULAI DI SINI ---
     // Buat array baru untuk menampung semua parameter
     $params = $cart_ids_to_checkout;
     $params[] = $user_id; // Masukkan user_id ke dalam array
 
     $stmt = $conn->prepare($sql);
-    // Sekarang kita 'bongkar' array yang sudah lengkap
     $stmt->bind_param($types . "i", ...$params);
-    // --- AKHIR PERBAIKAN 1 ---
 
     $stmt->execute();
     $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -60,11 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // 3. Hapus item yang sudah di-checkout dari tabel carts
         $stmt_delete = $conn->prepare("DELETE FROM carts WHERE id IN ($placeholders) AND user_id = ?");
-        
-        // --- PERBAIKAN 2 DIMULAI DI SINI ---
         // Gunakan array $params yang sama yang sudah kita buat di atas
         $stmt_delete->bind_param($types . "i", ...$params);
-        // --- AKHIR PERBAIKAN 2 ---
         
         $stmt_delete->execute();
         

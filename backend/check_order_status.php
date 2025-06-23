@@ -1,6 +1,4 @@
 <?php
-// Karena file ini ada di dalam folder 'backend', dan config.php juga di sana,
-// path-nya cukup nama filenya saja.
 require_once 'config.php';
 
 header('Content-Type: application/json');

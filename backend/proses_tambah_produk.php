@@ -17,14 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // 2. Proses Upload Gambar
     $image_url_for_db = '';
     if (isset($_FILES["product_image"]) && $_FILES["product_image"]["error"] == 0) {
-        
-        // --- PERUBAHAN DI SINI ---
         $target_dir = "../assets/spareparts/"; // Folder tujuan upload, relatif dari file ini
         
         $image_name = time() . '_' . basename($_FILES["product_image"]["name"]);
         $target_file = $target_dir . $image_name;
         
-        // --- DAN PERUBAHAN DI SINI ---
         $image_url_for_db = "/EfkaWorkshop/assets/spareparts/" . $image_name;
 
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {

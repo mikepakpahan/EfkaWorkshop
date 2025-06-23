@@ -3,11 +3,9 @@ include '../../../backend/config.php';
 
 $cart_count = 0;
 
-// Cek jika pengguna sudah login, baru kita hitung keranjangnya
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     $user_id = $_SESSION['user_id'];
 
-    // Query untuk MENGHITUNG jumlah baris/jenis item di tabel carts untuk user ini
     $sql_count = "SELECT COUNT(id) AS total_items FROM carts WHERE user_id = ?";
     $stmt_count = $conn->prepare($sql_count);
     $stmt_count->bind_param("i", $user_id);
@@ -20,17 +18,14 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     }
 }
 
-// --- LOGIKA BARU UNTUK HERO BANNER ---
-$hero_product = null; // Inisialisasi variabel
+$hero_product = null;
 
-// Query untuk mengambil satu produk yang ditandai sebagai featured
 $sql_hero = "SELECT id, part_name, description, image_url FROM spareparts WHERE is_featured = 1 LIMIT 1";
 $result_hero = $conn->query($sql_hero);
 
 if ($result_hero && $result_hero->num_rows > 0) {
     $hero_product = $result_hero->fetch_assoc();
 }
-// --- AKHIR LOGIKA HERO BANNER ---
 ?>
 
 ?>
@@ -52,8 +47,8 @@ if ($result_hero && $result_hero->num_rows > 0) {
         padding: 0;
         cursor: pointer;
         position: absolute;
-        bottom: 0px; /* Jarak dari bawah */
-        right: 10px; /* Jarak dari kanan */
+        bottom: 0px; 
+        right: 10px; 
       }
 
       .welcome-text {
@@ -69,9 +64,7 @@ if ($result_hero && $result_hero->num_rows > 0) {
     include '../header.php';
     ?>
 
-    <!-- Hero Banner -->
     <?php 
-    // Tampilkan section ini HANYA JIKA ada produk yang ditandai sebagai hero
     if ($hero_product): 
     ?>
         <section class="sparepart-hero" style="background: #fff6f6">
@@ -91,24 +84,18 @@ if ($result_hero && $result_hero->num_rows > 0) {
         </section>
     <?php endif; ?>
 
-    <!-- Latest Products -->
     <section class="sparepart-products-section">
       <div class="sparepart-products-container">
         <h2 class="sparepart-products-title">LATEST PRODUCTS</h2>
         <div class="sparepart-products-grid">
           <?php
-          // 1. Query untuk mengambil semua sparepart yang stoknya ada
           $sql = "SELECT id, part_name, description, price, image_url FROM spareparts WHERE stock > 0 ORDER BY id";
           $result = $conn->query($sql);
 
-          // 2. Cek jika ada produk
           if ($result->num_rows > 0) {
-              // 3. Looping untuk setiap produk
               while($row = $result->fetch_assoc()) {
-                  // Format harga agar lebih mudah dibaca
                   $formatted_price = number_format($row["price"], 0, ',', '.');
                   
-                  // 4. Tampilkan HTML card untuk setiap produk menggunakan template Anda
                   echo '
                     <div class="sparepart-product-card">
                         <img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["part_name"]) . '" class="sparepart-product-img" />
@@ -117,9 +104,7 @@ if ($result_hero && $result_hero->num_rows > 0) {
                         <div class="sparepart-product-price">Rp ' . $formatted_price . '</div>
                         <div class="sparepart-product-actions">';
                         
-                        // -- LOGIKA TAMBAHAN DIMULAI DI SINI --
                         if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-                            // Jika PENGGUNA SUDAH LOGIN, tampilkan form add to cart
                             echo '
                             <form action="../../../backend/add_to_cart.php" method="POST">
                                 <input type="hidden" name="product_id" value="' . $row['id'] . '">
@@ -142,7 +127,6 @@ if ($result_hero && $result_hero->num_rows > 0) {
         </div>
       </div>
     </section>
-    <!-- Floating Home Button - Fixed di sudut kanan bawah -->
     <button onclick="goHome()" class="floating-home-btn">
       <img src="../../../assets/arrow.png" alt="Home" class="floating-home-img" />
     </button>
@@ -150,7 +134,6 @@ if ($result_hero && $result_hero->num_rows > 0) {
       include '../footer.php';
     ?>
     <script>
-        // Fungsi ini bisa diletakkan di luar atau di dalam DOMContentLoaded
         function goHome() {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
@@ -165,7 +148,7 @@ if ($result_hero && $result_hero->num_rows > 0) {
                 const formData = new FormData();
                 formData.append('product_id', productId);
 
-                fetch('/EfkaWorkshop/backend/add_to_cart.php', { // Gunakan path absolut
+                fetch('/EfkaWorkshop/backend/add_to_cart.php', { 
                     method: 'POST',
                     body: formData
                 })
@@ -177,30 +160,23 @@ if ($result_hero && $result_hero->num_rows > 0) {
                         icon: data.status,
                         timer: 1500,
                         showConfirmButton: false,
-                        position: 'top-start', // Notifikasi di pojok kanan atas
-                        toast: true // Mode notifikasi kecil
+                        position: 'top-start',
+                        toast: true 
                     });
 
-                    // --- INI DIA PERBAIKAN UTAMANYA ---
                     if (data.status === 'success' && typeof data.cart_count !== 'undefined') {
-                        // Cari wrapper ikon keranjang, BUKAN container lama
                         const cartWrapper = document.querySelector('.cart-icon-wrapper');
                         
                         if (cartWrapper) {
-                            // Coba cari indikator yang sudah ada
                             let indicator = cartWrapper.querySelector('.cart-indicator');
                             
-                            // Jika indikator BELUM ada...
                             if (!indicator) {
-                                // Buat elemen span baru
                                 indicator = document.createElement('span');
-                                indicator.className = 'cart-indicator'; // Beri class
-                                cartWrapper.appendChild(indicator); // "Tempelkan" ke dalam wrapper
+                                indicator.className = 'cart-indicator';
+                                cartWrapper.appendChild(indicator); 
                             }
                             
-                            // Perbarui angka di dalam indikator
                             indicator.textContent = data.cart_count;
-                            // Pastikan dia terlihat jika angkanya lebih dari 0
                             indicator.style.display = 'flex'; 
                         }
                     }
@@ -211,10 +187,6 @@ if ($result_hero && $result_hero->num_rows > 0) {
                 });
             }
 
-
-            // ==========================================================
-            // EVENT LISTENERS (BAGIAN INI TIDAK BERUBAH)
-            // ==========================================================
             const cartForms = document.querySelectorAll('.sparepart-product-actions form');
             cartForms.forEach(form => {
                 form.addEventListener('submit', function (event) {

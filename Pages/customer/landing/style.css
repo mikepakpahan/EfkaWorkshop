@@ -1,12 +1,9 @@
-/* Perbaikan Complete untuk About Us Section */
-
 .body {
   font-family: "Open Sans Condensed", Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* About Us Section - Grid Layout Solution */
 #aboutus {
   min-height: 100vh;
   width: 100%;
@@ -20,14 +17,13 @@
   margin: 0 auto;
   padding: 40px 1rem 0 1rem;
   display: grid;
-  grid-template-columns: 1fr 520px; /* Left content, Form */
+  grid-template-columns: 1fr 520px;
   grid-template-areas: "content form";
   gap: 2rem;
   align-items: start;
   position: relative;
 }
 
-/* Left Content Area */
 .about-left-top {
   grid-area: content;
   color: white;
@@ -35,13 +31,11 @@
   padding-right: 2rem;
 }
 
-/* Hapus grid motor */
 .flex-1.flex.justify-center.items-center.relative.pl-10,
 .flex-1.flex.justify-center.items-center.relative.pl-10 img {
   display: none !important;
 }
 
-/* Form Container - Grid positioning */
 .about-right {
   grid-area: form;
   display: flex;
@@ -50,11 +44,10 @@
   position: relative;
   z-index: 30;
 
-  padding: 0 20px 0 40px; /* Added right padding to prevent edge touching */
+  padding: 0 20px 0 40px;
   box-sizing: border-box;
 }
 
-/* Form Styling */
 .request-form {
   background: #23294a;
   border-radius: 12px;
@@ -66,7 +59,7 @@
   gap: 32px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   min-height: 600px;
-  margin: 0; /* Remove auto margin to prevent centering */
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -116,7 +109,6 @@
   background: #ffd700;
 }
 
-/* Responsive Design */
 @media (max-width: 1200px) {
   #aboutus .max-w-7xl {
     grid-template-columns: 1fr 1fr;
@@ -256,7 +248,6 @@
   }
 }
 
-/* Very small screens */
 @media (max-width: 360px) {
   #aboutus .max-w-7xl {
     padding: 0 0.5rem;
@@ -277,7 +268,6 @@
   }
 }
 
-/* Hero Section Responsive */
 .hero-section {
   position: relative;
   background-image: url("/EfkaWorkshop/assets/bg-Servis-motor.png");

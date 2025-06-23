@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: ../Pages/admin/service/manage-service.php"); // Sesuaikan path
+    header("Location: ../Pages/admin/service/manage-service.php");
     exit();
 }
 
@@ -36,7 +36,6 @@ try {
     
     // 3. Jika path gambar ada, hapus file gambarnya dari server
     if (!empty($image_path)) {
-        // Path harus disesuaikan dari root folder proyek
         $file_to_delete = '../' . $image_path; 
         if (file_exists($file_to_delete)) {
             unlink($file_to_delete);
@@ -53,6 +52,6 @@ try {
     $_SESSION['error_message'] = "Gagal menghapus layanan: " . $e->getMessage();
 }
 
-header("Location: ../Pages/admin/service/manage-service.php"); // Sesuaikan path
+header("Location: ../Pages/admin/service/manage-service.php");
 exit();
 ?>

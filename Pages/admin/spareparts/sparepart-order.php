@@ -2,15 +2,10 @@
 $pageTitle = 'Sparepart Order';
 $activeMenu = 'order';
 
-// Sesuaikan path ke config.php dan template Anda
 require '../../../backend/config.php';
 include '../template-header.php';
 include '../template-sidebar.php';
 
-// --- LOGIKA BARU: MENGAMBIL DATA DARI TABEL ORDERS ---
-
-// 1. Query baru yang sangat powerful untuk mengambil semua detail pesanan
-//    yang statusnya masih 'processing' (pesanan baru).
 $sql = "SELECT 
             o.id AS order_id,
             o.total_amount,
@@ -30,14 +25,11 @@ $sql = "SELECT
 
 $result = $conn->query($sql);
 
-// 2. Siapkan array kosong untuk menampung data yang sudah dikelompokkan
 $orders_data = [];
 if ($result && $result->num_rows > 0) {
-    // 3. Looping untuk mengelompokkan item per pesanan
     while($row = $result->fetch_assoc()) {
         $order_id = $row['order_id'];
 
-        // Jika ini pertama kali kita melihat order_id ini, buat entri utamanya
         if (!isset($orders_data[$order_id])) {
             $orders_data[$order_id] = [
                 "user_info" => [
@@ -49,11 +41,10 @@ if ($result && $result->num_rows > 0) {
                     "total" => $row['total_amount'],
                     "status" => $row['status']
                 ],
-                "products" => [] // Siapkan array kosong untuk produk-produknya
+                "products" => [] 
             ];
         }
         
-        // Tambahkan detail produk ke dalam pesanan yang sesuai
         $orders_data[$order_id]['products'][] = [
             "name" => $row['part_name'],
             "qty" => $row['quantity'],
@@ -68,14 +59,12 @@ if ($result && $result->num_rows > 0) {
     <div class="order-container">
         <div class="order-list">
             <?php
-            // Cek jika ada order untuk ditampilkan
             if (!empty($orders_data)):
-                // 4. Looping data $orders_data yang sudah terkelompok
                 foreach ($orders_data as $order_id => $order):
             ?>
                     <div class="order-card">
                         <div class="profile">
-                            <img src="/EfkaWorkshop/assets/profil.png" alt="profile">
+                            <img src="/EfkaWorkshop/assets/icons/user.png" alt="profile">
                             <div>
                                 <div class="profile-name"><?php echo htmlspecialchars($order["user_info"]["name"]); ?></div>
                                 <div class="profile-email"><?php echo htmlspecialchars($order["user_info"]["email"]); ?></div>

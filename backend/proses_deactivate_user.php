@@ -7,8 +7,7 @@ if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
 }
 
 if (!isset($_GET['id'])) {
-    header("Location: ../Pages/admin/user/user.php"); // Sesuaikan path
-    exit();
+    header("Location: ../Pages/admin/user/user.php");
 }
 
 $user_id = intval($_GET['id']);
@@ -23,6 +22,6 @@ if ($stmt->execute()) {
     $_SESSION['error_message'] = "Gagal menonaktifkan akun.";
 }
 
-header("Location: ../Pages/admin/user/user.php"); // Sesuaikan path
+header("Location: ../Pages/admin/user/user.php");
 exit();
 ?>

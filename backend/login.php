@@ -1,5 +1,4 @@
 <?php
-// Memanggil file konfigurasi untuk memulai session dan koneksi database
 include 'config.php';
 
 // Mengambil data dari form login dengan method POST

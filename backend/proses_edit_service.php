@@ -12,17 +12,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $service_name = $_POST['service_name'];
     $description = $_POST['description'];
     $old_image_path = $_POST['old_image_path'];
-    $new_image_url = $old_image_path; // Secara default, kita pakai gambar lama
+    $new_image_url = $old_image_path;
 
     // 2. Cek apakah ada gambar baru yang di-upload
     if (isset($_FILES["service_image"]) && $_FILES["service_image"]["error"] == 0) {
         // Ada file baru, proses upload
-        $target_dir = "../assets/services/"; // Sesuaikan path
+        $target_dir = "../assets/services/"; 
         $image_name = time() . '_' . basename($_FILES["service_image"]["name"]);
         $target_file = $target_dir . $image_name;
 
         if (move_uploaded_file($_FILES["service_image"]["tmp_name"], $target_file)) {
-            // Upload berhasil, siapkan path baru untuk DB
             $new_image_url = "assets/services/" . $image_name;
             
             // Hapus file gambar lama dari server
@@ -40,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Layanan berhasil diperbarui.";
-        header("Location: ../Pages/admin/service/manage-service.php"); // Sesuaikan path
+        header("Location: ../Pages/admin/service/manage-service.php");
         exit();
     } else {
         echo "Error saat memperbarui data: " . $stmt->error;
@@ -50,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 } else {
     // Jika diakses langsung, redirect
-    header("Location: ../Pages/admin/service/manage-service.php"); // Sesuaikan path
+    header("Location: ../Pages/admin/service/manage-service.php");
     exit();
 }
 ?>

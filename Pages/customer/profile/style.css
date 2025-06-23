@@ -48,14 +48,13 @@
   color: #333;
 }
 
-/* Styling untuk semua input, select, dan textarea */
 .form-control {
   width: 100%;
   padding: 12px 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
-  font-family: "Poppins", sans-serif; /* Sesuaikan dengan font utama Anda */
+  font-family: "Poppins", sans-serif;
   box-sizing: border-box;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -72,28 +71,24 @@
   color: #555;
 }
 
-/* Styling untuk catatan kecil di bawah input */
 .form-text {
   font-size: 0.8rem;
   color: #888;
   margin-top: 5px;
 }
 
-/* Styling untuk layout dua kolom */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
-/* Styling untuk tombol-tombol aksi */
 .form-actions {
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
 }
 
-/* Styling untuk tombol utama (kuning) */
 .btn-submit,
 .btn-update {
   background-color: #ffc72c;
@@ -111,7 +106,6 @@
   background-color: #ffb300;
 }
 
-/* Styling untuk tombol sekunder (abu-abu) */
 .btn-secondary,
 .btn-password {
   background-color: #6c757d;
@@ -129,10 +123,9 @@
   background-color: #5a6268;
 }
 
-/* Responsive untuk form row */
 @media (max-width: 600px) {
   .form-row {
     grid-template-columns: 1fr;
-    gap: 0; /* Hilangkan gap di mobile */
+    gap: 0;
   }
 }

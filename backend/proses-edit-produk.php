@@ -15,17 +15,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = $_POST['price'];
     $stock = $_POST['stock'];
     $old_image_path = $_POST['old_image_path'];
-    $new_image_url = $old_image_path; // Defaultnya adalah path gambar lama
+    $new_image_url = $old_image_path;
 
     // 2. Cek apakah ada gambar baru yang di-upload
     if (isset($_FILES["product_image"]) && $_FILES["product_image"]["error"] == 0) {
         // Ada file baru, proses upload seperti biasa
-        $target_dir = "../assets/spareparts/"; // Sesuaikan path
+        $target_dir = "../assets/spareparts/";
         $image_name = time() . '_' . basename($_FILES["product_image"]["name"]);
         $target_file = $target_dir . $image_name;
 
         if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
-            // Upload berhasil, siapkan path baru untuk DB
             $new_image_url = "../../../assets/spareparts/" . $image_name;
             
             // Hapus file gambar lama dari server untuk menghemat ruang

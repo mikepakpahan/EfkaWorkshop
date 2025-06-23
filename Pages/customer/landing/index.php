@@ -1,21 +1,17 @@
 <?php
 include 'backend/config.php';
 
-// --- LOGIKA BARU UNTUK MENGHITUNG RATING ---
 $average_rating = 0;
 $total_reviews = 0;
 
-// Query untuk mengambil rata-rata rating DAN jumlah total review sekaligus
 $sql_rating = "SELECT AVG(rating) as avg_rating, COUNT(id) as total_reviews FROM reviews";
 $result_rating = $conn->query($sql_rating);
 
 if ($result_rating && $result_rating->num_rows > 0) {
     $rating_data = $result_rating->fetch_assoc();
-    // Kita format angkanya jadi satu desimal, misal: 4.7
     $average_rating = number_format($rating_data['avg_rating'] ?? 0, 1);
     $total_reviews = $rating_data['total_reviews'] ?? 0;
 }
-// --- AKHIR LOGIKA RATING ---
 
 ?>
 
@@ -37,7 +33,6 @@ if ($result_rating && $result_rating->num_rows > 0) {
       include 'Pages/customer/header.php';
     ?>
     
-    <!-- Hero -->
     <section class="hero-section">
       <div class="hero-overlay"></div>
       <div class="hero-content">
@@ -47,14 +42,12 @@ if ($result_rating && $result_rating->num_rows > 0) {
             Premium Motor <span class="highlight">Detailing</span><br />
             & Repair <span class="highlight">Solutions</span>
           </h1>
-          <div class="hero-desc">lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak lapet ini gadong kocak</div>
+          <div class="hero-desc">Bengkel kami hadir sebagai solusi andal bagi Anda yang menginginkan pelayanan servis kendaraan dengan kualitas terbaik. Di sini, kami tidak hanya memperbaiki, tetapi juga merawat kendaraan Anda dengan penuh ketelitian dan tanggung jawab.</div>
           <div class="hero-actions">
             <?php
             if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-                // Jika SUDAH LOGIN, tombol akan berfungsi normal (scroll ke form)
                 echo '<a href="#booking-section" class="btn-primary">BUAT JANJI</a>';
             } else {
-                // Jika BELUM LOGIN, tombol akan memunculkan alert
                 echo '<a href="#" onclick="alert(\'Anda harus login terlebih dahulu untuk membuat janji.\');" class="btn-primary">BUAT JANJI</a>';
             }
             ?>
@@ -87,7 +80,6 @@ if ($result_rating && $result_rating->num_rows > 0) {
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <?php
-            // Pastikan variabel $conn sudah ada dari include 'config.php' di atas file
             $sql_services = "SELECT service_name, description, image_url FROM services ORDER BY id";
             $result_services = $conn->query($sql_services);
 
@@ -112,10 +104,8 @@ if ($result_rating && $result_rating->num_rows > 0) {
     </div>
 </section>
 
-    <!-- About Us -->
     <section class="min-h-screen w-full pt-20 pb-16 px-0" id="aboutus" style="background: #0c0a27">
       <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-        <!-- Left Content -->
         <div class="flex-1 text-white about-left-top">
           <div class="text-[#FFC72C] text-base sm:text-lg font-bold mb-2 tracking-widest uppercase">WHO WE ARE ?</div>
           <h2 class="whitespace-nowrap text-3xl sm:text-4xl md:text-5xl font-bold mb-4 leading-tight">Motor Detailing And Repair<br />Services You Can Rely On</h2>
@@ -141,7 +131,6 @@ if ($result_rating && $result_rating->num_rows > 0) {
                   <div class="flex items-center gap-2">
                       <div class="rating-stars-display">
                           <?php
-                          // Logika PHP untuk menampilkan bintang (sudah ada di atas file)
                           for ($i = 1; $i <= 5; $i++) {
                               if ($i <= $average_rating) {
                                   echo '<i class="fas fa-star"></i>';
@@ -162,10 +151,6 @@ if ($result_rating && $result_rating->num_rows > 0) {
           </div>
         </div>
 
-        <!-- Center Image -->
-         
-
-        <!-- Right Form -->
         <div class="about-right">
             <form class="request-form" id="feedback-form" action="backend/proses_feedback.php" method="POST">
                 <input type="text" name="name" placeholder="Nama Anda" class="form-input" 
@@ -175,10 +160,8 @@ if ($result_rating && $result_rating->num_rows > 0) {
                 <textarea id="message" name="message" placeholder="Tuliskan masukan atau keluhan Anda di sini..." rows="6" class="form-textarea" required></textarea>
                 <?php
                 if (isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true) {
-                    // Jika SUDAH LOGIN, tombol bisa diklik
                     echo '<button type="submit" class="form-btn">Kirim Feedback</button>';
                 } else {
-                    // Jika BELUM LOGIN, tombol dinonaktifkan
                     echo '<button type="button" onclick="alert(\'Anda harus login untuk mengirim feedback.\');" class="form-btn" style="background-color:#ccc; cursor:not-allowed;">Kirim Feedback</button>';
                 }
                 ?>
@@ -238,8 +221,6 @@ if ($result_rating && $result_rating->num_rows > 0) {
         <?php endif; ?>
     </div>
 </section>
-
-    <!-- Floating Home Button - Fixed di sudut kanan bawah -->
     <button onclick="goHome()" class="fixed bottom-6 right-6 hover:bg-gray-700 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 z-50 hover:scale-110">
       <img src="assets/arrow.png" alt="Home" class="w-10 h-10" />
     </button>
@@ -255,7 +236,6 @@ if ($result_rating && $result_rating->num_rows > 0) {
   </body>
 
   <script>
-    // Navbar dropdown toggle
 const navToggle = document.getElementById("navToggle");
 const mobileNav = document.getElementById("mobileNav");
 navToggle.addEventListener("click", function () {
@@ -265,7 +245,6 @@ navToggle.addEventListener("click", function () {
     mobileNav.style.display = "flex";
   }
 });
-// Optional: klik di luar menu untuk close
 window.addEventListener("click", function (e) {
   if (
     mobileNav.style.display === "flex" &&

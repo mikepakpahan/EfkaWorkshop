@@ -6,7 +6,6 @@ require '../../../backend/config.php';
 include '../template-header.php';
 include '../template-sidebar.php';
 
-// Ambil semua user yang BUKAN admin
 $sql = "SELECT id, name, email, account_status FROM users WHERE role != 'admin' ORDER BY name ASC";
 $result = $conn->query($sql);
 ?>
