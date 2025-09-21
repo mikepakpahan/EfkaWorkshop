@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+@import url("/resources/css/customer/components/_header.css");
+@import url("/resources/css/customer/components/_footer.css");
+@import url("/resources/css/customer/pages/_history.css");
+@import url("/resources/css/customer/pages/_landing.css");
+@import url("/resources/css/customer/pages/_profile.css");
+@import url("/resources/css/customer/pages/_sparepart.css");
+
+.body {
+  font-family: "Open Sans Condensed", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}

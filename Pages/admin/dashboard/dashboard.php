@@ -12,8 +12,8 @@ $weekly_revenue_data = [];
 // Buat label untuk 7 hari ke belakang (dari kemarin sampai 7 hari lalu)
 for ($i = 6; $i >= 0; $i--) {
     $date = date('Y-m-d', strtotime("-$i days"));
-    $weekly_revenue_labels[] = date('D, d M', strtotime($date)); // Format: Mon, 16 Jun
-    $weekly_revenue_data[date('Y-m-d', strtotime($date))] = 0; // Inisialisasi pendapatan dengan 0
+    $weekly_revenue_labels[] = date('D, d M', strtotime($date));
+    $weekly_revenue_data[date('Y-m-d', strtotime($date))] = 0;
 }
 
 $sql_weekly = "SELECT DATE(completion_date) as date, SUM(final_price) as total 
