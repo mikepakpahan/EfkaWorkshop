@@ -73,3 +73,4 @@
     <a href="/EfkaWorkshop/Pages/login/login-page.php" class="btn-primary">Login / Daftar</a>
     <?php endif; ?>
 </nav>
+<?php /**PATH C:\xampp\htdocs\EfkaWorkshop\resources\views/layout/partials/customer/header.blade.php ENDPATH**/ ?>

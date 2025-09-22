@@ -7,7 +7,7 @@
 }
 
 #aboutus .max-w-7xl {
-  max-width: 1400px;
+  /* max-width: 1400px;  */
   margin: 0 auto;
   padding: 40px 1rem 0 1rem;
   display: grid;
@@ -294,6 +294,7 @@
   color: #ffc72c;
   font-size: 1.25rem;
   font-weight: bold;
+  margin-top: 2.5rem;
   margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
 }

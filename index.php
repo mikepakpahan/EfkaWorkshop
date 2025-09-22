@@ -1,42 +1,19 @@
 <?php
-// 1. Panggil semua library dari Composer
-require 'vendor/autoload.php';
+require 'blade_setup.php';
+require 'resources/backend/config/database.php';
+require 'resources/backend/helpers/layout_helpers.php';
+require 'resources/backend/handlers/landing_page_handler.php';
 
-// 2. Import kelas-kelas yang dibutuhin
-use Illuminate\View\Factory;
-use Illuminate\View\FileViewFinder;
-use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\Engines\CompilerEngine;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Events\Dispatcher;
-use Illuminate\View\Compilers\BladeCompiler;
+// Minta data dari Layout Helper
+$layoutData = getSharedLayoutData($conn);
 
-// 3. Tentukan lokasi folder "panggung"
-$viewsPath = __DIR__ . '/resources/views';
-$cachePath = __DIR__ . '/cache';
+// Minta data dari Koki Landing Page
+$pageData = getLandingPageData($conn);
 
-// 4. Setup "mesin" Blade-nya
-$filesystem = new Filesystem;
-$eventDispatcher = new Dispatcher;
+// Gabungkan semua data
+$viewData = array_merge($layoutData, $pageData);
 
-// Bikin resolver mesin view
-$viewResolver = new EngineResolver;
+// Render view dengan semua data
+echo $blade->make('customer.landing.landing', $viewData)->render();
 
-// Bikin compiler Blade
-$bladeCompiler = new BladeCompiler($filesystem, $cachePath);
-
-// Daftarin Blade ke resolver
-$viewResolver->register('blade', function () use ($bladeCompiler) {
-    return new CompilerEngine($bladeCompiler);
-});
-
-// 5. Bikin "pabrik" view-nya
-$viewFinder = new FileViewFinder($filesystem, [$viewsPath]);
-$viewFactory = new Factory($viewResolver, $viewFinder, $eventDispatcher);
-
-// 6. Saatnya Manggung! Render view-nya
-// Misal lo punya file 'salam.blade.php' di folder 'views'
-echo $viewFactory->make('salam', [
-    'nama' => 'Mike Ganteng', // Kirim data ke view
-    'kampus' => 'Universitas Sumatera Utara'
-])->render();
+$conn->close();

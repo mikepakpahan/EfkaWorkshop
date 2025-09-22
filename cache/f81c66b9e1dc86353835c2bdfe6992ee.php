@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'EfkaWorkshop') </title>
+    <title><?php echo $__env->yieldContent('title', 'EfkaWorkshop'); ?> </title>
     <link rel="stylesheet" href='/EfkaWorkshop/resources/css/customer.css'>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,13 +23,13 @@
                 yChannelSelector="G"></feDisplacementMap>
         </filter>
     </svg>
-    @include('layout.partials.customer.header')
+    <?php echo $__env->make('layout.partials.customer.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <main>
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </main>
 
-    @include('layout.partials.customer.footer')
+    <?php echo $__env->make('layout.partials.customer.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <script>
         function goHome() {
@@ -71,3 +71,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\EfkaWorkshop\resources\views/layout/customer.blade.php ENDPATH**/ ?>
